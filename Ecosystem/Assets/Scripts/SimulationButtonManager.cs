@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ButtonManager : MonoBehaviour
+public class SimulationButtonManager : MonoBehaviour
 {
     public Button terrainButton;
     public Button livingBeingButton;
@@ -12,7 +12,7 @@ public class ButtonManager : MonoBehaviour
     public GameObject terrain;
     public GameObject livingBeing;
 
-    private bool isTerrainButtonSelected = true;
+    private bool isTerrainButtonSelected;
 
     void Start() 
     {
@@ -23,10 +23,9 @@ public class ButtonManager : MonoBehaviour
     {
         if (!isTerrainButtonSelected) 
         {
-            isTerrainButtonSelected = false;
+            isTerrainButtonSelected = true;
             terrain.SetActive(true);
             livingBeing.SetActive(false);
-            Debug.Log("Terrain");
         }
     }
 
@@ -34,10 +33,9 @@ public class ButtonManager : MonoBehaviour
     {
         if (isTerrainButtonSelected) 
         {
-            isTerrainButtonSelected = true;
+            isTerrainButtonSelected = false;
             livingBeing.SetActive(true);
             terrain.SetActive(false);
-            Debug.Log("LivingBeing");
         }
     }
 }
