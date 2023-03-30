@@ -15,6 +15,7 @@ public class SimulationButtonManager : MonoBehaviour
     [Space]
     [Space]
     public List<Button> climateButtons = new List<Button>();
+    public List<string> climateString = new List<string>();
 
     private bool isTerrainButtonSelected;
 
@@ -40,6 +41,14 @@ public class SimulationButtonManager : MonoBehaviour
             isTerrainButtonSelected = false;
             livingBeing.SetActive(true);
             terrain.SetActive(false);
+        }
+    }
+
+    public void ClimateButton(string Type)
+    {
+        foreach (Button button in climateButtons) 
+        {
+
         }
     }
 }
