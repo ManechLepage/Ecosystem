@@ -11,6 +11,10 @@ public class SimulationButtonManager : MonoBehaviour
     [Space]
     public GameObject terrain;
     public GameObject livingBeing;
+    [Space]
+    [Space]
+    [Space]
+    public List<Button> climateButtons = new List<Button>();
 
     private bool isTerrainButtonSelected;
 
