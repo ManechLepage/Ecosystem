@@ -10,9 +10,20 @@ public class TerrainGenerator : MonoBehaviour
     public Vector2Int gridSize;
 
     [Header("Tile Settings")]
-    bool isFlatTop = true;
+    public bool isFlatTop = true;
     public float outerSize = 1f;
-    public Material material;
+
+    [Header("Noise Settings")]
+    public float noiseScale = 1f;
+    public int octaves = 3;
+    public float persistance = 0.5f;
+    public float lacunarity = 2f;
+    public int seed = 0;
+    public float smoothness = 1f;
+
+    [Header("Materials")]
+    public Material grass;
+    public Material stone;
 
     void Start()
     {
@@ -28,11 +39,40 @@ public class TerrainGenerator : MonoBehaviour
                 Vector3 position = GetPositionForHexFromCoordinates(new Vector2Int(x, y));
                 GameObject current_tile = Instantiate(tile, position, Quaternion.identity);
                 current_tile.transform.localScale = new Vector3(outerSize * 100, outerSize * 100, outerSize * 100);
-                current_tile.transform.rotation = Quaternion.Euler(-90,30,0);
+                current_tile.transform.rotation = Quaternion.Euler(-90, (isFlatTop ? 30 : 0), 0);
+
+                if (position.y < 0.6f * outerSize * noiseScale)
+                {
+                    current_tile.GetComponent<MeshRenderer>().material = grass;
+                }
+                else
+                {
+                    current_tile.GetComponent<MeshRenderer>().material = stone;
+                }
             }
         }
     }
 
+    public float TerrainNoise(float x, float y) {
+        // 3 octaves of noise
+
+        float noise = 0;
+        float frequency = 1;
+        float amplitude = 1;
+        float maxValue = 0;
+
+        for (int i = 0; i < octaves; i++) {
+            noise += Mathf.PerlinNoise((x + seed) * noiseScale * frequency, (y + seed) * noiseScale * frequency) * amplitude;
+
+            maxValue += amplitude;
+
+            amplitude *= persistance;
+            frequency *= lacunarity;
+        }
+
+        return Mathf.Round(noise / maxValue * noiseScale * 1.5f) / noiseScale / 1.5f;
+    }
+    
     public Vector3 GetPositionForHexFromCoordinates(Vector2Int coordinates)
     {
         int column = coordinates.x;
@@ -76,6 +116,6 @@ public class TerrainGenerator : MonoBehaviour
             yPosition = (row * verticalDistance) - offset;
         }
 
-        return new Vector3(xPosition, 0, -yPosition);
+        return new Vector3(xPosition, TerrainNoise(xPosition / smoothness / 25f, -yPosition / smoothness / 25f) * size * 5, -yPosition);
     }
 }

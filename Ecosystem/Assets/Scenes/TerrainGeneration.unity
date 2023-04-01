@@ -247,8 +247,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tile: {fileID: 5157029674221165765}
   gridSize: {x: 20, y: 20}
+  isFlatTop: 1
   outerSize: 1
-  material: {fileID: 0}
+  noiseScale: 5
+  octaves: 3
+  persistance: 0.5
+  lacunarity: 2
+  seed: 0
+  smoothness: 2
+  grass: {fileID: 2100000, guid: 2b201b3be69dea642844775d6ab420b7, type: 2}
+  stone: {fileID: 2100000, guid: 0a8cc1be8e5ee774cb488a0c96ec5f27, type: 2}
 --- !u!4 &407998453
 Transform:
   m_ObjectHideFlags: 0
@@ -422,5 +430,9 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1282760576412823033, guid: 051a6a6a444265d46944d624a6d663f0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0de66f1bdefce554e9a208038288a883, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 051a6a6a444265d46944d624a6d663f0, type: 3}
