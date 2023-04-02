@@ -20,6 +20,7 @@ public class TerrainGenerator : MonoBehaviour
     public float lacunarity = 2f;
     public int seed = 0;
     public float smoothness = 1f;
+    public float height = 1f;
 
     [Header("Materials")]
     public Material grass;
@@ -27,6 +28,11 @@ public class TerrainGenerator : MonoBehaviour
 
     void Start()
     {
+        smoothness *= outerSize;
+        if (seed == 0)
+        {
+            seed = Random.Range(0, 100000);
+        }
         LayoutGrid();
     }
 
@@ -37,11 +43,12 @@ public class TerrainGenerator : MonoBehaviour
             for (int x = 0; x < gridSize.x; x++)
             {
                 Vector3 position = GetPositionForHexFromCoordinates(new Vector2Int(x, y));
+                position.y = Mathf.Round(position.y * outerSize / 50) / outerSize * 50;
                 GameObject current_tile = Instantiate(tile, position, Quaternion.identity);
                 current_tile.transform.localScale = new Vector3(outerSize * 100, outerSize * 100, outerSize * 100);
                 current_tile.transform.rotation = Quaternion.Euler(-90, (isFlatTop ? 30 : 0), 0);
 
-                if (position.y < 0.6f * outerSize * noiseScale)
+                if (position.y < 0.5f * outerSize * noiseScale * height)
                 {
                     current_tile.GetComponent<MeshRenderer>().material = grass;
                 }
@@ -58,7 +65,7 @@ public class TerrainGenerator : MonoBehaviour
 
         float noise = 0;
         float frequency = 1;
-        float amplitude = 1;
+        float amplitude = 50;
         float maxValue = 0;
 
         for (int i = 0; i < octaves; i++) {
@@ -70,7 +77,7 @@ public class TerrainGenerator : MonoBehaviour
             frequency *= lacunarity;
         }
 
-        return Mathf.Round(noise / maxValue * noiseScale * 1.5f) / noiseScale / 1.5f;
+        return noise / maxValue * height; //Mathf.Round(noise / maxValue * noiseScale * 1.5f) / noiseScale / 1.5f * height;
     }
     
     public Vector3 GetPositionForHexFromCoordinates(Vector2Int coordinates)

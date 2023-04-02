@@ -246,15 +246,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 5157029674221165765}
-  gridSize: {x: 20, y: 20}
+  gridSize: {x: 100, y: 100}
   isFlatTop: 1
-  outerSize: 1
+  outerSize: 10
   noiseScale: 5
   octaves: 3
   persistance: 0.5
   lacunarity: 2
   seed: 0
-  smoothness: 2
+  smoothness: 5
+  height: 3
   grass: {fileID: 2100000, guid: 2b201b3be69dea642844775d6ab420b7, type: 2}
   stone: {fileID: 2100000, guid: 0a8cc1be8e5ee774cb488a0c96ec5f27, type: 2}
 --- !u!4 &407998453
@@ -347,8 +348,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2051216666}
-  m_LocalRotation: {x: 0.076301865, y: 0.91787297, z: -0.21618198, w: 0.32396385}
-  m_LocalPosition: {x: -12.177228, y: 23.95316, z: 15.545627}
+  m_LocalRotation: {x: 0.08327111, y: 0.91563743, z: -0.25371414, w: 0.3005048}
+  m_LocalPosition: {x: -201.34302, y: 593.3851, z: 228.05472}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
