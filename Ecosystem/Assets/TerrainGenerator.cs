@@ -45,10 +45,10 @@ public class TerrainGenerator : MonoBehaviour
         {
             Regenerate();
         }
-        else
-        {
-            Regenerate(false);
-        }
+        //else
+        //{
+        //    Regenerate(false);
+        //}
     }
 
     void Regenerate(bool regenerate_seed = true)
@@ -100,7 +100,7 @@ public class TerrainGenerator : MonoBehaviour
         }
     }
 
-    public float TerrainNoise(float x, float y) {
+    public float TerrainNoise(float x, float y, float real_x, float real_y) {
         // 3 octaves of noise
 
         float noise = 0;
@@ -117,9 +117,15 @@ public class TerrainGenerator : MonoBehaviour
             frequency *= lacunarity;
         }
 
-        // Make an island by unsing the distance from the center of the map...
+        float distance = Mathf.Min(GetDistanceBetweenPoints(new Vector2(real_x, real_y), new Vector2(gridSize.x / 2f, gridSize.y / 2f))
+                            / (GetDistanceBetweenPoints(new Vector2(0, 0), new Vector2(gridSize.x / 2f, gridSize.y / 2f) * (gridSize.x / 37.5f))) * (gridSize.x / 43f), 1);
+        //Debug.Log("x : " + real_x + " y : " + real_y + " distance : " + distance);
+        //distance = Mathf.Max(distance, 1) / 50;
+
+        noise = noise / maxValue;
+        noise = noise - distance;
         
-        return noise / maxValue * height;
+        return Mathf.Min(Mathf.Max(noise * (gridSize.x / 100f), -1), 1) * height;
     }
 
     private float GetDistanceBetweenPoints(Vector2 pointA, Vector2 pointB)
@@ -170,6 +176,6 @@ public class TerrainGenerator : MonoBehaviour
             yPosition = (row * verticalDistance) - offset;
         }
 
-        return new Vector3(xPosition, TerrainNoise(xPosition / smoothness / 25f, -yPosition / smoothness / 25f) * size * 5, -yPosition);
+        return new Vector3(xPosition, TerrainNoise(xPosition / smoothness / 25f, -yPosition / smoothness / 25f, coordinates.x, coordinates.y) * size * 5, -yPosition);
     }
 }
