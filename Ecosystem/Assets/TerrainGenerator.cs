@@ -26,6 +26,9 @@ public class TerrainGenerator : MonoBehaviour
     public Material grass;
     public Material stone;
 
+    //private System.Random random_seed = new System.Random();
+    private List<List<GameObject>> tiles = new List<List<GameObject>>();
+
     void Start()
     {
         smoothness *= outerSize;
@@ -36,10 +39,45 @@ public class TerrainGenerator : MonoBehaviour
         LayoutGrid();
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Regenerate();
+        }
+        else
+        {
+            Regenerate(false);
+        }
+    }
+
+    void Regenerate(bool regenerate_seed = true)
+    {
+        EmptyList();
+        if (regenerate_seed)
+        {
+            seed = Random.Range(0, 100000);
+        }
+        LayoutGrid();
+    }
+
+    void EmptyList()
+    {
+        for (int y = 0; y < gridSize.y; y++)
+        {
+            for (int x = 0; x < gridSize.x; x++)
+            {
+                Destroy(tiles[y][x]);
+            }
+        }
+        tiles.Clear();
+    }
+    
     private void LayoutGrid()
     {
         for (int y = 0; y < gridSize.y; y++)
         {
+            tiles.Add(new List<GameObject>());
             for (int x = 0; x < gridSize.x; x++)
             {
                 Vector3 position = GetPositionForHexFromCoordinates(new Vector2Int(x, y));
@@ -56,6 +94,8 @@ public class TerrainGenerator : MonoBehaviour
                 {
                     current_tile.GetComponent<MeshRenderer>().material = stone;
                 }
+
+                tiles[y].Add(current_tile);
             }
         }
     }
@@ -77,7 +117,14 @@ public class TerrainGenerator : MonoBehaviour
             frequency *= lacunarity;
         }
 
-        return noise / maxValue * height; //Mathf.Round(noise / maxValue * noiseScale * 1.5f) / noiseScale / 1.5f * height;
+        // Make an island by unsing the distance from the center of the map...
+        
+        return noise / maxValue * height;
+    }
+
+    private float GetDistanceBetweenPoints(Vector2 pointA, Vector2 pointB)
+    {
+        return Mathf.Sqrt(Mathf.Pow(pointA.x - pointB.x, 2) + Mathf.Pow(pointA.y - pointB.y, 2));
     }
     
     public Vector3 GetPositionForHexFromCoordinates(Vector2Int coordinates)
