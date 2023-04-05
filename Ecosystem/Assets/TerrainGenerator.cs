@@ -124,8 +124,8 @@ public class TerrainGenerator : MonoBehaviour
 
         noise = noise / maxValue;
         noise = noise - distance;
-        
-        return Mathf.Max(noise, -1) * height * (gridSize.x / 100f);
+
+        return Mathf.Max(noise, -1) * height * (smoothness / 33.3f);
     }
 
     private float GetDistanceBetweenPoints(Vector2 pointA, Vector2 pointB)

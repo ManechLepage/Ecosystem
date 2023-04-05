@@ -246,7 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 5157029674221165765}
-  gridSize: {x: 150, y: 150}
+  gridSize: {x: 256, y: 256}
   isFlatTop: 1
   outerSize: 10
   noiseScale: 5
@@ -362,8 +362,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1530635378}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1250, y: 0, z: -1250}
-  m_LocalScale: {x: 250, y: 1, z: 250}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 100000, y: 1, z: 100000}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -444,13 +444,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2051216666}
-  m_LocalRotation: {x: 0, y: 0.943801, z: -0.3305143, w: 0}
-  m_LocalPosition: {x: 1175.32, y: 533, z: -6}
+  m_LocalRotation: {x: 0.075861186, y: 0.92205447, z: -0.23417191, w: 0.29870424}
+  m_LocalPosition: {x: 84.9, y: 1025.2, z: 700.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 38.6, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 28.5, y: 144.1, z: 0}
 --- !u!1 &5157029674221165765 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 778484480281775148, guid: 051a6a6a444265d46944d624a6d663f0, type: 3}
