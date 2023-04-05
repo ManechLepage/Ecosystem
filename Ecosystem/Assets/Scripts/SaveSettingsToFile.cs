@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.IO;
 
 public class SaveSettingsToFile : MonoBehaviour
 {
@@ -41,6 +42,15 @@ public class SaveSettingsToFile : MonoBehaviour
 
     public void changeSliderValue() 
     {
-        
+    }
+
+    public void WriteToFile()
+    {
+        string path = "Assets/TextFiles/SimulationSettings.txt";
+        StreamWriter writer = new StreamWriter(path, true);
+        writer.WriteLine(waterQuantity);
+        writer.WriteLine(seed);
+        writer.WriteLine(mapSize);
+        writer.Close();
     }
 }

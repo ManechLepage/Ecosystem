@@ -5470,7 +5470,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1363038635}
   m_Direction: 0
   m_MinValue: 32
-  m_MaxValue: 512
+  m_MaxValue: 256
   m_WholeNumbers: 1
   m_Value: 32
   m_OnValueChanged:
