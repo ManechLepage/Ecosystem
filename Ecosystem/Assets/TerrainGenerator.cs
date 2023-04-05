@@ -118,14 +118,14 @@ public class TerrainGenerator : MonoBehaviour
         }
 
         float distance = Mathf.Min(GetDistanceBetweenPoints(new Vector2(real_x, real_y), new Vector2(gridSize.x / 2f, gridSize.y / 2f))
-                            / (GetDistanceBetweenPoints(new Vector2(0, 0), new Vector2(gridSize.x / 2f, gridSize.y / 2f) * (gridSize.x / 37.5f))) * (gridSize.x / 43f), 1);
+                            / (GetDistanceBetweenPoints(new Vector2(0, 0), new Vector2(gridSize.x / 2f, gridSize.y / 2f) * 3f)) * 3.5f, 1);
         //Debug.Log("x : " + real_x + " y : " + real_y + " distance : " + distance);
         //distance = Mathf.Max(distance, 1) / 50;
 
         noise = noise / maxValue;
         noise = noise - distance;
         
-        return Mathf.Min(Mathf.Max(noise * (gridSize.x / 100f), -1), 1) * height;
+        return Mathf.Max(noise, -1) * height * (gridSize.x / 100f);
     }
 
     private float GetDistanceBetweenPoints(Vector2 pointA, Vector2 pointB)
