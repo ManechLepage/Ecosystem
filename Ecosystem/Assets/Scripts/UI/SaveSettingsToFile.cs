@@ -48,7 +48,9 @@ public class SaveSettingsToFile : MonoBehaviour
     public void WriteToFile()
     {
         string path = "Assets/TextFiles/SimulationSettings.txt";
+        File.WriteAllText(path, string.Empty);
         StreamWriter writer = new StreamWriter(path, true);
+        writer.WriteLine(climate);
         writer.WriteLine(waterQuantity);
         writer.WriteLine(seed);
         writer.WriteLine(mapSize);
