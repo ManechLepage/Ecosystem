@@ -50,7 +50,7 @@ public class TerrainGenerator : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             Regenerate();
         }
@@ -158,8 +158,10 @@ public class TerrainGenerator : MonoBehaviour
             frequency *= lacunarity;
         }
 
+        float shape = Mathf.PerlinNoise((x + seed) * noiseScale / smoothness, (y + seed) * noiseScale / smoothness) + 1;
+
         float distance = Mathf.Min(GetDistanceBetweenPoints(new Vector2(real_x, real_y), new Vector2(gridSize.x / 2f, gridSize.y / 2f))
-                            / (GetDistanceBetweenPoints(new Vector2(0, 0), new Vector2(gridSize.x / 2f, gridSize.y / 2f) * 3f)) * 3.5f, 1);
+                            / (GetDistanceBetweenPoints(new Vector2(0, 0), new Vector2(gridSize.x / 2f, gridSize.y / 2f) * 3f * shape)) * 5.5f, 1);
         //Debug.Log("x : " + real_x + " y : " + real_y + " distance : " + distance);
         //distance = Mathf.Max(distance, 1) / 50;
 
