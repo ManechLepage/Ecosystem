@@ -7,6 +7,7 @@ using System.IO;
 
 public class SaveSettingsToFile : MonoBehaviour
 {
+    public string climate;
     public int waterQuantity;
     public int seed;
     public int mapSize;

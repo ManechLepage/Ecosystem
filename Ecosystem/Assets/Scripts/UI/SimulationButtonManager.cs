@@ -22,6 +22,10 @@ public class SimulationButtonManager : MonoBehaviour
     void Start() 
     {
         TerrainButton();
+        foreach (Button button in climateButtons)
+        {
+            button.interactable = true;
+        }
     }
     
     public void TerrainButton()
@@ -44,11 +48,14 @@ public class SimulationButtonManager : MonoBehaviour
         }
     }
 
-    public void ClimateButton(string Type)
+    public void ClimateButton(Button clickedButton)
     {
-        foreach (Button button in climateButtons) 
+        foreach (Button button in climateButtons)
         {
-
+            button.interactable = true;
         }
+
+        GetComponent<SaveSettingsToFile>().climate = climateString[climateButtons.IndexOf(clickedButton)];
+        clickedButton.interactable = false;
     }
 }
