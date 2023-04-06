@@ -28,6 +28,9 @@ public class TerrainGenerator : MonoBehaviour
     public Material grass;
     public Material stone;
 
+    [Header("Tree Prefabs")]
+    public GameObject[] treePrefabs;
+
     //private System.Random random_seed = new System.Random();
     private List<List<GameObject>> tiles = new List<List<GameObject>>();
     private List<GameObject> trees = new List<GameObject>();
@@ -121,14 +124,17 @@ public class TerrainGenerator : MonoBehaviour
 
                 tiles[y].Add(current_tile);
 
-                if (TreeNoise(x/15, y/15) * 3 > position.y / 3 - 20 && position.y + outerSize > 0 &&
-                    Random.Range(1, 5) < 4 && tile_type == GRASS)
+                tree = treePrefabs[0]; //Random.Range(0, treePrefabs.Length)];
+                
+                if (TreeNoise(x/15, y/15) * 3 > position.y / 3 - 20 && position.y + outerSize > 0
+                    && tile_type == GRASS && Random.Range(1, 5) < 3)
                 {
-                    Vector3 pos = new Vector3(position.x, position.y, position.z);
+                    Vector3 pos = new Vector3(position.x, position.y + outerSize * 3f, position.z);
                     GameObject current_tree = Instantiate(tree, pos, Quaternion.identity);
-                    current_tree.transform.localScale = new Vector3(outerSize / 2, outerSize * Random.Range(3, 10), outerSize / 2);
-                    current_tree.transform.position = new Vector3(current_tree.transform.position.x,
-                        current_tree.transform.position.y + current_tree.transform.localScale.y / 2, current_tree.transform.position.z);
+                    current_tree.transform.localScale = new Vector3(outerSize, outerSize, outerSize);
+                    //current_tree.transform.position = new Vector3(position.x + current_tree.transform.localScale.x / 2, position.y + outerSize * 3f, position.z - current_tree.transform.localScale.z / 2);
+                    //current_tree.transform.position = new Vector3(current_tree.transform.position.x,
+                    //    current_tree.transform.position.y, current_tree.transform.position.z);
                     //current_tree.transform.rotation
                     trees.Add(current_tree);
                     number_of_trees++;

@@ -6,7 +6,7 @@ public class GameController : MonoBehaviour
 {
     private float MovementSpeed = 100f;
     private Vector3 LastMovement = Vector3.zero;
-    private float StopThreshold = 0.75f;
+    private float StopThreshold = 0.8f;
     
     // Start is called before the first frame update
     void Start()
