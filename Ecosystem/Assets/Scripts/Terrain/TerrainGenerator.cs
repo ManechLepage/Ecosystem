@@ -5,6 +5,7 @@ using UnityEngine;
 public class TerrainGenerator : MonoBehaviour
 {
     [SerializeField] private GameObject tile;
+    [SerializeField] private GameObject tree;
 
     [Header("Grid Settings")]
     public Vector2Int gridSize;
@@ -23,15 +24,23 @@ public class TerrainGenerator : MonoBehaviour
     public float height = 1f;
 
     [Header("Materials")]
+    public Material sand;
     public Material grass;
     public Material stone;
 
     //private System.Random random_seed = new System.Random();
     private List<List<GameObject>> tiles = new List<List<GameObject>>();
+    private List<GameObject> trees = new List<GameObject>();
+    private int number_of_trees = 0;
+
+    private int SAND = 0;
+    private int GRASS = 1;
+    private int STONE = 2;
 
     void Start()
     {
-        smoothness *= outerSize;
+        smoothness *= outerSize * (gridSize.x / 128f);
+        height *= (gridSize.x / 128f);
         if (seed == 0)
         {
             seed = Random.Range(0, 100000);
@@ -54,6 +63,7 @@ public class TerrainGenerator : MonoBehaviour
     void Regenerate(bool regenerate_seed = true)
     {
         EmptyList();
+        number_of_trees = 0;
         if (regenerate_seed)
         {
             seed = Random.Range(0, 100000);
@@ -71,6 +81,12 @@ public class TerrainGenerator : MonoBehaviour
             }
         }
         tiles.Clear();
+
+        for (int y = 0; y < number_of_trees; y++)
+        {
+            Destroy(trees[y]);
+        }
+        trees.Clear();
     }
     
     private void LayoutGrid()
@@ -85,19 +101,44 @@ public class TerrainGenerator : MonoBehaviour
                 GameObject current_tile = Instantiate(tile, position, Quaternion.identity);
                 current_tile.transform.localScale = new Vector3(outerSize * 100, outerSize * 100, outerSize * 100);
                 current_tile.transform.rotation = Quaternion.Euler(-90, (isFlatTop ? 30 : 0), 0);
+                int tile_type = GRASS;
 
-                if (position.y < 0.5f * outerSize * noiseScale * height)
+                if (position.y < -0.05f * outerSize * noiseScale * height)
+                {
+                    current_tile.GetComponent<MeshRenderer>().material = sand;
+                    tile_type = SAND;
+                }
+                else if (position.y < 0.5f * outerSize * noiseScale * height)
                 {
                     current_tile.GetComponent<MeshRenderer>().material = grass;
+                    tile_type = GRASS;
                 }
                 else
                 {
                     current_tile.GetComponent<MeshRenderer>().material = stone;
+                    tile_type = STONE;
                 }
 
                 tiles[y].Add(current_tile);
+
+                if (TreeNoise(x/15, y/15) * 3 > position.y / 3 - 20 && position.y + outerSize > 0 &&
+                    Random.Range(1, 5) < 4 && tile_type == GRASS)
+                {
+                    Vector3 pos = new Vector3(position.x, position.y, position.z);
+                    GameObject current_tree = Instantiate(tree, pos, Quaternion.identity);
+                    current_tree.transform.localScale = new Vector3(outerSize / 2, outerSize * Random.Range(3, 10), outerSize / 2);
+                    current_tree.transform.position = new Vector3(current_tree.transform.position.x,
+                        current_tree.transform.position.y + current_tree.transform.localScale.y / 2, current_tree.transform.position.z);
+                    //current_tree.transform.rotation
+                    trees.Add(current_tree);
+                    number_of_trees++;
+                }
             }
         }
+    }
+    
+    public float TreeNoise(float x, float y) {
+        return Mathf.PerlinNoise((x + seed) * noiseScale / smoothness, (y + seed) * noiseScale / smoothness);
     }
 
     public float TerrainNoise(float x, float y, float real_x, float real_y) {
@@ -124,8 +165,8 @@ public class TerrainGenerator : MonoBehaviour
 
         noise = noise / maxValue;
         noise = noise - distance;
-
-        return Mathf.Max(noise, -1) * height * (smoothness / 33.3f);
+        
+        return Mathf.Max(noise, -1) * height * 1.5f;
     }
 
     private float GetDistanceBetweenPoints(Vector2 pointA, Vector2 pointB)
