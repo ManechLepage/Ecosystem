@@ -15,6 +15,7 @@ public class TerrainGenerator : MonoBehaviour
     public float outerSize = 1f;
 
     [Header("Noise Settings")]
+    public char biome = 'I';
     public float noiseScale = 1f;
     public int octaves = 3;
     public float persistance = 0.5f;
@@ -29,7 +30,7 @@ public class TerrainGenerator : MonoBehaviour
     public Material stone;
 
     [Header("Tree Prefabs")]
-    public GameObject[] treePrefabs;
+    public GameObject[] spruce;
 
     //private System.Random random_seed = new System.Random();
     private List<List<GameObject>> tiles = new List<List<GameObject>>();
@@ -106,12 +107,12 @@ public class TerrainGenerator : MonoBehaviour
                 current_tile.transform.rotation = Quaternion.Euler(-90, (isFlatTop ? 30 : 0), 0);
                 int tile_type = GRASS;
 
-                if (position.y < -0.05f * outerSize * noiseScale * height)
+                if (position.y < -0.05f * outerSize * noiseScale * height * (1 + Random.Range(-0.2f, 0.2f)))
                 {
                     current_tile.GetComponent<MeshRenderer>().material = sand;
                     tile_type = SAND;
                 }
-                else if (position.y < 0.5f * outerSize * noiseScale * height)
+                else if (position.y < 0.5f * outerSize * noiseScale * height * (1 + Random.Range(-0.2f, 0.2f)))
                 {
                     current_tile.GetComponent<MeshRenderer>().material = grass;
                     tile_type = GRASS;
@@ -124,18 +125,15 @@ public class TerrainGenerator : MonoBehaviour
 
                 tiles[y].Add(current_tile);
 
-                tree = treePrefabs[0]; //Random.Range(0, treePrefabs.Length)];
+                tree = spruce[0]; //Random.Range(0, treePrefabs.Length)];
                 
                 if (TreeNoise(x/15, y/15) * 3 > position.y / 3 - 20 && position.y + outerSize > 0
                     && tile_type == GRASS && Random.Range(1, 5) < 3)
                 {
                     Vector3 pos = new Vector3(position.x, position.y + outerSize * 3f, position.z);
                     GameObject current_tree = Instantiate(tree, pos, Quaternion.identity);
-                    current_tree.transform.localScale = new Vector3(outerSize, outerSize, outerSize);
-                    //current_tree.transform.position = new Vector3(position.x + current_tree.transform.localScale.x / 2, position.y + outerSize * 3f, position.z - current_tree.transform.localScale.z / 2);
-                    //current_tree.transform.position = new Vector3(current_tree.transform.position.x,
-                    //    current_tree.transform.position.y, current_tree.transform.position.z);
-                    //current_tree.transform.rotation
+                    current_tree.transform.localScale = new Vector3(outerSize, outerSize * (tree.transform.localScale.y /
+                        tree.transform.localScale.x), outerSize * (tree.transform.localScale.z / tree.transform.localScale.x));
                     trees.Add(current_tree);
                     number_of_trees++;
                 }
@@ -147,9 +145,7 @@ public class TerrainGenerator : MonoBehaviour
         return Mathf.PerlinNoise((x + seed) * noiseScale / smoothness, (y + seed) * noiseScale / smoothness);
     }
 
-    public float TerrainNoise(float x, float y, float real_x, float real_y) {
-        // 3 octaves of noise
-
+    public Vector2 SimpleNoise(float x, float y) {
         float noise = 0;
         float frequency = 1;
         float amplitude = 50;
@@ -164,12 +160,26 @@ public class TerrainGenerator : MonoBehaviour
             frequency *= lacunarity;
         }
 
+        return new Vector2(noise, maxValue);
+    }
+
+    public float MountainGeneration(float x, float y) {
+        Vector2 base_noise = SimpleNoise(x / 1.5f, y / 1.5f);
+        float noise = base_noise.x;
+        float maxValue = base_noise.y;
+
+        return noise / maxValue * height * 2.5f;
+    }
+
+    public float IslandGeneration(float x, float y, float real_x, float real_y, float center_x = 0.5f, float center_y = 0.5f) {
+        Vector2 base_noise = SimpleNoise(x, y);
+        float noise = base_noise.x;
+        float maxValue = base_noise.y;
+
         float shape = Mathf.PerlinNoise((x + seed) * noiseScale / smoothness, (y + seed) * noiseScale / smoothness) + 1;
 
-        float distance = Mathf.Min(GetDistanceBetweenPoints(new Vector2(real_x, real_y), new Vector2(gridSize.x / 2f, gridSize.y / 2f))
-                            / (GetDistanceBetweenPoints(new Vector2(0, 0), new Vector2(gridSize.x / 2f, gridSize.y / 2f) * 3f * shape)) * 5.5f, 1);
-        //Debug.Log("x : " + real_x + " y : " + real_y + " distance : " + distance);
-        //distance = Mathf.Max(distance, 1) / 50;
+        float distance = Mathf.Min(GetDistanceBetweenPoints(new Vector2(real_x, real_y), new Vector2(gridSize.x * center_x, gridSize.y * center_y))
+                            / (GetDistanceBetweenPoints(new Vector2(0, 0), new Vector2(gridSize.x * center_x, gridSize.y * center_y) * 3f * shape)) * 5.5f, 1);
 
         noise = noise / maxValue;
         noise = noise - distance;
@@ -225,6 +235,19 @@ public class TerrainGenerator : MonoBehaviour
             yPosition = (row * verticalDistance) - offset;
         }
 
-        return new Vector3(xPosition, TerrainNoise(xPosition / smoothness / 25f, -yPosition / smoothness / 25f, coordinates.x, coordinates.y) * size * 5, -yPosition);
+        float y = 0;
+
+        Vector2 tile_pos = new Vector2(xPosition / smoothness / 25f, -yPosition / smoothness / 25f);
+
+        if (biome == 'I')
+        {
+            y = IslandGeneration(tile_pos.x, tile_pos.y, coordinates.x, coordinates.y);
+        }
+        else if (biome == 'M')
+        {
+            y = MountainGeneration(tile_pos.x, tile_pos.y);
+        }
+
+        return new Vector3(xPosition, y * size * 5, -yPosition);
     }
 }

@@ -6,7 +6,8 @@ public class GameController : MonoBehaviour
 {
     private float MovementSpeed = 100f;
     private Vector3 LastMovement = Vector3.zero;
-    private float StopThreshold = 0.8f;
+    private float StopThreshold = 0.925f;
+    private float StartTheshold = 0.075f;
     
     // Start is called before the first frame update
     void Start()
@@ -48,68 +49,94 @@ public class GameController : MonoBehaviour
         tempTransform.position = transform.position;
         tempTransform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
 
+        float movement = Time.deltaTime * MovementSpeed;
+
         bool did_move_y = false;
+        bool dir1 = false;
+        bool dir2 = false;
         // Move camera up and down
         if (Input.GetKey(KeyCode.Space))
         {
-            tempTransform.Translate(Vector3.up * Time.deltaTime * MovementSpeed);
-            LastMovement.y = Time.deltaTime * MovementSpeed;
+            LastMovement.y = Mathf.Min(LastMovement.y + movement * StartTheshold, movement);
+            tempTransform.Translate(Vector3.up * LastMovement.y);
             did_move_y = true;
+            dir1 = true;
         }
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            tempTransform.Translate(Vector3.down * Time.deltaTime * MovementSpeed);
-            LastMovement.y = -Time.deltaTime * MovementSpeed;
+            LastMovement.y = Mathf.Max(LastMovement.y - movement * StartTheshold, -movement);
+            tempTransform.Translate(Vector3.down * Mathf.Abs(LastMovement.y));
             did_move_y = true;
+            dir2 = true;
+            
         }
-        if (!did_move_y)
+        if (!did_move_y || (dir1 && dir2)) // && !(dir1 && dir2))
         {
-            // Continue moving in the last direction, but slower
             tempTransform.Translate(LastMovement * Time.deltaTime * MovementSpeed * StopThreshold);
             LastMovement.y *= StopThreshold;
         }
+        //if (dir1 && dir2)
+        //{
+        //    LastMovement.y = 0;
+        //}
 
         bool did_move_z = false;
+        dir1 = false;
+        dir2 = false;
         // Move camera forward and back
         if (Input.GetKey(KeyCode.W))
         {
-            tempTransform.Translate(Vector3.forward * Time.deltaTime * MovementSpeed);
-            LastMovement.z = Time.deltaTime * MovementSpeed;
+            LastMovement.z = Mathf.Min(LastMovement.z + movement * StartTheshold, movement);
+            tempTransform.Translate(Vector3.forward * LastMovement.z);
             did_move_z = true;
+            dir1 = true;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            tempTransform.Translate(Vector3.back * Time.deltaTime * MovementSpeed);
-            LastMovement.z = -Time.deltaTime * MovementSpeed;
+            LastMovement.z = Mathf.Max(LastMovement.z - movement * StartTheshold, -movement);
+            tempTransform.Translate(Vector3.back * Mathf.Abs(LastMovement.z));
             did_move_z = true;
+            dir2 = true;
         }
-        if (!did_move_z)
+        if (!did_move_z || (dir1 && dir2))
         {
             // Continue moving in the last direction, but slower
             tempTransform.Translate(LastMovement * Time.deltaTime * MovementSpeed * StopThreshold);
             LastMovement.z *= StopThreshold;
         }
+        //if (dir1 && dir2)
+        //{
+        //    LastMovement.z = 0;
+        //}
 
         bool did_move_x = false;
+        dir1 = false;
+        dir2 = false;
         // Move camera left and right
         if (Input.GetKey(KeyCode.A))
         {
-            tempTransform.Translate(Vector3.left * Time.deltaTime * MovementSpeed);
-            LastMovement.x = -Time.deltaTime * MovementSpeed;
+            LastMovement.x = Mathf.Max(LastMovement.x - movement * StartTheshold, -movement);
+            tempTransform.Translate(Vector3.left * Mathf.Abs(LastMovement.x));
             did_move_x = true;
+            dir1 = true;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            tempTransform.Translate(Vector3.right * Time.deltaTime * MovementSpeed);
-            LastMovement.x = Time.deltaTime * MovementSpeed;
+            LastMovement.x = Mathf.Min(LastMovement.x + movement * StartTheshold, movement);
+            tempTransform.Translate(Vector3.right * LastMovement.x);
             did_move_x = true;
+            dir2 = true;
         }
-        if (!did_move_x)
+        if (!did_move_x || (dir1 && dir2))// && !(dir1 && dir2))
         {
             // Continue moving in the last direction, but slower
             tempTransform.Translate(LastMovement * Time.deltaTime * MovementSpeed * StopThreshold);
             LastMovement.x *= StopThreshold;
         }
+        //if (dir1 && dir2)
+        //{
+        //    LastMovement.x = 0;
+        //}
 
         transform.position = tempTransform.position;
 
@@ -124,11 +151,11 @@ public class GameController : MonoBehaviour
 
         if (x > 90f && x < 180f)
         {
-            x = 90f;
+            x = 100f;
         }
         else if (x > 180f && x < 270f)
         {
-            x = 270f;
+            x = 280f;
         }
 
         transform.eulerAngles = new Vector3(x, y, 0);
