@@ -345,7 +345,7 @@ MonoBehaviour:
   gridSize: {x: 128, y: 128}
   isFlatTop: 1
   outerSize: 10
-  biome: 77
+  biome_char: 66
   noiseScale: 5
   octaves: 3
   persistance: 0.5
@@ -548,13 +548,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2051216666}
-  m_LocalRotation: {x: -0.0069870804, y: 0.968844, z: -0.02742906, w: -0.2460493}
-  m_LocalPosition: {x: 1027.4506, y: 128.04662, z: -661.78143}
+  m_LocalRotation: {x: 0.09773268, y: 0.9018467, z: -0.3117381, w: 0.282737}
+  m_LocalPosition: {x: 55.02899, y: 763.62665, z: 152.36661}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 28.5, y: 144.1, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2051216670
 MonoBehaviour:
   m_ObjectHideFlags: 0
