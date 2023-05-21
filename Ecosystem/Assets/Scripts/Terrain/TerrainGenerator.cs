@@ -272,22 +272,6 @@ public class TerrainGenerator : MonoBehaviour
                 current_tile.transform.rotation = Quaternion.Euler(-90, (isFlatTop ? 30 : 0), 0);
                 TileType tile_type = TileType.GRASS;
 
-                /*if (position.y < -0.05f * outerSize * noiseSettings.noiseScale * noiseSettings.height * (1 + Random.Range(-0.2f, 0.2f)))
-                {
-                    current_tile.GetComponent<MeshRenderer>().material = sand;
-                    tile_type = TileType.SAND;
-                }
-                else if (position.y < 0.5f * outerSize * noiseSettings.noiseScale * noiseSettings.height * (1 + Random.Range(-0.2f, 0.2f)))
-                {
-                    current_tile.GetComponent<MeshRenderer>().material = grass;
-                    tile_type = TileType.GRASS;
-                }
-                else
-                {
-                    current_tile.GetComponent<MeshRenderer>().material = stone;
-                    tile_type = TileType.STONE;
-                }*/
-
                 tile_type = biome.GetTileType(position.y/ outerSize / 25f);
 
                 if (tile_type == TileType.SAND)
@@ -322,6 +306,7 @@ public class TerrainGenerator : MonoBehaviour
                     GameObject current_tree = Instantiate(tree, pos, Quaternion.identity);
                     current_tree.transform.localScale = new Vector3(outerSize, outerSize * (tree.transform.localScale.y /
                         tree.transform.localScale.x), outerSize * (tree.transform.localScale.z / tree.transform.localScale.x));
+                    current_tree.transform.rotation = Quaternion.Euler(0, Random.Range(0, 6) * 60, 0);
                     trees.Add(current_tree);
                     number_of_trees++;
                 }
