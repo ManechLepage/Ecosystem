@@ -91,7 +91,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -193,8 +193,8 @@ MonoBehaviour:
     y: 0
     width: 242
     height: 343.33334
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 6}
   m_Panes:
   - {fileID: 6}
@@ -231,9 +231,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: a8660000
-      m_LastClickedID: 26280
-      m_ExpandedIDs: 4044e0ff044ae0ff42fbffff
+      m_SelectedIDs: 505d0000
+      m_LastClickedID: 23888
+      m_ExpandedIDs: a0f9ffff8cfaffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -317,8 +317,8 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: 0, y: 0}
-      snapOffsetDelta: {x: -174.66669, y: -26}
+      snapOffset: {x: -176, y: -26}
+      snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 3
       id: Tool Settings
       index: 0
@@ -328,9 +328,9 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: -141, y: 149}
+      snapOffset: {x: -141, y: -173}
       snapOffsetDelta: {x: 0, y: 0}
-      snapCorner: 1
+      snapCorner: 3
       id: unity-grid-and-snap-toolbar
       index: 1
       layout: 1
@@ -404,7 +404,7 @@ MonoBehaviour:
       containerId: overlay-container--right
       floating: 0
       collapsed: 0
-      displayed: 1
+      displayed: 0
       snapOffset: {x: 0, y: 0}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
@@ -592,7 +592,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0.0017779467, y: -0.9836093, z: 0.18031529, w: 0.008938099}
     speed: 2
-    m_Value: {x: -0.0017779467, y: 0.98360926, z: -0.18031529, w: -0.008938098}
+    m_Value: {x: 0.0017778721, y: -0.9835681, z: 0.18030772, w: 0.008937724}
   m_Size:
     m_Target: 10
     speed: 2
@@ -689,22 +689,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/TileTextures
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/TileTextures
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\jeff_\OneDrive\Documents\GitHub\Ecosystem\Ecosystem
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 0c5d0000
-    m_LastClickedID: 23820
-    m_ExpandedIDs: 00000000325b000000ca9a3b
+    scrollPos: {x: 0, y: 93.00003}
+    m_SelectedIDs: 285d0000
+    m_LastClickedID: 23848
+    m_ExpandedIDs: 00000000425b00001e5d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -732,7 +732,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000325b000000ca9a3b
+    m_ExpandedIDs: 00000000425b000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -757,9 +757,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: a8660000
-    m_LastClickedInstanceID: 26280
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: 505d0000
+    m_LastClickedInstanceID: 23888
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -776,7 +776,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 9}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -835,8 +835,8 @@ MonoBehaviour:
     y: 0
     width: 302
     height: 579.3333
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}

@@ -166,7 +166,7 @@ public class TerrainGenerator : MonoBehaviour
     public float outerSize = 1f;
 
     [Header("Noise Settings")]
-    public char biome_char = 'I';
+    public string biomeName = "Island";
     public float noiseScale = 1f;
     public int octaves = 3;
     public float persistance = 0.5f;
@@ -194,12 +194,12 @@ public class TerrainGenerator : MonoBehaviour
     {
         noiseSettings = new NoiseSettings(noiseScale, octaves, persistance,
         1f, lacunarity, seed, smoothness, height, 50f);
-        switch (biome_char)
+        switch (biomeName)
         {
-            case 'I':
+            case "Island":
                 biome = new Island();
                 break;
-            case 'B':
+            case "Boreal Forest":
                 biome = new BorealForest();
                 break;
             default:
@@ -295,11 +295,11 @@ public class TerrainGenerator : MonoBehaviour
                 {
                     if (tree_type == TreeType.SPRUCE)
                     {
-                        tree = spruce[0];
+                        tree = spruce[Random.Range(0, spruce.Length)];
                     }
                     else // Ajouter les autres arbres
                     {
-                        tree = spruce[0];
+                        tree = spruce[Random.Range(0, spruce.Length)];
                     }
                     
                     Vector3 pos = new Vector3(position.x, position.y + outerSize * 3f, position.z);
@@ -398,11 +398,11 @@ public class TerrainGenerator : MonoBehaviour
 
         Vector2 tile_pos = new Vector2(xPosition / noiseSettings.smoothness / 25f, -yPosition / noiseSettings.smoothness / 25f);
 
-        if (biome_char == 'I')
+        if (biomeName == "Island")
         {
             y = IslandGeneration(tile_pos.x, tile_pos.y, coordinates.x, coordinates.y);
         }
-        else if (biome_char == 'M')
+        else if (biomeName == "Mountains")
         {
             y = MountainGeneration(tile_pos.x, tile_pos.y);
         }
