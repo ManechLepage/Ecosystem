@@ -102,9 +102,6 @@ class Animal : LivingEntity
     public float sensory_distance;
     public float speed;
     public float hunger;
-    public float reproductive_urge;
-    public float gestation_duration;
-    public Dictionary<string, int> number_of_childs;
     public float desirability;
     public Dictionary<string, float> urge_to_run;
     public Dictionary<string, List<string>> can_eat;
@@ -121,9 +118,6 @@ class Animal : LivingEntity
         this.sensory_distance = sensory_distance;
         this.speed = speed;
         this.hunger = 0;
-        this.reproductive_urge = reproductive_urge;
-        this.gestation_duration = gestation_duration;
-        this.number_of_childs = number_of_childs;
         this.desirability = desirability;
         this.urge_to_run = urge_to_run;
         this.can_eat = can_eat;
@@ -148,4 +142,26 @@ class Animal : LivingEntity
         base.update(delta_time);
         // TODO
     }
+}
+
+class Mammal
+{
+    public float reproductive_urge;
+    public float gestation_duration;
+    public Dictionary<string, int> number_of_childs;
+}
+
+class Vegetarian 
+{
+
+}
+
+class Carnivore
+{
+
+}
+
+class Ominvore
+{
+    
 }
