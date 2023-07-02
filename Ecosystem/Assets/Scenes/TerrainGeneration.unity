@@ -345,10 +345,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tile: {fileID: 5157029674221165765}
   tree: {fileID: 178459576}
-  gridSize: {x: 256, y: 256}
+  gridSize: {x: 128, y: 128}
   isFlatTop: 1
   outerSize: 10
-  biome_char: 73
+  biomeName: Island
   noiseScale: 5
   octaves: 3
   persistance: 0.5
@@ -360,10 +360,10 @@ MonoBehaviour:
   grass: {fileID: 2100000, guid: 2b201b3be69dea642844775d6ab420b7, type: 2}
   stone: {fileID: 2100000, guid: b99fc819e63ad714983ce9076bbc55a7, type: 2}
   spruce:
-  - {fileID: 919132149155446097, guid: 36fe016be92035a43aa5f07ca21374b6, type: 3}
-  - {fileID: 919132149155446097, guid: 8c7acfd067929d94b962d1a7e6ee2c4f, type: 3}
-  - {fileID: 919132149155446097, guid: 1ce0f183d73d5a341995ea3438d08ae3, type: 3}
-  - {fileID: 919132149155446097, guid: d19ca9a170bf87b45bf9edbc6c4d0a21, type: 3}
+  - {fileID: 919132149155446097, guid: ffdb4ae3fc2cee740844850ae74b3c44, type: 3}
+  - {fileID: 919132149155446097, guid: 1c14e31b59cceef48aec56d373beadc5, type: 3}
+  - {fileID: 919132149155446097, guid: 7fdd592e9559243458265fbe365eb3b8, type: 3}
+  - {fileID: 919132149155446097, guid: 9ce00301ddf69d744a32ca376431e61c, type: 3}
 --- !u!4 &407998453
 Transform:
   m_ObjectHideFlags: 0
