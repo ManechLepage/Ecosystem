@@ -268,7 +268,9 @@ public class TerrainGenerator : MonoBehaviour
                 Vector3 position = GetPositionForHexFromCoordinates(new Vector2Int(x, y));
                 position.y = Mathf.Round(position.y * outerSize / 50) / outerSize * 50;
                 GameObject current_tile = Instantiate(tile, position, Quaternion.identity);
-                current_tile.transform.localScale = new Vector3(outerSize * 100, outerSize * 100, outerSize * 100);
+                current_tile.transform.parent = gameObject.transform;
+                current_tile.name = $"Tile: x:{x}, y:{y}";
+                current_tile.transform.localScale = new Vector3(outerSize * 100, outerSize * 100, outerSize * 300);
                 current_tile.transform.rotation = Quaternion.Euler(-90, (isFlatTop ? 30 : 0), 0);
                 TileType tile_type = TileType.GRASS;
 
