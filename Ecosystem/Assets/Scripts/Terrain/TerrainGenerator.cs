@@ -72,6 +72,11 @@ public class Biome {
 
     public TileType GetTileType(float noise) {
         // noise is between -1 and 1
+        if (noise < -1)
+            noise = -1;
+        if (noise > 1)
+            noise = 1;
+        
         foreach (TileType tile_type in tile_heights.Keys) {
             if (tile_heights[tile_type].Contains(noise)) {
                 return tile_type;
@@ -95,8 +100,8 @@ public class Biome {
 
 public class Island : Biome {
     public Island() : base("Island", new Dictionary<TileType, HeightRange>() {
-        { TileType.SAND, new HeightRange(-1, -0.05f) },
-        { TileType.GRASS, new HeightRange(-0.05f, 0.5f) },
+        { TileType.SAND, new HeightRange(-1, -0.1f) },
+        { TileType.GRASS, new HeightRange(-0.1f, 0.5f) },
         { TileType.STONE, new HeightRange(0.5f, 1) }
     }, new Dictionary<TreeType, HeightRange>() {
         { TreeType.SPRUCE, new HeightRange(-1, 0.5f) },
@@ -160,6 +165,7 @@ public class TerrainGenerator : MonoBehaviour
 
     [Header("Grid Settings")]
     public Vector2Int gridSize;
+    public float definition = 1f;
 
     [Header("Tile Settings")]
     public bool isFlatTop = true;
@@ -189,11 +195,15 @@ public class TerrainGenerator : MonoBehaviour
     private List<List<GameObject>> tiles = new List<List<GameObject>>();
     private List<GameObject> trees = new List<GameObject>();
     private int number_of_trees = 0;
+    private float tree_size;
 
     void Start()
     {
+        tree_size = 1 / outerSize;
+        definition *= 3;
         noiseSettings = new NoiseSettings(noiseScale, octaves, persistance,
         1f, lacunarity, seed, smoothness, height, 50f);
+        
         switch (biomeName)
         {
             case "Island":
@@ -260,21 +270,24 @@ public class TerrainGenerator : MonoBehaviour
     
     private void LayoutGrid()
     {
+        float biome_y;
         for (int y = 0; y < gridSize.y; y++)
         {
             tiles.Add(new List<GameObject>());
             for (int x = 0; x < gridSize.x; x++)
             {
                 Vector3 position = GetPositionForHexFromCoordinates(new Vector2Int(x, y));
-                position.y = Mathf.Round(position.y * outerSize / 50) / outerSize * 50;
+                position.y *= definition;
+                biome_y = position.y / 200f;
+                position.y /= 1.25f;
                 GameObject current_tile = Instantiate(tile, position, Quaternion.identity);
                 current_tile.transform.parent = gameObject.transform;
                 current_tile.name = $"Tile: x:{x}, y:{y}";
-                current_tile.transform.localScale = new Vector3(outerSize * 100, outerSize * 100, outerSize * 300);
+                current_tile.transform.localScale = new Vector3(outerSize * 100 * definition, outerSize * 100 * definition, outerSize * 300 * definition);
                 current_tile.transform.rotation = Quaternion.Euler(-90, (isFlatTop ? 30 : 0), 0);
                 TileType tile_type = TileType.GRASS;
 
-                tile_type = biome.GetTileType(position.y/ outerSize / 25f);
+                tile_type = biome.GetTileType(biome_y);
 
                 if (tile_type == TileType.SAND)
                 {
@@ -304,12 +317,19 @@ public class TerrainGenerator : MonoBehaviour
                         tree = spruce[Random.Range(0, spruce.Length)];
                     }
                     
-                    Vector3 pos = new Vector3(position.x, position.y + outerSize * 3f, position.z);
+                    Vector3 pos = new Vector3(position.x, position.y + outerSize * 3f * definition, position.z);
                     GameObject current_tree = Instantiate(tree, pos, Quaternion.identity);
+<<<<<<< HEAD
                     current_tree.transform.localScale = new Vector3(outerSize, outerSize * (tree.transform.localScale.y /
                        tree.transform.localScale.x), outerSize * (tree.transform.localScale.z / tree.transform.localScale.x));
                     current_tree.transform.parent = gameObject.transform;
                     current_tree.name = $"Tree: ({x},{y})";
+=======
+                    float scaleX = outerSize * tree_size * definition;
+                    float scaleY = outerSize * (tree.transform.localScale.y / tree.transform.localScale.x) * tree_size * definition;
+                    float scaleZ = outerSize * (tree.transform.localScale.z / tree.transform.localScale.x) * tree_size * definition;
+                    current_tree.transform.localScale = new Vector3(scaleX, scaleY, scaleZ);
+>>>>>>> 721b1ec225e9bc801e2234d329f75682534e7000
                     current_tree.transform.rotation = Quaternion.Euler(0, Random.Range(0, 6) * 60, 0);
                     trees.Add(current_tree);
                     number_of_trees++;
@@ -415,7 +435,7 @@ public class TerrainGenerator : MonoBehaviour
         }
 
        // Debug.Log(y);
-
-        return new Vector3(xPosition, y * size * 5, -yPosition);
+       
+        return new Vector3(xPosition * definition, Mathf.Round(y * size * 4 / 2) * 2, -yPosition * definition);
     }
 }
