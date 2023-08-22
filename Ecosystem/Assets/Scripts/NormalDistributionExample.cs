@@ -36,19 +36,27 @@ public class NormalDistributionExample : MonoBehaviour
     void Start()
     {  
         List<float> values = new List<float>();
+        int outOfBoundsCount = 0;
 
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 10000; i++)
         {
-            values.Add(Mathf.Round(GenerateDistribution(min, max) * 10));
+            // values.Add(Mathf.Round(GenerateDistribution(min, max) * 10));
+            float value = Mathf.Round(GenerateDistribution(min, max));
+            if (value > max || value < min)
+            {
+                outOfBoundsCount++;
+                Debug.Log(value);
+            }
         }
+        Debug.Log(outOfBoundsCount);
 
-        values.Sort();
+        // values.Sort();
 
-        for (int i = 0; i < 1000; i++)
-        {
-            Vector3 position = new Vector3(i/10, values[i], 0);
-            GameObject trees = Instantiate(tree, position, Quaternion.identity);
-        }
+        // for (int i = 0; i < 10000; i++)
+        // {
+        //     Vector3 position = new Vector3(i/10, values[i], 0);
+        //     GameObject trees = Instantiate(tree, position, Quaternion.identity);
+        // }
         
     }
     

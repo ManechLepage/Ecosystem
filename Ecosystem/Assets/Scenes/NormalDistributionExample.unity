@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   min: 0
-  max: 10
+  max: 1
   tree: {fileID: 919132149155446097, guid: 9ce00301ddf69d744a32ca376431e61c, type: 3}
 --- !u!114 &591738548
 MonoBehaviour:
