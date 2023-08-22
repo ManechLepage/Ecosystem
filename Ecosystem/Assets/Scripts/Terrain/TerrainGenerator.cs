@@ -319,17 +319,15 @@ public class TerrainGenerator : MonoBehaviour
                     
                     Vector3 pos = new Vector3(position.x, position.y + outerSize * 3f * definition, position.z);
                     GameObject current_tree = Instantiate(tree, pos, Quaternion.identity);
-<<<<<<< HEAD
                     current_tree.transform.localScale = new Vector3(outerSize, outerSize * (tree.transform.localScale.y /
                        tree.transform.localScale.x), outerSize * (tree.transform.localScale.z / tree.transform.localScale.x));
                     current_tree.transform.parent = gameObject.transform;
                     current_tree.name = $"Tree: ({x},{y})";
-=======
+                    
                     float scaleX = outerSize * tree_size * definition;
                     float scaleY = outerSize * (tree.transform.localScale.y / tree.transform.localScale.x) * tree_size * definition;
                     float scaleZ = outerSize * (tree.transform.localScale.z / tree.transform.localScale.x) * tree_size * definition;
                     current_tree.transform.localScale = new Vector3(scaleX, scaleY, scaleZ);
->>>>>>> 721b1ec225e9bc801e2234d329f75682534e7000
                     current_tree.transform.rotation = Quaternion.Euler(0, Random.Range(0, 6) * 60, 0);
                     trees.Add(current_tree);
                     number_of_trees++;

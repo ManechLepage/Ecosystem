@@ -5,24 +5,52 @@ using UnityEngine;
 public class NormalDistributionExample : MonoBehaviour
 {
 
-    public int numberOfPoints = 100;
-    public float threshold = 1.0f;
+    public float min;
+    public float max;
 
-    public float mean = 0.0f;
-    public float standardDeviation = 1.0f;
-    void Start()
+    public GameObject tree;
+
+    float GenerateRandomNormal(float mean, float stdDev)
     {
-        LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer>();
+        float u1 = 1f - Random.value; // Generate a random value between 0 and 1 (exclusive)
+        float u2 = 1f - Random.value;
 
-        lineRenderer.positionCount = 3;
-        BellCurve bellCurve = new BellCurve(mean, standardDeviation);
-        Vector3[] points = new Vector3[numberOfPoints];
-        double[] curvePoints = bellCurve.GenerateCurvePoints(threshold, numberOfPoints);
-        for (int i = 0; i < numberOfPoints; i++)
+        // Box-Muller transform
+        float z0 = Mathf.Sqrt(-2f * Mathf.Log(u1)) * Mathf.Cos(2f * Mathf.PI * u2);
+
+        // Scale and shift to match the desired mean and standard deviation
+        float randomNumber = mean + stdDev * z0;
+
+        return randomNumber;
+    }
+
+    float GenerateDistribution(float minRange, float maxRange)
+    {
+        float rangeExpansionFactor = 0.2f;
+
+        float randomValue = GenerateRandomNormal((minRange + maxRange)/2, (maxRange - minRange) * rangeExpansionFactor);
+
+        return randomValue;
+    }
+
+    void Start()
+    {  
+        List<float> values = new List<float>();
+
+        for (int i = 0; i < 1000; i++)
         {
-            points[i] = new Vector3(i, (float)curvePoints[i], 0);
+            values.Add(Mathf.Round(GenerateDistribution(min, max) * 10));
         }
 
-        lineRenderer.SetPositions(points);
+        values.Sort();
+
+        for (int i = 0; i < 1000; i++)
+        {
+            Vector3 position = new Vector3(i/10, values[i], 0);
+            GameObject trees = Instantiate(tree, position, Quaternion.identity);
+        }
+        
     }
+    
 }
+
