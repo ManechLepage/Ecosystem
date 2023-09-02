@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-class BiomeGenerator
+public class BiomeGenerator
 {
     public string name;
     public int seed;
@@ -28,7 +28,7 @@ class BiomeGenerator
 }
 
 
-class Simulation
+public class Simulation
 {
     public List<LivingEntity> living_thing_list;
     public float time;
@@ -61,7 +61,7 @@ class Simulation
 }
 
 
-class LivingEntity
+public class LivingEntity
 {
     public Simulation simulation;
     public Vector2 position;
@@ -84,11 +84,12 @@ class LivingEntity
     public void update(float delta_time)
     {
         this.age += delta_time;
+        Debug.Log("Age: " + this.age);
     }
 }
 
 
-class Plant : LivingEntity
+public class Plant : LivingEntity
 {
     public Plant(Simulation simulation, Vector2 position, Vector2 lifespan,
         List<float> growth_sizes)
@@ -97,27 +98,29 @@ class Plant : LivingEntity
 }
 
 
-class Animal : LivingEntity
+public class Animal : LivingEntity
 {
     public float sensory_distance;
     public float speed;
     public float hunger;
+    public Vector2 number_of_childs;
     public float desirability;
-    public Dictionary<string, float> urge_to_run;
-    public Dictionary<string, List<string>> can_eat;
+    public Dictionary<System.Type, float> urge_to_run;
+    public Dictionary<System.Type, List<System.Type>> can_eat;
     public Vector2 objective;
     public List<Vector2> path;
 
     public Animal(Simulation simulation, Vector2 position, Vector2 lifespan,
         List<float> growth_sizes, float sensory_distance, float speed,
-        float reproductive_urge, float gestation_duration, Dictionary<string, int> number_of_childs,
-        float desirability, Dictionary<string, float> urge_to_run,
-        Dictionary<string, List<string>> can_eat)
+        float reproductive_urge, float gestation_duration, Vector2 number_of_childs,
+        float desirability, Dictionary<System.Type, float> urge_to_run,
+        Dictionary<System.Type, List<System.Type>> can_eat)
         : base(simulation, position, lifespan, growth_sizes)
     {
         this.sensory_distance = sensory_distance;
         this.speed = speed;
         this.hunger = 0;
+        this.number_of_childs = number_of_childs;
         this.desirability = desirability;
         this.urge_to_run = urge_to_run;
         this.can_eat = can_eat;
@@ -144,24 +147,73 @@ class Animal : LivingEntity
     }
 }
 
-class Mammal
+public class Rabbit : Animal
+{
+    public Rabbit(Simulation simulation, Vector2 position, Vector2 lifespan,
+        List<float> growth_sizes, float sensory_distance, float speed,
+        float reproductive_urge, float gestation_duration, Vector2 number_of_childs,
+        float desirability, Dictionary<System.Type, float> urge_to_run,
+        Dictionary<System.Type, List<System.Type>> can_eat)
+        : base(simulation, position, lifespan, growth_sizes, sensory_distance, speed,
+            reproductive_urge, gestation_duration, number_of_childs, desirability, urge_to_run,
+            can_eat)
+    {
+
+    }
+}
+
+public class Fox : Animal
+{
+    public Fox(Simulation simulation, Vector2 position, Vector2 lifespan,
+        List<float> growth_sizes, float sensory_distance, float speed,
+        float reproductive_urge, float gestation_duration, Vector2 number_of_childs,
+        float desirability, Dictionary<System.Type, float> urge_to_run,
+        Dictionary<System.Type, List<System.Type>> can_eat)
+        : base(simulation, position, lifespan, growth_sizes, sensory_distance, speed,
+            reproductive_urge, gestation_duration, number_of_childs, desirability, urge_to_run,
+            can_eat)
+    {
+
+    }
+}
+
+public class Herb : Plant
+{
+    public Herb(Simulation simulation, Vector2 position, Vector2 lifespan,
+        List<float> growth_sizes)
+        : base(simulation, position, lifespan, growth_sizes)
+    { }
+}
+
+
+public class LivingType
+{
+    public System.Type animal = typeof(Animal);
+    public System.Type plant = typeof(Plant);
+    
+    public System.Type rabbit = typeof(Rabbit);
+    public System.Type fox = typeof(Fox);
+    public System.Type herb = typeof(Herb);
+}
+
+public class Mammal
 {
     public float reproductive_urge;
     public float gestation_duration;
     public Dictionary<string, int> number_of_childs;
 }
 
-class Vegetarian 
+public class Vegetarian
 {
 
 }
 
-class Carnivore
+public class Carnivore
 {
 
 }
 
-class Ominvore
+public class Ominvore
 {
-    
+
 }
