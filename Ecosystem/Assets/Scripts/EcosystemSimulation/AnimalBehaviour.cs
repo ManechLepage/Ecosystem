@@ -5,15 +5,14 @@ using UnityEngine;
 
 public class AnimalBehaviour : MonoBehaviour
 {
-    // Created a simulated animal
-    public Simulation simulation; // Has to be defined in an other file, replace this line later
+    public Simulation simulation;
     public Vector2 position = new Vector2(0, 0);
 
     private Animal simulated_animal;
 
     // Start is called before the first frame update
     void Start()
-    {
+    {   
         LivingType living_type = new LivingType();
         // Generate the animal's settings
         Vector2 lifespan = new Vector2(5, 2);
@@ -50,27 +49,20 @@ public class AnimalBehaviour : MonoBehaviour
             desirability,
             urge_to_run,
             can_eat);
-
-        /* Animal(
-            Simulation simulation,
-            Vector2 position,
-            Vector2 lifespan,
-            List<float> growth_sizes,
-            float sensory_distance,
-            float speed,
-            float reproductive_urge,
-            float gestation_duration,
-            Vector2 number_of_childs,
-            float desirability,
-            Dictionary<System.Type, float> urge_to_run,
-            Dictionary<System.Type, List<System.Type>> can_eat
-        )
-        */ 
+        
+        // Error because the simulation should be defined in the SimulationManager before the animal is created
+        simulation.living_things_list.Add(simulated_animal);
+        
+        // Log all the animals of the simulation with Debug
+        foreach (Animal animal in simulation.living_things_list)
+        {
+            Debug.Log(animal);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        simulated_animal.update(Time.deltaTime);
+
     }
 }

@@ -7,9 +7,9 @@ public class BiomeGenerator
 {
     public string name;
     public int seed;
-    public Dictionary<string, Dictionary<string, int>> populations;
+    public Dictionary<System.Type, Dictionary<System.Type, int>> populations;
 
-    public BiomeGenerator(string name, int seed, Dictionary<string, Dictionary<string, int>> populations)
+    public BiomeGenerator(string name, int seed, Dictionary<System.Type, Dictionary<System.Type, int>> populations)
     {
         this.name = name;
         this.seed = seed;
@@ -30,19 +30,21 @@ public class BiomeGenerator
 
 public class Simulation
 {
-    public List<LivingEntity> living_thing_list;
+    public List<LivingEntity> living_things_list;
     public float time;
     public Grid grid;
-    public Dictionary<LivingEntity, int> populations;
+    public Vector2 size;
+    public Dictionary<System.Type, int> populations;
     public int seed;
     public BiomeGenerator biome;
 
-    public Simulation(int seed = 0)
+    public Simulation(Vector2 size, int seed=0)
     {
         this.seed = seed;
         this.time = 0;
-        this.living_thing_list = new List<LivingEntity>();
-        this.populations = new Dictionary<LivingEntity, int>();
+        this.size = size;
+        this.living_things_list = new List<LivingEntity>();
+        this.populations = new Dictionary<System.Type, int>();
     }
 
     public void generate()
@@ -53,7 +55,7 @@ public class Simulation
     public void update(float delta_time)
     {
         this.time += delta_time;
-        foreach (LivingEntity living_thing in this.living_thing_list)
+        foreach (LivingEntity living_thing in this.living_things_list)
         {
             living_thing.update(delta_time);
         }
@@ -203,6 +205,8 @@ public class Mammal
     public Dictionary<string, int> number_of_childs;
 }
 
+
+// Voir si on fais ça
 public class Vegetarian
 {
 
