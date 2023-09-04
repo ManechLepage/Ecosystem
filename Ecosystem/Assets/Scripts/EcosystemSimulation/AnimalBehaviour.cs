@@ -7,6 +7,7 @@ public class AnimalBehaviour : MonoBehaviour
 {
     public Simulation simulation;
     public Vector2 position = new Vector2(0, 0);
+    // TODO: add definition
 
     private Animal simulated_animal;
 
@@ -50,6 +51,7 @@ public class AnimalBehaviour : MonoBehaviour
             urge_to_run,
             can_eat);
         
+        /*
         // Error because the simulation should be defined in the SimulationManager before the animal is created
         simulation.living_things_list.Add(simulated_animal);
         
@@ -57,7 +59,7 @@ public class AnimalBehaviour : MonoBehaviour
         foreach (Animal animal in simulation.living_things_list)
         {
             Debug.Log(animal);
-        }
+        }*/
     }
 
     // Update is called once per frame

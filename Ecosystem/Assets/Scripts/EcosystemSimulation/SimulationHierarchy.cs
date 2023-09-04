@@ -23,7 +23,38 @@ public class BiomeGenerator
 
     public void generate(Simulation simulation)
     {
-        // TODO
+        float x_pos = 0;
+        float y_pos = 0;
+
+        for (int x = 0; x < simulation.size.x; x++)
+        {
+            List<Tile> column = new List<Tile>();
+            for (int y = 0; y < simulation.size.y; y++)
+            {
+                float offset = (x % 2 == 0 ? Mathf.Sqrt(0.75f) : 0f);
+                
+                column.Add(new Tile(simulation, new Vector2(x_pos + offset, y_pos), 0));
+                x_pos += Mathf.Sqrt(3f);
+            }
+            simulation.tiles.Add(column);
+            y_pos += 0.75f * 2f;
+            x_pos = 0;
+        }
+    }
+}
+
+
+public class Tile
+{
+    public Simulation simulation;
+    public Vector2 position;
+    public float height;
+
+    public Tile(Simulation simulation, Vector2 position, float height)
+    {
+        this.simulation = simulation;
+        this.position = position;
+        this.height = height;
     }
 }
 
@@ -32,17 +63,20 @@ public class Simulation
 {
     public List<LivingEntity> living_things_list;
     public float time;
-    public Grid grid;
+    public List<List<Tile>> tiles;
+    public float tile_size;
     public Vector2 size;
     public Dictionary<System.Type, int> populations;
     public int seed;
     public BiomeGenerator biome;
 
-    public Simulation(Vector2 size, int seed=0)
+    public Simulation(Vector2 size, int seed=0, float tile_size=1f)
     {
         this.seed = seed;
         this.time = 0;
         this.size = size;
+        this.tiles = new List<List<Tile>>();
+        this.tile_size = tile_size;
         this.living_things_list = new List<LivingEntity>();
         this.populations = new Dictionary<System.Type, int>();
     }
