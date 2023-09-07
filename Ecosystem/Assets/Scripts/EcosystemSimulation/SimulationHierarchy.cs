@@ -6,19 +6,24 @@ using UnityEngine;
 public class BiomeGenerator
 {
     public string name;
-    public int seed;
     public Dictionary<System.Type, Dictionary<System.Type, int>> populations;
+    public bool add_walls = true;
 
-    public BiomeGenerator(string name, int seed, Dictionary<System.Type, Dictionary<System.Type, int>> populations)
+    public BiomeGenerator(string name, Dictionary<System.Type, Dictionary<System.Type, int>> populations, bool add_walls = true)
     {
         this.name = name;
-        this.seed = seed;
         this.populations = populations;
+        this.add_walls = add_walls;
     }
 
     public void add_population(Simulation simulation)
     {
         // TODO
+    }
+
+    public virtual float get_height(Vector2 position, Simulation simulation)
+    {
+        return 0f;
     }
 
     public void generate(Simulation simulation)
@@ -33,13 +38,69 @@ public class BiomeGenerator
             {
                 float offset = (x % 2 == 0 ? Mathf.Sqrt(0.75f) : 0f);
                 
-                column.Add(new Tile(simulation, new Vector2(x_pos + offset, y_pos), 0));
+                column.Add(new Tile(
+                    simulation,
+                    new Vector2(x_pos + offset, y_pos),
+                    Mathf.Round(get_real_height(new Vector2(x, y), simulation))
+                ));
+
                 x_pos += Mathf.Sqrt(3f);
             }
             simulation.tiles.Add(column);
             y_pos += 0.75f * 2f;
             x_pos = 0;
         }
+    }
+
+    // The two next functions are used to create walls around the map
+    
+    private float distance_from_side(Vector2 position, Simulation simulation)
+    {
+        float diff_seed = simulation.seed * 5f;
+        
+        float distance_from_side_x = Mathf.Min(position.x, simulation.size.x - position.x - 1);
+        float distance_from_side_y = Mathf.Min(position.y, simulation.size.y - position.y - 1);
+
+        float distance_from_side = Mathf.Min(distance_from_side_x, distance_from_side_y);
+
+        float final_value = Mathf.Pow(Mathf.Max(1f - distance_from_side / 6, 0f), 3.5f);
+        final_value *=  1 + (Mathf.PerlinNoise(position.x / 10f + position.y / 10f + diff_seed, final_value + diff_seed) / 2f - 0.25f);
+
+        return final_value;
+    }
+
+    private float get_real_height(Vector2 position, Simulation simulation)
+    {
+        // Here we want to use distance_from_side to modify the height of the tile, to create walls around the map
+        // To do this, the distance from side value will be modified so the walls get a high angle (using a power function)
+
+        float distance_from_side_value = 0f;
+        if (add_walls)
+        {
+            distance_from_side_value = distance_from_side(position, simulation);
+        } 
+
+        return get_height(position, simulation) + distance_from_side_value * 17f;
+    } 
+}
+
+
+public class PlanesBiomeGenerator : BiomeGenerator
+{   
+    public PlanesBiomeGenerator(
+        Dictionary<System.Type, Dictionary<System.Type, int>> populations,
+        bool add_walls=true
+    ) : base("plaine", populations, add_walls){}
+    
+    public override float get_height(Vector2 position, Simulation simulation)
+    {
+        float diff_seed = simulation.seed * 10f;
+        
+        // two random noises combined together
+        float first_noise_value = Mathf.PerlinNoise(position.x / 15f + diff_seed, position.y / 15f + diff_seed);
+        float second_noise_value = Mathf.PerlinNoise(position.x / 8f + diff_seed, position.y / 8f + diff_seed);
+
+        return (first_noise_value + second_noise_value) / 2f * 12f;
     }
 }
 
@@ -105,9 +166,10 @@ public class LivingEntity
     public float age;
     public List<float> growth_sizes;
     public float thirst;
+    public string name;
 
     public LivingEntity(Simulation simulation, Vector2 position, Vector2 lifespan,
-        List<float> growth_sizes)
+        List<float> growth_sizes, string name="être vivant")
     {
         this.simulation = simulation;
         this.position = position;
@@ -115,12 +177,12 @@ public class LivingEntity
         this.growth_sizes = growth_sizes;
         this.age = 0;
         this.thirst = 0;
+        this.name = name;
     }
 
     public void update(float delta_time)
     {
         this.age += delta_time;
-        Debug.Log("Age: " + this.age);
     }
 }
 
@@ -128,8 +190,8 @@ public class LivingEntity
 public class Plant : LivingEntity
 {
     public Plant(Simulation simulation, Vector2 position, Vector2 lifespan,
-        List<float> growth_sizes)
-        : base(simulation, position, lifespan, growth_sizes)
+        List<float> growth_sizes, string name="plante")
+        : base(simulation, position, lifespan, growth_sizes, name)
     { }
 }
 
@@ -150,8 +212,8 @@ public class Animal : LivingEntity
         List<float> growth_sizes, float sensory_distance, float speed,
         float reproductive_urge, float gestation_duration, Vector2 number_of_childs,
         float desirability, Dictionary<System.Type, float> urge_to_run,
-        Dictionary<System.Type, List<System.Type>> can_eat)
-        : base(simulation, position, lifespan, growth_sizes)
+        Dictionary<System.Type, List<System.Type>> can_eat, string name="animal")
+        : base(simulation, position, lifespan, growth_sizes, name)
     {
         this.sensory_distance = sensory_distance;
         this.speed = speed;
@@ -189,10 +251,10 @@ public class Rabbit : Animal
         List<float> growth_sizes, float sensory_distance, float speed,
         float reproductive_urge, float gestation_duration, Vector2 number_of_childs,
         float desirability, Dictionary<System.Type, float> urge_to_run,
-        Dictionary<System.Type, List<System.Type>> can_eat)
+        Dictionary<System.Type, List<System.Type>> can_eat, string name="lapin")
         : base(simulation, position, lifespan, growth_sizes, sensory_distance, speed,
             reproductive_urge, gestation_duration, number_of_childs, desirability, urge_to_run,
-            can_eat)
+            can_eat, name)
     {
 
     }
@@ -204,7 +266,7 @@ public class Fox : Animal
         List<float> growth_sizes, float sensory_distance, float speed,
         float reproductive_urge, float gestation_duration, Vector2 number_of_childs,
         float desirability, Dictionary<System.Type, float> urge_to_run,
-        Dictionary<System.Type, List<System.Type>> can_eat)
+        Dictionary<System.Type, List<System.Type>> can_eat, string name="renard")
         : base(simulation, position, lifespan, growth_sizes, sensory_distance, speed,
             reproductive_urge, gestation_duration, number_of_childs, desirability, urge_to_run,
             can_eat)
@@ -216,8 +278,8 @@ public class Fox : Animal
 public class Herb : Plant
 {
     public Herb(Simulation simulation, Vector2 position, Vector2 lifespan,
-        List<float> growth_sizes)
-        : base(simulation, position, lifespan, growth_sizes)
+        List<float> growth_sizes, string name="herbe")
+        : base(simulation, position, lifespan, growth_sizes, name)
     { }
 }
 

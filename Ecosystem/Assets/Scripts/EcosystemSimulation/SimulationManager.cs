@@ -9,6 +9,7 @@ public class SimulationManager : MonoBehaviour
     [SerializeField] private GameObject tile;
     public float tile_size = 1f;
     public float definition_quality = 5f;
+    public bool add_walls = true;
     
     public Simulation simulation;
 
@@ -19,13 +20,18 @@ public class SimulationManager : MonoBehaviour
     {
         if (seed == -1)
         {
-            seed = Random.Range(1, 1_000_000_000);
+            seed = Random.Range(1, 100_000); // DO NOT make this number bigger, it will cause terrain generation bugs
         }
         
         simulation = new Simulation(size, seed, tile_size);
-        biome = new BiomeGenerator("test", seed, new Dictionary<System.Type, Dictionary<System.Type, int>>());
+        biome = new PlanesBiomeGenerator(new Dictionary<System.Type, Dictionary<System.Type, int>>(), add_walls);
         simulation.biome = biome;
         GenerateTerrain();
+
+        // Call TempStart from the file of the rabbit gameobject
+        GameObject rabbit_go = GameObject.Find("Rabbit");
+        rabbit_go.GetComponent<AnimalBehaviour>().SetSimulation(this.simulation);
+        rabbit_go.GetComponent<AnimalBehaviour>().Initialize();
 
         // TODO: Add map tiles generation
     }
@@ -59,7 +65,7 @@ public class SimulationManager : MonoBehaviour
                 tile_go.transform.localScale = new Vector3(
                     tile_go.transform.localScale.x * simulation.tile_size * definition_quality,
                     tile_go.transform.localScale.y * simulation.tile_size * definition_quality,
-                    tile_go.transform.localScale.z * definition_quality);
+                    tile_go.transform.localScale.z * simulation.tile_size * definition_quality);
             }
         }
     }

@@ -5,16 +5,22 @@ using UnityEngine;
 
 public class AnimalBehaviour : MonoBehaviour
 {
-    public Simulation simulation;
     public Vector2 position = new Vector2(0, 0);
-    // TODO: add definition
+    public float definition_quality = 1f;
 
+    private Simulation simulation;
     private Animal simulated_animal;
 
     // Start is called before the first frame update
     void Start()
+    {
+        transform.localScale *= definition_quality;
+    }
+
+    public void Initialize()
     {   
         LivingType living_type = new LivingType();
+
         // Generate the animal's settings
         Vector2 lifespan = new Vector2(5, 2);
         float sensory_distance = 5f;
@@ -51,20 +57,17 @@ public class AnimalBehaviour : MonoBehaviour
             urge_to_run,
             can_eat);
         
-        /*
-        // Error because the simulation should be defined in the SimulationManager before the animal is created
         simulation.living_things_list.Add(simulated_animal);
-        
-        // Log all the animals of the simulation with Debug
-        foreach (Animal animal in simulation.living_things_list)
-        {
-            Debug.Log(animal);
-        }*/
+    }
+
+    public void SetSimulation(Simulation simulation)
+    {
+        this.simulation = simulation;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 }

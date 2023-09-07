@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1161603787221544322}
   - component: {fileID: -2839738159983488661}
   m_Layer: 0
-  m_Name: HexagonalTIle
+  m_Name: Undefined Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
