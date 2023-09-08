@@ -384,7 +384,7 @@ MonoBehaviour:
   tile: {fileID: 4512337038819514310, guid: 006f0749ce6cad0478a40471902bd449, type: 3}
   tile_size: 3
   definition_quality: 1
-  add_walls: 0
+  add_walls: 1
 --- !u!4 &927366664
 Transform:
   m_ObjectHideFlags: 0

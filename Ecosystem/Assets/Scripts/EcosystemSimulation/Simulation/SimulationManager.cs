@@ -65,7 +65,7 @@ public class SimulationManager : MonoBehaviour
                 tile_go.transform.localScale = new Vector3(
                     tile_go.transform.localScale.x * simulation.tile_size * definition_quality,
                     tile_go.transform.localScale.y * simulation.tile_size * definition_quality,
-                    tile_go.transform.localScale.z * simulation.tile_size * definition_quality);
+                    tile_go.transform.localScale.z * simulation.tile_size * definition_quality);                
             }
         }
     }
