@@ -9,9 +9,8 @@ public class AnimalBehaviour : MonoBehaviour
     public float definition_quality = 1f;
 
     private Simulation simulation;
-    private Animal simulated_animal;
+    public Animal simulated_animal;
 
-    // Start is called before the first frame update
     void Start()
     {
         transform.localScale *= definition_quality;
@@ -57,7 +56,7 @@ public class AnimalBehaviour : MonoBehaviour
             urge_to_run,
             can_eat);
         
-        simulation.living_things_list.Add(simulated_animal);
+        simulation.living_things_list.Add(gameObject);
     }
 
     public void SetSimulation(Simulation simulation)

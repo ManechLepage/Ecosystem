@@ -25,24 +25,34 @@ public class BiomeGenerator
         return 0f;
     }
 
-    public void generate(Simulation simulation)
+    public void generate(Simulation simulation, GameObject tilePrefab, float definition_quality)
     {
         float x_pos = 0;
         float y_pos = 0;
 
         for (int x = 0; x < simulation.size.x; x++)
         {
-            List<Tile> column = new List<Tile>();
+            List<GameObject> column = new List<GameObject>();
             for (int y = 0; y < simulation.size.y; y++)
             {
                 float offset = (x % 2 == 0 ? Mathf.Sqrt(0.75f) : 0f);
+                GameObject tile = GameObject.Instantiate(tilePrefab);
                 
-                column.Add(new Tile(
-                    simulation,
-                    new Vector2(x_pos + offset, y_pos),
-                    Mathf.Round(get_real_height(new Vector2(x, y), simulation))
-                ));
+                TileManager tileInfo = tile.GetComponent<TileManager>();
+                tileInfo.position = new Vector2(x_pos + offset, y_pos);
+                tileInfo.height = Mathf.Round(get_real_height(new Vector2(x, y), simulation));
 
+                tile.transform.position = new Vector3(
+                        tileInfo.position.x * definition_quality * simulation.tile_size,
+                        tileInfo.height * definition_quality,
+                        tileInfo.position.y * definition_quality * simulation.tile_size);
+
+                tile.transform.localScale = new Vector3(
+                    tile.transform.localScale.x * simulation.tile_size * definition_quality,
+                    tile.transform.localScale.y * simulation.tile_size * definition_quality,
+                    tile.transform.localScale.z * simulation.tile_size * definition_quality);  
+
+                column.Add(tile);
                 x_pos += Mathf.Sqrt(3f);
             }
             simulation.tiles.Add(column);

@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class TileManager : MonoBehaviour
 {
-    public List<GameObject> placementPositions = new List<GameObject>();
+    public GameObject[] placementPositions = new GameObject[5];
+    public GameObject[] tilePopulation = new GameObject[5];
 
+    public Vector2 position;
+    public float height;
+    public TileType type = TileType.Grass;
 
     void Start()
     {
@@ -15,5 +19,10 @@ public class TileManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void Populate(int placement, GameObject obj)
+    {
+        tilePopulation[placement] = obj;
     }
 }

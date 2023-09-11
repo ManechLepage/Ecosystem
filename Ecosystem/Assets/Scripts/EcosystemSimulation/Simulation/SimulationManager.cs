@@ -6,7 +6,7 @@ public class SimulationManager : MonoBehaviour
 {
     public int seed = -1; // If -1, the seed is random
     public Vector2 size = new Vector2(64, 64);
-    [SerializeField] private GameObject tile;
+    [SerializeField] public GameObject tile;
     public float tile_size = 1f;
     public float definition_quality = 5f;
     public bool add_walls = true;
@@ -43,31 +43,7 @@ public class SimulationManager : MonoBehaviour
 
     void GenerateTerrain()
     {
-        simulation.generate();
-
-        // Add the tiles to the scene using the prefab in : Assets/Prefabs/EcosystemSimulation/Tiles/HexagonalTile.prefab
-        for (int x = 0; x < simulation.size.x; x++)
-        {
-            for (int y = 0; y < simulation.size.y; y++)
-            {
-                Tile tile_info = simulation.tiles[x][y];
-                GameObject tile_go = Instantiate(
-                    tile,
-                    new Vector3(
-                        tile_info.position.x * definition_quality * simulation.tile_size,
-                        tile_info.height * definition_quality,
-                        tile_info.position.y * definition_quality * simulation.tile_size),
-                    Quaternion.identity);
-                
-                tile_go.transform.Rotate(new Vector3(1, 0, 0), -90);
-                tile_go.transform.parent = this.transform;
-
-                tile_go.transform.localScale = new Vector3(
-                    tile_go.transform.localScale.x * simulation.tile_size * definition_quality,
-                    tile_go.transform.localScale.y * simulation.tile_size * definition_quality,
-                    tile_go.transform.localScale.z * simulation.tile_size * definition_quality);                
-            }
-        }
+        simulation.generate(tile, definition_quality);
     }
 
     void AddTile(Vector2 position, float height)

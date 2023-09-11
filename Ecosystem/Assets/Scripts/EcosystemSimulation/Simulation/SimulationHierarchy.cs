@@ -2,26 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile
+public enum TileType
 {
-    public Simulation simulation;
-    public Vector2 position;
-    public float height;
-
-    public Tile(Simulation simulation, Vector2 position, float height)
-    {
-        this.simulation = simulation;
-        this.position = position;
-        this.height = height;
-    }
+    Grass,
+    Sand,
+    Rock
 }
 
 
 public class Simulation
 {
-    public List<LivingEntity> living_things_list;
+    public List<GameObject> living_things_list;
     public float time;
-    public List<List<Tile>> tiles;
+    public List<List<GameObject>> tiles;
     public float tile_size;
     public Vector2 size;
     public Dictionary<System.Type, int> populations;
@@ -33,23 +26,23 @@ public class Simulation
         this.seed = seed;
         this.time = 0;
         this.size = size;
-        this.tiles = new List<List<Tile>>();
+        this.tiles = new List<List<GameObject>>();
         this.tile_size = tile_size;
-        this.living_things_list = new List<LivingEntity>();
+        this.living_things_list = new List<GameObject>();
         this.populations = new Dictionary<System.Type, int>();
     }
 
-    public void generate()
+    public void generate(GameObject tilePrefab, float definition_quality)
     {
-        this.biome.generate(this);
+        this.biome.generate(this, tilePrefab, definition_quality);
     }
 
     public void update(float delta_time)
     {
         this.time += delta_time;
-        foreach (LivingEntity living_thing in this.living_things_list)
+        foreach (GameObject living_thing in this.living_things_list)
         {
-            living_thing.update(delta_time);
+            living_thing.GetComponent<AnimalBehaviour>().simulated_animal.update(delta_time);
         }
     }
 }
