@@ -4,12 +4,21 @@ using UnityEngine;
 
 public class SimulationManager : MonoBehaviour
 {
+    [Header("General Settings")]
     public int seed = -1; // If -1, the seed is random
     public Vector2 size = new Vector2(64, 64);
-    [SerializeField] public GameObject tile;
+
+    [Header("Terrain Settings")]
     public float tile_size = 1f;
     public float definition_quality = 5f;
     public bool add_walls = true;
+
+    [Header("Tile Prefabs")]
+    [SerializeField] public GameObject grassTile;
+    [SerializeField] public GameObject sandTile;
+    [SerializeField] public GameObject rockTile;
+
+    private Dictionary<TileType, GameObject> tilePrefabs;
     
     public Simulation simulation;
 
@@ -18,6 +27,12 @@ public class SimulationManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        tilePrefabs = new Dictionary<TileType, GameObject>() {
+            {TileType.Grass, grassTile},
+            {TileType.Sand, sandTile},
+            {TileType.Rock, rockTile}
+        }; 
+        
         if (seed == -1)
         {
             seed = Random.Range(1, 100_000); // DO NOT make this number bigger, it will cause terrain generation bugs
@@ -28,12 +43,11 @@ public class SimulationManager : MonoBehaviour
         simulation.biome = biome;
         GenerateTerrain();
 
-        // Call TempStart from the file of the rabbit gameobject
+        // Temporary : add a rabbit
         GameObject rabbit_go = GameObject.Find("Rabbit");
         rabbit_go.GetComponent<AnimalBehaviour>().SetSimulation(this.simulation);
         rabbit_go.GetComponent<AnimalBehaviour>().Initialize();
 
-        // TODO: Add map tiles generation
     }
 
     void AddLivingThing(Vector2 position, System.Type type)
@@ -43,7 +57,7 @@ public class SimulationManager : MonoBehaviour
 
     void GenerateTerrain()
     {
-        simulation.generate(tile, definition_quality);
+        simulation.generate(tilePrefabs, definition_quality);
     }
 
     void AddTile(Vector2 position, float height)

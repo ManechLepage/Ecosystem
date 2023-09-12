@@ -25,7 +25,12 @@ public class BiomeGenerator
         return 0f;
     }
 
-    public void generate(Simulation simulation, GameObject tilePrefab, float definition_quality)
+    public virtual TileType get_type(Vector2 position, Simulation simulation)  // Add height as an argument
+    {
+        return Random.Range(0, 2) == 1? TileType.Grass : Random.Range(0, 2) == 1? TileType.Sand : TileType.Rock;
+    }
+
+    public void generate(Simulation simulation, Dictionary<TileType, GameObject> tilePrefabs, float definition_quality)
     {
         float x_pos = 0;
         float y_pos = 0;
@@ -36,7 +41,8 @@ public class BiomeGenerator
             for (int y = 0; y < simulation.size.y; y++)
             {
                 float offset = (x % 2 == 0 ? Mathf.Sqrt(0.75f) : 0f);
-                GameObject tile = GameObject.Instantiate(tilePrefab);
+                TileType type = get_type(new Vector2(x, y), simulation);
+                GameObject tile = GameObject.Instantiate(tilePrefabs[type]);
                 
                 TileManager tileInfo = tile.GetComponent<TileManager>();
                 tileInfo.position = new Vector2(x_pos + offset, y_pos);

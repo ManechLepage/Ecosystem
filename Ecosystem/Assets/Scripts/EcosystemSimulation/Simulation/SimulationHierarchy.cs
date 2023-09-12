@@ -32,9 +32,9 @@ public class Simulation
         this.populations = new Dictionary<System.Type, int>();
     }
 
-    public void generate(GameObject tilePrefab, float definition_quality)
+    public void generate(Dictionary<TileType, GameObject> tilePrefabs, float definition_quality)
     {
-        this.biome.generate(this, tilePrefab, definition_quality);
+        this.biome.generate(this, tilePrefabs, definition_quality);
     }
 
     public void update(float delta_time)

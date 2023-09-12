@@ -19,7 +19,7 @@ public class AnimalBehaviour : MonoBehaviour
         agent = gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
     }
 
-    public void Initialize()
+    public void Initialize(float definition_quality = 1f)
     {   
         LivingType living_type = new LivingType();
 
@@ -61,6 +61,8 @@ public class AnimalBehaviour : MonoBehaviour
         
         simulation.living_things_list.Add(gameObject);
 
+        gameObject.transform.localScale *= definition_quality;
+
         GenerateRandomPosition();
     }
 
@@ -75,11 +77,11 @@ public class AnimalBehaviour : MonoBehaviour
         int y_pos = Random.Range(0, (int)simulation.size.y);
         goal = simulation.tiles[x_pos][y_pos].transform.position;
 
-        agent.destination = goal;
+        // agent.destination = goal;  Bug for now
     }
 
     void Update()
     {
-        agent.destination = goal;
+        //agent.destination = goal;  Bug for now
     }
 }
