@@ -10,10 +10,13 @@ public class AnimalBehaviour : MonoBehaviour
 
     private Simulation simulation;
     public Animal simulated_animal;
+    private UnityEngine.AI.NavMeshAgent agent;
+    private Vector3 goal;
 
     void Start()
     {
         transform.localScale *= definition_quality;
+        agent = gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
     }
 
     public void Initialize()
@@ -57,6 +60,8 @@ public class AnimalBehaviour : MonoBehaviour
             can_eat);
         
         simulation.living_things_list.Add(gameObject);
+
+        GenerateRandomPosition();
     }
 
     public void SetSimulation(Simulation simulation)
@@ -64,9 +69,17 @@ public class AnimalBehaviour : MonoBehaviour
         this.simulation = simulation;
     }
 
-    // Update is called once per frame
+    public void GenerateRandomPosition ()
+    {
+        int x_pos = Random.Range(0, (int)simulation.size.x);
+        int y_pos = Random.Range(0, (int)simulation.size.y);
+        goal = simulation.tiles[x_pos][y_pos].transform.position;
+
+        agent.destination = goal;
+    }
+
     void Update()
     {
-        
+        agent.destination = goal;
     }
 }
