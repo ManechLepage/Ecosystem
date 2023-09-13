@@ -8,7 +8,7 @@ public class AnimalBehaviour : MonoBehaviour
     public Vector2 position = new Vector2(0, 0);
     public float definition_quality = 1f;
 
-    private Simulation simulation;
+    private SimulationManager simulation;
     public Animal simulated_animal;
     private UnityEngine.AI.NavMeshAgent agent;
     private Vector3 goal;
@@ -66,7 +66,7 @@ public class AnimalBehaviour : MonoBehaviour
         GenerateRandomPosition();
     }
 
-    public void SetSimulation(Simulation simulation)
+    public void SetSimulation(SimulationManager simulation)
     {
         this.simulation = simulation;
     }

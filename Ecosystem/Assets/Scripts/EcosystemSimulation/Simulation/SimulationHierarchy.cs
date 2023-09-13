@@ -2,55 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TileType
-{
-    Grass,
-    Sand,
-    Rock
-}
-
-
-public class Simulation
-{
-    public List<GameObject> living_things_list;
-    public float time;
-    public List<List<GameObject>> tiles;
-    public float tile_size;
-    public Vector2 size;
-    public Dictionary<System.Type, int> populations;
-    public int seed;
-    public BiomeGenerator biome;
-
-    public Simulation(Vector2 size, int seed=0, float tile_size=1f)
-    {
-        this.seed = seed;
-        this.time = 0;
-        this.size = size;
-        this.tiles = new List<List<GameObject>>();
-        this.tile_size = tile_size;
-        this.living_things_list = new List<GameObject>();
-        this.populations = new Dictionary<System.Type, int>();
-    }
-
-    public void generate(Dictionary<TileType, Material> tileMaterials, float definition_quality, GameObject tilePrefab)
-    {
-        this.biome.generate(this, tileMaterials, definition_quality, tilePrefab);
-    }
-
-    public void update(float delta_time)
-    {
-        this.time += delta_time;
-        foreach (GameObject living_thing in this.living_things_list)
-        {
-            living_thing.GetComponent<AnimalBehaviour>().simulated_animal.update(delta_time);
-        }
-    }
-}
-
-
 public class LivingEntity
 {
-    public Simulation simulation;
+    public SimulationManager simulation;
     public Vector2 position;
     public Vector2 lifespan;
     public float age;
@@ -58,7 +12,7 @@ public class LivingEntity
     public float thirst;
     public string name;
 
-    public LivingEntity(Simulation simulation, Vector2 position, Vector2 lifespan,
+    public LivingEntity(SimulationManager simulation, Vector2 position, Vector2 lifespan,
         List<float> growth_sizes, string name="être vivant")
     {
         this.simulation = simulation;
@@ -79,7 +33,7 @@ public class LivingEntity
 
 public class Plant : LivingEntity
 {
-    public Plant(Simulation simulation, Vector2 position, Vector2 lifespan,
+    public Plant(SimulationManager simulation, Vector2 position, Vector2 lifespan,
         List<float> growth_sizes, string name="plante")
         : base(simulation, position, lifespan, growth_sizes, name)
     { }
@@ -98,7 +52,7 @@ public class Animal : LivingEntity
     public Vector2 objective;
     public List<Vector2> path;
 
-    public Animal(Simulation simulation, Vector2 position, Vector2 lifespan,
+    public Animal(SimulationManager simulation, Vector2 position, Vector2 lifespan,
         List<float> growth_sizes, float sensory_distance, float speed,
         float reproductive_urge, float gestation_duration, Vector2 number_of_childs,
         float desirability, Dictionary<System.Type, float> urge_to_run,
@@ -137,7 +91,7 @@ public class Animal : LivingEntity
 
 public class Rabbit : Animal
 {
-    public Rabbit(Simulation simulation, Vector2 position, Vector2 lifespan,
+    public Rabbit(SimulationManager simulation, Vector2 position, Vector2 lifespan,
         List<float> growth_sizes, float sensory_distance, float speed,
         float reproductive_urge, float gestation_duration, Vector2 number_of_childs,
         float desirability, Dictionary<System.Type, float> urge_to_run,
@@ -152,7 +106,7 @@ public class Rabbit : Animal
 
 public class Fox : Animal
 {
-    public Fox(Simulation simulation, Vector2 position, Vector2 lifespan,
+    public Fox(SimulationManager simulation, Vector2 position, Vector2 lifespan,
         List<float> growth_sizes, float sensory_distance, float speed,
         float reproductive_urge, float gestation_duration, Vector2 number_of_childs,
         float desirability, Dictionary<System.Type, float> urge_to_run,
@@ -167,7 +121,7 @@ public class Fox : Animal
 
 public class Herb : Plant
 {
-    public Herb(Simulation simulation, Vector2 position, Vector2 lifespan,
+    public Herb(SimulationManager simulation, Vector2 position, Vector2 lifespan,
         List<float> growth_sizes, string name="herbe")
         : base(simulation, position, lifespan, growth_sizes, name)
     { }
