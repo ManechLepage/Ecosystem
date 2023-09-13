@@ -27,7 +27,7 @@ public class BiomeGenerator
 
     public virtual TileType get_type(Vector2 position, Simulation simulation)  // Add height as an argument
     {
-        return Random.Range(0, 2) == 1? TileType.Grass : Random.Range(0, 2) == 1? TileType.Sand : TileType.Rock;
+        return distance_from_side(position, simulation) < 0.2? TileType.Grass : TileType.Rock; // Temporary
     }
 
     public void generate(Simulation simulation, Dictionary<TileType, Material> tileMaterials, float definition_quality, GameObject tilePrefab)
@@ -81,7 +81,7 @@ public class BiomeGenerator
         float distance_from_side = Mathf.Min(distance_from_side_x, distance_from_side_y);
 
         float final_value = Mathf.Pow(Mathf.Max(1f - distance_from_side / 6, 0f), 3.5f);
-        final_value *=  1 + (Mathf.PerlinNoise(position.x / 10f + position.y / 10f + diff_seed, final_value + diff_seed) / 2f - 0.25f);
+        final_value *=  1 + (Mathf.PerlinNoise(position.x / 50f + position.y / 50f + diff_seed, (final_value + diff_seed) / 50f) / 2f - 0.25f);
 
         return final_value;
     }
@@ -97,7 +97,7 @@ public class BiomeGenerator
             distance_from_side_value = distance_from_side(position, simulation);
         } 
 
-        return get_height(position, simulation) + distance_from_side_value * 17f;
+        return get_height(position, simulation) + distance_from_side_value * 40f;
     } 
 }
 
