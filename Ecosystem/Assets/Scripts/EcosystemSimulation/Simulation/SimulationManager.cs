@@ -14,11 +14,13 @@ public class SimulationManager : MonoBehaviour
     public bool add_walls = true;
 
     [Header("Tile Prefabs")]
-    [SerializeField] public GameObject grassTile;
-    [SerializeField] public GameObject sandTile;
-    [SerializeField] public GameObject rockTile;
+    [SerializeField] public Material grassTile;
+    [SerializeField] public Material sandTile;
+    [SerializeField] public Material rockTile;
+    [Space]
+    public GameObject tilePrefab;
 
-    private Dictionary<TileType, GameObject> tilePrefabs;
+    private Dictionary<TileType, Material> tileMaterials;
     
     public Simulation simulation;
 
@@ -27,7 +29,7 @@ public class SimulationManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tilePrefabs = new Dictionary<TileType, GameObject>() {
+        tileMaterials = new Dictionary<TileType, Material>() {
             {TileType.Grass, grassTile},
             {TileType.Sand, sandTile},
             {TileType.Rock, rockTile}
@@ -57,7 +59,7 @@ public class SimulationManager : MonoBehaviour
 
     void GenerateTerrain()
     {
-        simulation.generate(tilePrefabs, definition_quality);
+        simulation.generate(tileMaterials, definition_quality, tilePrefab);
     }
 
     void AddTile(Vector2 position, float height)

@@ -30,7 +30,7 @@ public class BiomeGenerator
         return Random.Range(0, 2) == 1? TileType.Grass : Random.Range(0, 2) == 1? TileType.Sand : TileType.Rock;
     }
 
-    public void generate(Simulation simulation, Dictionary<TileType, GameObject> tilePrefabs, float definition_quality)
+    public void generate(Simulation simulation, Dictionary<TileType, Material> tileMaterials, float definition_quality, GameObject tilePrefab)
     {
         float x_pos = 0;
         float y_pos = 0;
@@ -42,7 +42,9 @@ public class BiomeGenerator
             {
                 float offset = (x % 2 == 0 ? Mathf.Sqrt(0.75f) : 0f);
                 TileType type = get_type(new Vector2(x, y), simulation);
-                GameObject tile = GameObject.Instantiate(tilePrefabs[type]);
+                Material material = tileMaterials[type];
+                GameObject tile = GameObject.Instantiate(tilePrefab);
+                tile.GetComponent<Renderer>().material = material;
                 
                 TileManager tileInfo = tile.GetComponent<TileManager>();
                 tileInfo.position = new Vector2(x_pos + offset, y_pos);
