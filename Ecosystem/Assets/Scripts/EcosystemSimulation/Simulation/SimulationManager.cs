@@ -24,10 +24,11 @@ public class SimulationManager : MonoBehaviour
     [SerializeField] public Material grassTile;
     [SerializeField] public Material sandTile;
     [SerializeField] public Material rockTile;
+    [SerializeField] public Material dirtTile;
     [Space]
     public GameObject tilePrefab;
 
-    private Dictionary<TileType, Material> tileMaterials;
+    private Dictionary<TileType, List<Material>> tileMaterials;
     
     public List<GameObject> living_things_list;
     public float time;
@@ -42,10 +43,10 @@ public class SimulationManager : MonoBehaviour
 
         tiles = new List<List<GameObject>>();
 
-        tileMaterials = new Dictionary<TileType, Material>() {
-            {TileType.Grass, grassTile},
-            {TileType.Sand, sandTile},
-            {TileType.Rock, rockTile}
+        tileMaterials = new Dictionary<TileType, List<Material>>() {
+            {TileType.Grass, new List<Material>() {grassTile, dirtTile}},
+            {TileType.Sand, new List<Material>() {sandTile, dirtTile}},
+            {TileType.Rock, new List<Material>() {rockTile, rockTile}}
         }; 
         
         if (seed == -1)
@@ -65,9 +66,11 @@ public class SimulationManager : MonoBehaviour
         // TODO
     }
 
-    public virtual TileType get_type(Vector2 position)  // Add height as an argument
+    public TileType get_type(Vector2 position)  // Add height as an argument
     {
-        return Random.Range(0, 2) == 1? TileType.Grass : Random.Range(0, 2) == 1? TileType.Sand : TileType.Rock;
+        float dist = distance_from_side(position);
+
+        return dist < 0.3f? TileType.Grass : TileType.Rock;
     }
 
     public void GenerateTerrain()
@@ -83,12 +86,13 @@ public class SimulationManager : MonoBehaviour
                 float offset = (x % 2 == 0 ? Mathf.Sqrt(0.75f) : 0f);
 
                 TileType type = get_type(new Vector2(x, y));
-                // Material material = grassTile;
 
                 GameObject tile = GameObject.Instantiate(tilePrefab);
-                tile.transform.parent = gameObject.transform;
+                tile.transform.parent = terrainParent.transform;
 
-                // tile.GetComponent<Renderer>().material = material;
+                tile.GetComponent<MeshRenderer>().materials[0] = tileMaterials[type][0];
+                tile.GetComponent<MeshRenderer>().materials[1] = tileMaterials[type][1];
+
                 TileManager tileInfo = tile.GetComponent<TileManager>();
                 tileInfo.position = new Vector2(x_pos + offset, y_pos);
                 tileInfo.height = Mathf.Round(get_real_height(new Vector2(x, y)));
@@ -101,7 +105,7 @@ public class SimulationManager : MonoBehaviour
                 tile.transform.localScale = new Vector3(
                     tile.transform.localScale.x * tile_size * definition_quality,
                     tile.transform.localScale.y * tile_size * definition_quality,
-                    tile.transform.localScale.z * tile_size * definition_quality);  
+                    tile.transform.localScale.z * tile_size * definition_quality * 0.2f);  
 
                 column.Add(tile);
                 x_pos += Mathf.Sqrt(3f);
@@ -164,7 +168,7 @@ public class SimulationManager : MonoBehaviour
             distance_from_side_value = distance_from_side(position);
         } 
 
-        return get_height(position) + distance_from_side_value * 17f;
+        return get_height(position) + distance_from_side_value * 35f;
     } 
 
 

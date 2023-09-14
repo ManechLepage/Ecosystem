@@ -15,6 +15,7 @@ public class GenerateInInspector : Editor
         if (GUILayout.Button("Generate Terrain"))
         {
             generator.DeleteTerrain();
+            generator.Start();
             generator.GenerateTerrain();
         }
 
