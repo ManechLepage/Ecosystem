@@ -16,6 +16,7 @@ public class GenerateInInspector : Editor
         {
             generator.Start();
             generator.DeleteTerrain();
+            generator.Start();
             generator.GenerateTerrain();
             generator.PopulateTerrain();
 

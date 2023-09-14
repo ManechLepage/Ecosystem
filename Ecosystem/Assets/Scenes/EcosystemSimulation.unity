@@ -267,14 +267,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe750bd1e0476914dbbe793e20970460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seed: 2301
+  seed: 72165
   size: {x: 64, y: 64}
   tile_size: 3
   definition_quality: 5
-  terrainParent: {fileID: 0}
+  terrainParent: {fileID: 1087906846}
   grassTile: {fileID: 2100000, guid: c03e734ac20751148acd8b334561a081, type: 2}
   sandTile: {fileID: 2100000, guid: b24eeaede7b61ae45b3b1ac737cb0d5e, type: 2}
   rockTile: {fileID: 2100000, guid: 3f6a63700ced0584a9011f307cf2696e, type: 2}
+  dirtTile: {fileID: 2100000, guid: c4a01204f3ccd0c49bcaf78dd0ad44a1, type: 2}
   tilePrefab: {fileID: 2176254930294104800, guid: 18c01bfe41665cf4e85399d2f2c00558, type: 3}
   rabbitPrefab: {fileID: 418303132130933100, guid: 4d87a0bb43c29a24482f5c4bcc233660, type: 3}
   living_things_list:
