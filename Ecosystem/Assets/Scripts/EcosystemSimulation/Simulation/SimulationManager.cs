@@ -27,6 +27,9 @@ public class SimulationManager : MonoBehaviour
     [Space]
     public GameObject tilePrefab;
 
+    [Header("Living Things Prefabs")]
+    [SerializeField] public GameObject rabbitPrefab;
+
     private Dictionary<TileType, Material> tileMaterials;
     
     public List<GameObject> living_things_list;
@@ -34,7 +37,7 @@ public class SimulationManager : MonoBehaviour
     public List<List<GameObject>> tiles;
 
     public string biomeName;
-    public Dictionary<System.Type, Dictionary<System.Type, int>> populations;
+    public Dictionary<System.Type, int> populations = new Dictionary<System.Type, int>() {};
     public bool add_walls = true;
     
     public void Start()
@@ -60,14 +63,54 @@ public class SimulationManager : MonoBehaviour
 
     }
 
-    void AddLivingThing(Vector2 position, System.Type type)
+    void AddLivingThing(GameObject spawning_tile, System.Type type)
     {
-        // TODO
+        // If the type is a key of populations, add 1 to it, else add it to the dictionary and set it to 1
+        if (populations.ContainsKey(type))
+            populations[type] += 1;
+        else
+            populations.Add(type, 1);
+
+        if (type == typeof(Rabbit))
+        {
+            Vector2 grid_position = spawning_tile.GetComponent<TileManager>().position;
+            Vector3 position = new Vector3(
+                spawning_tile.transform.position.x,
+                spawning_tile.transform.position.y + spawning_tile.GetComponent<MeshRenderer>().bounds.size.y / 16,
+                spawning_tile.transform.position.z
+            );
+            
+            GameObject rabbit_go = GameObject.Instantiate(rabbitPrefab);
+            rabbit_go.GetComponent<AnimalBehaviour>().SetSimulation(gameObject.GetComponent<SimulationManager>());
+            rabbit_go.GetComponent<AnimalBehaviour>().position = grid_position;
+            rabbit_go.GetComponent<AnimalBehaviour>().Initialize(definition_quality);
+            rabbit_go.transform.parent = gameObject.transform;
+            rabbit_go.transform.position = position;
+
+            living_things_list.Add(rabbit_go);
+        }
     }
 
     public virtual TileType get_type(Vector2 position)  // Add height as an argument
     {
         return Random.Range(0, 2) == 1? TileType.Grass : Random.Range(0, 2) == 1? TileType.Sand : TileType.Rock;
+    }
+
+    public void PopulateTerrain()
+    {
+        for (int x = 0; x < Mathf.Round(tiles.Count * tiles[0].Count / 25); x++)
+        {
+            int random_x = Random.Range(3, tiles.Count - 4);
+            int random_y = Random.Range(3, tiles[random_x].Count - 4);
+
+            GameObject tile = tiles[random_x][random_y];
+            TileType type = tile.GetComponent<TileManager>().type;
+
+            if (type == TileType.Grass)
+            {
+                AddLivingThing(tile, typeof(Rabbit));
+            }
+        }
     }
 
     public void GenerateTerrain()
@@ -101,7 +144,7 @@ public class SimulationManager : MonoBehaviour
                 tile.transform.localScale = new Vector3(
                     tile.transform.localScale.x * tile_size * definition_quality,
                     tile.transform.localScale.y * tile_size * definition_quality,
-                    tile.transform.localScale.z * tile_size * definition_quality);  
+                    tile.transform.localScale.z * tile_size * definition_quality * 0.3f);  
 
                 column.Add(tile);
                 x_pos += Mathf.Sqrt(3f);
@@ -123,21 +166,30 @@ public class SimulationManager : MonoBehaviour
             tiles[x].Clear();
         }
         tiles.Clear();
+
+        for (int i = 0; i < living_things_list.Count; i++)
+        {
+            DestroyImmediate(living_things_list[i]);
+        }
     }
 
+    private float blocks_distance_from_side(Vector2 position)
+    {
+        float distance_from_side_x = Mathf.Min(position.x, size.x - position.x - 1);
+        float distance_from_side_y = Mathf.Min(position.y, size.y - position.y - 1);
+
+        return Mathf.Min(distance_from_side_x, distance_from_side_y);
+    }
+    
     // The two next functions are used to create walls around the map
     
     private float distance_from_side(Vector2 position)
     {
         float diff_seed = seed * 5f;
-        
-        float distance_from_side_x = Mathf.Min(position.x, size.x - position.x - 1);
-        float distance_from_side_y = Mathf.Min(position.y, size.y - position.y - 1);
-
-        float distance_from_side = Mathf.Min(distance_from_side_x, distance_from_side_y);
+        float distance_from_side = blocks_distance_from_side(position);
 
         float final_value = Mathf.Pow(Mathf.Max(1f - distance_from_side / 6, 0f), 3.5f);
-        final_value *=  1 + (Mathf.PerlinNoise(position.x / 10f + position.y / 10f + diff_seed, final_value + diff_seed) / 2f - 0.25f);
+        final_value *=  1 + (Mathf.PerlinNoise(position.x / 5f + position.y / 5f + diff_seed, final_value + diff_seed) / 4f - 0.1f);
 
         return final_value;
     }
@@ -145,10 +197,11 @@ public class SimulationManager : MonoBehaviour
     public float get_height(Vector2 position)
     {
         float diff_seed = seed * 10f;
+        float smoothness = 1f;
         
         // two random noises combined together
-        float first_noise_value = Mathf.PerlinNoise(position.x / 15f + diff_seed, position.y / 15f + diff_seed);
-        float second_noise_value = Mathf.PerlinNoise(position.x / 8f + diff_seed, position.y / 8f + diff_seed);
+        float first_noise_value = Mathf.PerlinNoise(position.x / (15f * smoothness) + diff_seed, position.y / (15f * smoothness) + diff_seed);
+        float second_noise_value = Mathf.PerlinNoise(position.x / (8f * smoothness) + diff_seed, position.y / (8f * smoothness) + diff_seed);
 
         return (first_noise_value + second_noise_value) / 2f * 12f;
     }
@@ -164,16 +217,15 @@ public class SimulationManager : MonoBehaviour
             distance_from_side_value = distance_from_side(position);
         } 
 
-        return get_height(position) + distance_from_side_value * 17f;
+        return get_height(position) + distance_from_side_value * 35f;
     } 
 
 
-    void AddTile(Vector2 position, float height)
+    void AddTile(Vector2 position, float height) // C'est nécessaire ?
     {
         // TODO
     }
 
-    // Update is called once per frame
     void Update()
     {
         // update(Time.deltaTime);

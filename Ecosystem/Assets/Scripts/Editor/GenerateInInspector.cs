@@ -14,8 +14,18 @@ public class GenerateInInspector : Editor
         
         if (GUILayout.Button("Generate Terrain"))
         {
+            generator.Start();
             generator.DeleteTerrain();
             generator.GenerateTerrain();
+            generator.PopulateTerrain();
+
+            string pop_text = "Populations :\n";
+            foreach (KeyValuePair<System.Type, int> population in generator.populations)
+            {
+                pop_text += "   " + population.Key.ToString() + " : " + population.Value.ToString() + "\n";
+            }
+
+            Debug.Log(pop_text);
         }
 
         if (GUILayout.Button("Delete Terrain"))
