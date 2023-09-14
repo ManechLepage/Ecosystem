@@ -18,6 +18,7 @@ public class SimulationManager : MonoBehaviour
     [Header("Terrain Settings")]
     public float tile_size = 1f;
     public float definition_quality = 5f;
+    public GameObject terrainParent;
 
     [Header("Tile Prefabs")]
     [SerializeField] public Material grassTile;
@@ -36,8 +37,11 @@ public class SimulationManager : MonoBehaviour
     public Dictionary<System.Type, Dictionary<System.Type, int>> populations;
     public bool add_walls = true;
     
-    void Start()
+    public void Start()
     {
+
+        tiles = new List<List<GameObject>>();
+
         tileMaterials = new Dictionary<TileType, Material>() {
             {TileType.Grass, grassTile},
             {TileType.Sand, sandTile},
@@ -49,12 +53,10 @@ public class SimulationManager : MonoBehaviour
             seed = Random.Range(1, 100_000); // DO NOT make this number bigger, it will cause terrain generation bugs
         }
 
-        GenerateTerrain();
-
         // Temporary : add a rabbit
-        GameObject rabbit_go = GameObject.Find("Rabbit");
-        rabbit_go.GetComponent<AnimalBehaviour>().SetSimulation(gameObject.GetComponent<SimulationManager>());
-        rabbit_go.GetComponent<AnimalBehaviour>().Initialize();
+        // GameObject rabbit_go = GameObject.Find("Rabbit");
+        // rabbit_go.GetComponent<AnimalBehaviour>().SetSimulation(gameObject.GetComponent<SimulationManager>());
+        // rabbit_go.GetComponent<AnimalBehaviour>().Initialize();
 
     }
 
@@ -73,18 +75,20 @@ public class SimulationManager : MonoBehaviour
         float x_pos = 0;
         float y_pos = 0;
 
-        tiles = new List<List<GameObject>>();
-
         for (int x = 0; x < size.x; x++)
         {
             List<GameObject> column = new List<GameObject>();
             for (int y = 0; y < size.y; y++)
             {
                 float offset = (x % 2 == 0 ? Mathf.Sqrt(0.75f) : 0f);
+
                 TileType type = get_type(new Vector2(x, y));
-                Material material = grassTile;
+                // Material material = grassTile;
+
                 GameObject tile = GameObject.Instantiate(tilePrefab);
-                tile.GetComponent<Renderer>().material = material;
+                tile.transform.parent = gameObject.transform;
+
+                // tile.GetComponent<Renderer>().material = material;
                 TileManager tileInfo = tile.GetComponent<TileManager>();
                 tileInfo.position = new Vector2(x_pos + offset, y_pos);
                 tileInfo.height = Mathf.Round(get_real_height(new Vector2(x, y)));
@@ -106,6 +110,19 @@ public class SimulationManager : MonoBehaviour
             y_pos += 0.75f * 2f;
             x_pos = 0;
         }
+    }
+
+    public void DeleteTerrain()
+    {
+        for (int x = 0; x < tiles.Count; x++)
+        {
+            for (int y = 0; y < tiles[x].Count; y++)
+            {
+                DestroyImmediate(tiles[x][y]);
+            }
+            tiles[x].Clear();
+        }
+        tiles.Clear();
     }
 
     // The two next functions are used to create walls around the map

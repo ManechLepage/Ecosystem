@@ -11,10 +11,21 @@ public class GenerateInInspector : Editor
         base.OnInspectorGUI();
 
         SimulationManager generator = (SimulationManager)target;
-
+        
         if (GUILayout.Button("Generate Terrain"))
         {
+            generator.DeleteTerrain();
             generator.GenerateTerrain();
+        }
+
+        if (GUILayout.Button("Delete Terrain"))
+        {
+            generator.DeleteTerrain();
+        }
+
+        if (GUILayout.Button("Initialize Variables"))
+        {
+            generator.Start();
         }
     }
 }
