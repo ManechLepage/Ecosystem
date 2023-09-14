@@ -31,7 +31,7 @@ public class SimulationManager : MonoBehaviour
     [Header("Living Things Prefabs")]
     [SerializeField] public GameObject rabbitPrefab;
 
-    private Dictionary<TileType, Material> tileMaterials;
+    private Dictionary<TileType, List<Material>> tileMaterials;
     
     public List<GameObject> living_things_list;
     public float time;
