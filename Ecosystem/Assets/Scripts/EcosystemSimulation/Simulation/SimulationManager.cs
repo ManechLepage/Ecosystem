@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public enum TileType
 {
@@ -47,9 +48,9 @@ public class SimulationManager : MonoBehaviour
         tiles = new List<List<GameObject>>();
 
         tileMaterials = new Dictionary<TileType, List<Material>>() {
-            {TileType.Grass, new List<Material>() {grassTile, dirtTile}},
-            {TileType.Sand, new List<Material>() {sandTile, dirtTile}},
-            {TileType.Rock, new List<Material>() {rockTile, rockTile}}
+            {TileType.Grass, new List<Material>() {dirtTile, grassTile, dirtTile}}, // Bottom, Top, Transition (middle)
+            {TileType.Sand, new List<Material>() {dirtTile, sandTile, sandTile}},
+            {TileType.Rock, new List<Material>() {rockTile, grassTile, dirtTile}}
         }; 
         
         if (seed == -1)
@@ -129,12 +130,12 @@ public class SimulationManager : MonoBehaviour
                 float offset = (x % 2 == 0 ? Mathf.Sqrt(0.75f) : 0f);
 
                 TileType type = get_type(new Vector2(x, y));
+                List<Material> tileMats = tileMaterials[type];
 
                 GameObject tile = GameObject.Instantiate(tilePrefab);
                 tile.transform.parent = terrainParent.transform;
 
-                tile.GetComponent<MeshRenderer>().materials[0] = tileMaterials[type][0];
-                tile.GetComponent<MeshRenderer>().materials[1] = tileMaterials[type][1];
+                tile.GetComponent<MeshRenderer>().sharedMaterials = tileMats.ToArray();
 
                 TileManager tileInfo = tile.GetComponent<TileManager>();
                 tileInfo.position = new Vector2(x_pos + offset, y_pos);
