@@ -21,7 +21,7 @@ public class SimulationManager : MonoBehaviour
     public float definition_quality = 5f;
     public GameObject terrainParent;
 
-    [Header("Tile Prefabs")]
+    [Header("Tile Materials Prefabs")]
     [SerializeField] public Material grassTile;
     [SerializeField] public Material sandTile;
     [SerializeField] public Material rockTile;
@@ -29,18 +29,27 @@ public class SimulationManager : MonoBehaviour
     [Space]
     public GameObject tilePrefab;
 
-    [Header("Living Things Prefabs")]
+    [Header("Animal Prefabs")]
     [SerializeField] public GameObject rabbitPrefab;
 
+    [Header("Plant Prefabs")]
+    [SerializeField] public GameObject herbPrefab;
+
+    [Header("Living Things Materials")]
+    [SerializeField] public Material herbMaterial;
+
     private Dictionary<TileType, List<Material>> tileMaterials;
-    
-    public List<GameObject> living_things_list;
+
+    [Header("Biome Settings")]
     public float time;
     public List<List<GameObject>> tiles;
 
     public string biomeName;
     public Dictionary<System.Type, int> populations = new Dictionary<System.Type, int>() {};
     public bool add_walls = true;
+
+    [Space]
+    public List<GameObject> living_things_list;
     
     public void Start()
     {
@@ -65,7 +74,7 @@ public class SimulationManager : MonoBehaviour
 
     }
 
-    void AddLivingThing(GameObject spawning_tile, System.Type type)
+    void AddAnimal(GameObject spawning_tile, System.Type type)
     {
         // If the type is a key of populations, add 1 to it, else add it to the dictionary and set it to 1
         if (populations.ContainsKey(type))
@@ -76,20 +85,60 @@ public class SimulationManager : MonoBehaviour
         if (type == typeof(Rabbit))
         {
             Vector2 grid_position = spawning_tile.GetComponent<TileManager>().position;
-            Vector3 position = new Vector3(
-                spawning_tile.transform.position.x,
-                spawning_tile.transform.position.y + spawning_tile.GetComponent<MeshRenderer>().bounds.size.y / 16,
-                spawning_tile.transform.position.z
-            );
             
             GameObject rabbit_go = GameObject.Instantiate(rabbitPrefab);
+
             rabbit_go.GetComponent<AnimalBehaviour>().SetSimulation(gameObject.GetComponent<SimulationManager>());
             rabbit_go.GetComponent<AnimalBehaviour>().position = grid_position;
             rabbit_go.GetComponent<AnimalBehaviour>().Initialize(definition_quality);
+
             rabbit_go.transform.parent = gameObject.transform;
+            rabbit_go.transform.localScale = new Vector3(2f, 2f, 2f);
+
+            GameObject center = spawning_tile.GetComponent<TileManager>().centerPlacement;
+
+            Vector3 position = new Vector3(
+                center.transform.position.x,
+                center.transform.position.y + rabbit_go.GetComponent<MeshRenderer>().bounds.size.y / 2,
+                center.transform.position.z
+            );
+
             rabbit_go.transform.position = position;
 
             living_things_list.Add(rabbit_go);
+        }
+    }
+
+    void AddPlant(GameObject spawning_tile, GameObject spawning_tile_empty, System.Type type)
+    {
+        // If the type is a key of populations, add 1 to it, else add it to the dictionary and set it to 1
+        if (populations.ContainsKey(type))
+            populations[type] += 1;
+        else
+            populations.Add(type, 1);
+
+        if (type == typeof(Herb))
+        {  
+            GameObject herb_go = GameObject.Instantiate(herbPrefab);
+            //rabbit_go.GetComponent<AnimalBehaviour>().SetSimulation(gameObject.GetComponent<SimulationManager>());
+            //rabbit_go.GetComponent<AnimalBehaviour>().position = grid_position;
+            //rabbit_go.GetComponent<AnimalBehaviour>().Initialize(definition_quality);
+            herb_go.transform.parent = gameObject.transform;
+            herb_go.transform.localScale = new Vector3(2f, 2f, 2f);
+            
+            Vector3 position = new Vector3(
+                spawning_tile_empty.transform.position.x,
+                spawning_tile_empty.transform.position.y + herb_go.GetComponent<MeshRenderer>().bounds.size.y / 2,
+                spawning_tile_empty.transform.position.z
+            );
+
+            herb_go.transform.position = position;
+
+            herb_go.GetComponent<MeshRenderer>().sharedMaterials = new Material[] {herbMaterial};
+
+            // spawning_tile.GetComponent<TileManager>().Populate(herb_go); faire ça
+
+            living_things_list.Add(herb_go);
         }
     }
 
@@ -102,17 +151,40 @@ public class SimulationManager : MonoBehaviour
 
     public void PopulateTerrain()
     {
+        var populations_random = new System.Random(seed);
+        
         for (int x = 0; x < Mathf.Round(tiles.Count * tiles[0].Count / 25); x++)
         {
-            int random_x = Random.Range(3, tiles.Count - 4);
-            int random_y = Random.Range(3, tiles[random_x].Count - 4);
+            int random_x = populations_random.Next(3, tiles.Count - 4);
+            int random_y = populations_random.Next(3, tiles[random_x].Count - 4);
 
             GameObject tile = tiles[random_x][random_y];
             TileType type = tile.GetComponent<TileManager>().type;
 
             if (type == TileType.Grass)
             {
-                AddLivingThing(tile, typeof(Rabbit));
+                AddAnimal(tile, typeof(Rabbit));
+            }
+        }
+        
+        for (int x = 2; x < tiles.Count - 3; x++)
+        {
+            for (int y = 2; y < tiles[x].Count - 3; y++)
+            {
+                float noise_value_1 = Mathf.PerlinNoise(x / 20 + seed * 7, y / 20 + seed * 7);
+                float noise_value_2 = Mathf.PerlinNoise(x / 5 + seed * 14, y / 5 + seed * 14);
+
+                float noise_value = 0.5f + (noise_value_1 * 0.75f + noise_value_2 * 0.25f) / 2f / 2f;
+                int probability = (int)Mathf.Max(Mathf.Round(noise_value * 25f), 1);
+                
+                foreach (GameObject tile_empty_placement in tiles[x][y].GetComponent<TileManager>().placementPositions)
+                {
+                    if (tiles[x][y].GetComponent<TileManager>().type == TileType.Grass && populations_random.Next(0, probability + 1) <= 1)
+                    {
+                        AddPlant(tiles[x][y], tile_empty_placement, typeof(Herb));
+                    }
+                }
+
             }
         }
     }
