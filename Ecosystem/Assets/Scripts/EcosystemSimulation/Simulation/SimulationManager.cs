@@ -44,9 +44,6 @@ public class SimulationManager : MonoBehaviour
     [SerializeField] public GameObject herbPrefab;
     [SerializeField] public GameObject oakTreePrefab;
 
-    [Header("Living Things Materials")]
-    [SerializeField] public Material herbMaterial;
-
     private Dictionary<TileType, List<Material>> tileMaterials;
 
     [Header("Biome Settings")]
@@ -108,9 +105,9 @@ public class SimulationManager : MonoBehaviour
 
         animal_go.transform.parent = gameObject.transform;
         animal_go.transform.localScale = new Vector3(
-            animal_go.transform.localScale.x / 2.5f,
-            animal_go.transform.localScale.y / 2.5f,
-            animal_go.transform.localScale.z / 2.5f
+            animal_go.transform.localScale.x * simulated_animal.size,
+            animal_go.transform.localScale.y * simulated_animal.size,
+            animal_go.transform.localScale.z * simulated_animal.size
         );
 
         GameObject center = spawning_tile.GetComponent<TileManager>().centerPlacement;
@@ -149,9 +146,9 @@ public class SimulationManager : MonoBehaviour
         //rabbit_go.GetComponent<PlantBehaviour>().Initialize(definition_quality);
         plant_go.transform.parent = gameObject.transform;
         plant_go.transform.localScale = new Vector3(
-            plant_go.transform.localScale.x * 2f,
-            plant_go.transform.localScale.y * 2f,
-            plant_go.transform.localScale.z * 2f
+            plant_go.transform.localScale.x,
+            plant_go.transform.localScale.y,
+            plant_go.transform.localScale.z
         );
         
         Vector3 position = new Vector3(
@@ -161,9 +158,6 @@ public class SimulationManager : MonoBehaviour
         );
 
         plant_go.transform.position = position;
-
-        if (type == typeof(Herb))
-            plant_go.GetComponent<MeshRenderer>().sharedMaterials = new Material[] {herbMaterial};
 
         // spawning_tile.GetComponent<TileManager>().Populate(herb_go); faire ça
 

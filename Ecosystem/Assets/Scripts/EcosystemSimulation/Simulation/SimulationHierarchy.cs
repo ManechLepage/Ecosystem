@@ -48,7 +48,7 @@ public class LivingEntity
         this.base_lifespan = new BellCurve(5, 0.25f); // Mean: 5, Standard deviation: 25%
         this.lifespan = this.base_lifespan.get_random_value();
         this.growth_sizes = new List<float> { 0.2f, 0.5f, 0.8f, 0.9f, 1f };
-        this.size = this.growth_sizes[0];
+        this.size = 1f; //this.growth_sizes[0];
         this.age = 0;
         this.thirst = 0;
         this.name = name;
@@ -156,7 +156,7 @@ public class Rabbit : Animal
         this.base_lifespan = new BellCurve(5, 0.25f);
         this.lifespan = this.base_lifespan.get_random_value();
         this.growth_sizes = new List<float> { 0.2f, 0.5f, 0.8f, 0.9f, 1f };
-        this.size = this.growth_sizes[0];
+        this.size = 1f; //this.growth_sizes[0];
         this.sensory_distance = 5f;
         this.speed = 1f;
         this.gestation_duration = 50f;

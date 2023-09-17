@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 8897
+  controlID: 3177
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 8842
+  controlID: 3178
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 8843
+  controlID: 3179
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -534,9 +534,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 537.22723, y: 109.63271, z: 627.5472}
+    m_Target: {x: 1045.0178, y: 46.229324, z: 377.47485}
     speed: 2
-    m_Value: {x: 537.22723, y: 109.63271, z: 627.5472}
+    m_Value: {x: 1045.0178, y: 46.229324, z: 377.47485}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -582,20 +582,20 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.057243552, y: -0.5836162, z: -0.041931707, w: -0.8091023}
+    m_Target: {x: -0.035334, y: 0.47934836, z: -0.019774556, w: -0.876858}
     speed: 2
-    m_Value: {x: 0.057172317, y: -0.5847446, z: -0.042011447, w: -0.80810905}
+    m_Value: {x: -0.03792661, y: 0.48053074, z: -0.021266956, w: -0.87589926}
   m_Size:
-    m_Target: 46.51405
+    m_Target: 291.5455
     speed: 2
-    m_Value: 46.51405
+    m_Value: 291.5455
   m_Ortho:
     m_Target: 0
     speed: 2
     m_Value: 0
   m_CameraSettings:
-    m_Speed: 1
-    m_SpeedNormalized: 0.5
+    m_Speed: 0.94053
+    m_SpeedNormalized: 0.47
     m_SpeedMin: 0.001
     m_SpeedMax: 2
     m_EasingEnabled: 1
@@ -644,9 +644,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 4c5a0000
-      m_LastClickedID: 23116
-      m_ExpandedIDs: 36fbffff4c5a00005c5a0000
+      m_SelectedIDs: d6320200
+      m_LastClickedID: 144086
+      m_ExpandedIDs: 36fbffffd632020090840200
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -690,9 +690,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 251.33334
+    x: 252
     y: 72.66667
-    width: 724.6667
+    width: 727.3333
     height: 323
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -704,7 +704,7 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 1087, y: 453}
+  m_TargetSize: {x: 1091, y: 453}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -724,8 +724,8 @@ MonoBehaviour:
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -362.33334
-    m_HBaseRangeMax: 362.33334
+    m_HBaseRangeMin: -363.6667
+    m_HBaseRangeMax: 363.6667
     m_VBaseRangeMin: -151
     m_VBaseRangeMax: 151
     m_HAllowExceedBaseRangeMin: 1
@@ -745,23 +745,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 724.6667
+      width: 727.3333
       height: 302
-    m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 362.33334, y: 151}
+    m_Scale: {x: 0.99999994, y: 0.99999994}
+    m_Translation: {x: 363.66666, y: 151}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -362.33334
-      y: -151
-      width: 724.6667
-      height: 302
+      x: -363.6667
+      y: -151.00002
+      width: 727.3334
+      height: 302.00003
     m_MinimalGUI: 1
-  m_defaultScale: 1
-  m_LastWindowPixelSize: {x: 1087, y: 484.5}
+  m_defaultScale: 0.99999994
+  m_LastWindowPixelSize: {x: 1091, y: 484.5}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 00000000000000000000
@@ -810,22 +810,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs/EcosystemSimulation/Plants
+    - Assets/Scripts/EcosystemSimulation/Simulation
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 58
   m_LastFolders:
-  - Assets/Prefabs/EcosystemSimulation/Plants
+  - Assets/Scripts/EcosystemSimulation/Simulation
   m_LastFoldersGridSize: 58
   m_LastProjectPath: C:\Users\jeff_\OneDrive\Documents\GitHub\Ecosystem\Ecosystem
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 77.66669}
-    m_SelectedIDs: b65d0000
-    m_LastClickedID: 23990
-    m_ExpandedIDs: 00000000e65a0000c85c0000aa5d000000ca9a3b
+    m_SelectedIDs: 669d0400
+    m_LastClickedID: 302438
+    m_ExpandedIDs: 00000000469b0400209d0400689d040000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -853,7 +853,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000e65a000000ca9a3b
+    m_ExpandedIDs: 00000000469b040000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -931,7 +931,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 416.6667
-    width: 977
+    width: 980.3333
     height: 214.33331
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
