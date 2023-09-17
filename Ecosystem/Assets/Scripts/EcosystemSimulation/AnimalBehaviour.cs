@@ -19,52 +19,16 @@ public class AnimalBehaviour : MonoBehaviour
         agent = gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
     }
 
-    public void Initialize(float definition_quality = 1f)
-    {   
-        /*LivingType living_type = new LivingType();
+    public void Initialize(Animal simulated_animal, float definition_quality = 1f)
+    {  
+        this.simulated_animal = simulated_animal;
+        // Debug.Log("Lifespan: " + simulated_animal.base_lifespan.mean + " " + simulated_animal.base_lifespan.standard_deviation + " " + simulated_animal.lifespan);
+        Debug.Log("Number of childs: " + simulated_animal.number_of_childs);
 
-        // Generate the animal's settings
-        Vector2 lifespan = new Vector2(5, 2);
-        float sensory_distance = 5f;
-        float speed = 1f;
-        float reproductive_urge = 0f;
-        float gestation_duration = 50f;
-        Vector2 number_of_childs = new Vector2(3, 2);
-        float desirability = 0.5f;
+        this.definition_quality = definition_quality;
+        gameObject.transform.localScale *= this.definition_quality;
 
-        Dictionary<System.Type, float> urge_to_run = new Dictionary<System.Type, float> {
-            { living_type.rabbit, 0f },
-            { living_type.fox, 0.75f },
-            { living_type.herb, 0f }
-        };
-
-        Dictionary<System.Type, List<System.Type>> can_eat = new Dictionary<System.Type, List<System.Type>> {
-            { living_type.animal, new List<System.Type>
-                { } },
-            { living_type.plant, new List<System.Type>
-                { living_type.herb } }
-        };
-
-        /* simulated_animal = new Rabbit(
-            simulation,
-            position,
-            lifespan,
-            new List<float> { 0.2f, 0.5f, 0.8f, 0.9f, 1f },
-            sensory_distance,
-            speed,
-            reproductive_urge,
-            gestation_duration,
-            number_of_childs,
-            desirability,
-            urge_to_run,
-            can_eat);*/
-        
-        simulated_animal = new Rabbit(simulation);
-        
         simulation.living_things_list.Add(gameObject);
-
-        gameObject.transform.localScale *= definition_quality;
-
         GenerateRandomPosition();
     }
 

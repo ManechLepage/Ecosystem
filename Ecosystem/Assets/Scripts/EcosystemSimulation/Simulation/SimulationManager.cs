@@ -42,6 +42,7 @@ public class SimulationManager : MonoBehaviour
 
     [Header("Plant Prefabs")]
     [SerializeField] public GameObject herbPrefab;
+    [SerializeField] public GameObject oakTreePrefab;
 
     [Header("Living Things Materials")]
     [SerializeField] public Material herbMaterial;
@@ -83,31 +84,44 @@ public class SimulationManager : MonoBehaviour
         else
             populations.Add(type, 1);
 
+
+        Animal simulated_animal;
+
         if (type == typeof(Rabbit))
         {
-            Vector2 grid_position = spawning_tile.GetComponent<TileManager>().position;
-            
-            GameObject rabbit_go = GameObject.Instantiate(rabbitPrefab);
-
-            rabbit_go.GetComponent<AnimalBehaviour>().SetSimulation(gameObject.GetComponent<SimulationManager>());
-            rabbit_go.GetComponent<AnimalBehaviour>().position = grid_position;
-            rabbit_go.GetComponent<AnimalBehaviour>().Initialize(definition_quality);
-
-            rabbit_go.transform.parent = gameObject.transform;
-            rabbit_go.transform.localScale = new Vector3(2f, 2f, 2f);
-
-            GameObject center = spawning_tile.GetComponent<TileManager>().centerPlacement;
-
-            Vector3 position = new Vector3(
-                center.transform.position.x,
-                center.transform.position.y + rabbit_go.GetComponent<MeshRenderer>().bounds.size.y / 2,
-                center.transform.position.z
-            );
-
-            rabbit_go.transform.position = position;
-
-            living_things_list.Add(rabbit_go);
+            simulated_animal = new Rabbit(this);
         }
+        else
+        {
+            Debug.LogError("Animal type not found");
+            return;
+        }
+
+        Vector2 grid_position = spawning_tile.GetComponent<TileManager>().position;
+        
+        GameObject animal_go = GameObject.Instantiate(rabbitPrefab);
+
+        animal_go.GetComponent<AnimalBehaviour>().SetSimulation(gameObject.GetComponent<SimulationManager>());
+        animal_go.GetComponent<AnimalBehaviour>().position = grid_position;
+        animal_go.GetComponent<AnimalBehaviour>().Initialize(simulated_animal, definition_quality);
+        // the animal in automatically added to the living_things_list in the AnimalBehaviour script
+
+        animal_go.transform.parent = gameObject.transform;
+        animal_go.transform.localScale = new Vector3(
+            animal_go.transform.localScale.x / 2.5f,
+            animal_go.transform.localScale.y / 2.5f,
+            animal_go.transform.localScale.z / 2.5f
+        );
+
+        GameObject center = spawning_tile.GetComponent<TileManager>().centerPlacement;
+
+        Vector3 position = new Vector3(
+            center.transform.position.x,
+            center.transform.position.y + animal_go.GetComponent<MeshRenderer>().bounds.size.y / 2,
+            center.transform.position.z
+        );
+
+        animal_go.transform.position = position;
     }
 
     void AddPlant(GameObject spawning_tile, GameObject spawning_tile_empty, System.Type type)
@@ -118,29 +132,42 @@ public class SimulationManager : MonoBehaviour
         else
             populations.Add(type, 1);
 
+        GameObject plant_prefab = null;
+
         if (type == typeof(Herb))
-        {  
-            GameObject herb_go = GameObject.Instantiate(herbPrefab);
-            //rabbit_go.GetComponent<PlantBehaviour>().SetSimulation(gameObject.GetComponent<SimulationManager>());
-            //rabbit_go.GetComponent<PlantBehaviour>().position = grid_position;
-            //rabbit_go.GetComponent<PlantBehaviour>().Initialize(definition_quality);
-            herb_go.transform.parent = gameObject.transform;
-            herb_go.transform.localScale = new Vector3(2f, 2f, 2f);
-            
-            Vector3 position = new Vector3(
-                spawning_tile_empty.transform.position.x,
-                spawning_tile_empty.transform.position.y + herb_go.GetComponent<MeshRenderer>().bounds.size.y / 2,
-                spawning_tile_empty.transform.position.z
-            );
-
-            herb_go.transform.position = position;
-
-            herb_go.GetComponent<MeshRenderer>().sharedMaterials = new Material[] {herbMaterial};
-
-            // spawning_tile.GetComponent<TileManager>().Populate(herb_go); faire ça
-
-            living_things_list.Add(herb_go);
+        {
+            plant_prefab = herbPrefab;
         }
+        else if (type == typeof(OakTree))
+        {
+            plant_prefab = oakTreePrefab; 
+        }
+
+        GameObject plant_go = GameObject.Instantiate(plant_prefab);
+        //rabbit_go.GetComponent<PlantBehaviour>().SetSimulation(gameObject.GetComponent<SimulationManager>());
+        //rabbit_go.GetComponent<PlantBehaviour>().position = grid_position;
+        //rabbit_go.GetComponent<PlantBehaviour>().Initialize(definition_quality);
+        plant_go.transform.parent = gameObject.transform;
+        plant_go.transform.localScale = new Vector3(
+            plant_go.transform.localScale.x * 2f,
+            plant_go.transform.localScale.y * 2f,
+            plant_go.transform.localScale.z * 2f
+        );
+        
+        Vector3 position = new Vector3(
+            spawning_tile_empty.transform.position.x,
+            spawning_tile_empty.transform.position.y + plant_go.GetComponent<MeshRenderer>().bounds.size.y / 2,
+            spawning_tile_empty.transform.position.z
+        );
+
+        plant_go.transform.position = position;
+
+        if (type == typeof(Herb))
+            plant_go.GetComponent<MeshRenderer>().sharedMaterials = new Material[] {herbMaterial};
+
+        // spawning_tile.GetComponent<TileManager>().Populate(herb_go); faire ça
+
+        living_things_list.Add(plant_go);
     }
 
     public TileType get_type(Vector2 position)  // Add height as an argument
@@ -172,17 +199,24 @@ public class SimulationManager : MonoBehaviour
         {
             for (int y = 2; y < tiles[x].Count - 3; y++)
             {
-                float noise_value_1 = Mathf.PerlinNoise(x / 50 + seed * 7, y / 50 + seed * 7);
-                float noise_value_2 = Mathf.PerlinNoise(x / 5 + seed * 14, y / 5 + seed * 14);
+                float noise_value_1 = Mathf.PerlinNoise(x / 100 + seed * 7, y / 100 + seed * 7);
+                float noise_value_2 = Mathf.PerlinNoise(x / 10 + seed * 14, y / 10 + seed * 14);
 
                 float noise_value = 0.5f + (noise_value_1 * 0.75f + noise_value_2 * 0.25f) / 2f / 2f;
-                int probability = (int)Mathf.Max(Mathf.Round(noise_value * 20f), 1);
+                int probability = (int)Mathf.Max(Mathf.Round(noise_value * 10f), 1);
                 
                 foreach (GameObject tile_empty_placement in tiles[x][y].GetComponent<TileManager>().placementPositions)
                 {
                     if (tiles[x][y].GetComponent<TileManager>().type == TileType.Grass && populations_random.Next(0, probability + 1) <= 1)
                     {
-                        AddPlant(tiles[x][y], tile_empty_placement, typeof(Herb));
+                        System.Type plant_type = typeof(Herb);
+
+                        if (populations_random.Next(0, 30) <= 1)
+                        {
+                            plant_type = typeof(OakTree);
+                        }
+                        
+                        AddPlant(tiles[x][y], tile_empty_placement, plant_type);
                     }
                 }
 
@@ -276,12 +310,24 @@ public class SimulationManager : MonoBehaviour
     {
         float diff_seed = seed * 10f;
         float smoothness = 1f;
+        float intensity = 1f;
+
+        if (biome == BiomeType.Plains)
+        {
+            smoothness = 1f;
+            intensity = 1f;
+        }
+        else if (biome == BiomeType.Forest)
+        {
+            smoothness = 1.5f;
+            intensity = 3f;
+        }
         
         // two random noises combined together
         float first_noise_value = Mathf.PerlinNoise(position.x / (15f * smoothness) + diff_seed, position.y / (15f * smoothness) + diff_seed);
         float second_noise_value = Mathf.PerlinNoise(position.x / (8f * smoothness) + diff_seed, position.y / (8f * smoothness) + diff_seed);
 
-        return (first_noise_value + second_noise_value) / 2f * 12f;
+        return (first_noise_value + second_noise_value) / 2f * 12f * intensity;
     }
 
     private float get_real_height(Vector2 position)
