@@ -10,6 +10,14 @@ public enum TileType
     Rock
 }
 
+public enum BiomeType
+{
+    Plains,
+    Forest,
+    Desert,
+    Mountain
+}
+
 public class SimulationManager : MonoBehaviour
 {
     [Header("General Settings")]
@@ -44,7 +52,7 @@ public class SimulationManager : MonoBehaviour
     public float time;
     public List<List<GameObject>> tiles;
 
-    public string biomeName;
+    public BiomeType biome;
     public Dictionary<System.Type, int> populations = new Dictionary<System.Type, int>() {};
     public bool add_walls = true;
 
@@ -66,17 +74,10 @@ public class SimulationManager : MonoBehaviour
         {
             seed = Random.Range(1, 100_000); // DO NOT make this number bigger, it will cause terrain generation bugs
         }
-
-        // Temporary : add a rabbit
-        // GameObject rabbit_go = GameObject.Find("Rabbit");
-        // rabbit_go.GetComponent<AnimalBehaviour>().SetSimulation(gameObject.GetComponent<SimulationManager>());
-        // rabbit_go.GetComponent<AnimalBehaviour>().Initialize();
-
     }
 
     void AddAnimal(GameObject spawning_tile, System.Type type)
     {
-        // If the type is a key of populations, add 1 to it, else add it to the dictionary and set it to 1
         if (populations.ContainsKey(type))
             populations[type] += 1;
         else
@@ -120,9 +121,9 @@ public class SimulationManager : MonoBehaviour
         if (type == typeof(Herb))
         {  
             GameObject herb_go = GameObject.Instantiate(herbPrefab);
-            //rabbit_go.GetComponent<AnimalBehaviour>().SetSimulation(gameObject.GetComponent<SimulationManager>());
-            //rabbit_go.GetComponent<AnimalBehaviour>().position = grid_position;
-            //rabbit_go.GetComponent<AnimalBehaviour>().Initialize(definition_quality);
+            //rabbit_go.GetComponent<PlantBehaviour>().SetSimulation(gameObject.GetComponent<SimulationManager>());
+            //rabbit_go.GetComponent<PlantBehaviour>().position = grid_position;
+            //rabbit_go.GetComponent<PlantBehaviour>().Initialize(definition_quality);
             herb_go.transform.parent = gameObject.transform;
             herb_go.transform.localScale = new Vector3(2f, 2f, 2f);
             
@@ -171,11 +172,11 @@ public class SimulationManager : MonoBehaviour
         {
             for (int y = 2; y < tiles[x].Count - 3; y++)
             {
-                float noise_value_1 = Mathf.PerlinNoise(x / 20 + seed * 7, y / 20 + seed * 7);
+                float noise_value_1 = Mathf.PerlinNoise(x / 50 + seed * 7, y / 50 + seed * 7);
                 float noise_value_2 = Mathf.PerlinNoise(x / 5 + seed * 14, y / 5 + seed * 14);
 
                 float noise_value = 0.5f + (noise_value_1 * 0.75f + noise_value_2 * 0.25f) / 2f / 2f;
-                int probability = (int)Mathf.Max(Mathf.Round(noise_value * 25f), 1);
+                int probability = (int)Mathf.Max(Mathf.Round(noise_value * 20f), 1);
                 
                 foreach (GameObject tile_empty_placement in tiles[x][y].GetComponent<TileManager>().placementPositions)
                 {

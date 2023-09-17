@@ -21,7 +21,7 @@ public class AnimalBehaviour : MonoBehaviour
 
     public void Initialize(float definition_quality = 1f)
     {   
-        LivingType living_type = new LivingType();
+        /*LivingType living_type = new LivingType();
 
         // Generate the animal's settings
         Vector2 lifespan = new Vector2(5, 2);
@@ -45,7 +45,7 @@ public class AnimalBehaviour : MonoBehaviour
                 { living_type.herb } }
         };
 
-        simulated_animal = new Rabbit(
+        /* simulated_animal = new Rabbit(
             simulation,
             position,
             lifespan,
@@ -57,7 +57,9 @@ public class AnimalBehaviour : MonoBehaviour
             number_of_childs,
             desirability,
             urge_to_run,
-            can_eat);
+            can_eat);*/
+        
+        simulated_animal = new Rabbit(simulation);
         
         simulation.living_things_list.Add(gameObject);
 
