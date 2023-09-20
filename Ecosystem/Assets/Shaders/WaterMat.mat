@@ -51,8 +51,8 @@ Material:
     m_Ints: []
     m_Floats:
     - Vector1_827897c3330a4efe9dc505c699cb3d9c: 1
-    - Vector1_b95f0cec86734b8ab5fd112be1d3bf0f: 6
-    - Vector1_e0575f6eb5554afebf2a559a38330a52: 5000
+    - Vector1_b95f0cec86734b8ab5fd112be1d3bf0f: 7
+    - Vector1_e0575f6eb5554afebf2a559a38330a52: 200
     - _AlphaClip: 0
     - _Blend: 0
     - _CastShadows: 1
@@ -66,6 +66,6 @@ Material:
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - Color_a191bbd5961b4fc49991b1db38f5deea: {r: 0, g: 0.17254902, b: 1.9764706, a: 0}
+    - Color_a191bbd5961b4fc49991b1db38f5deea: {r: 0, g: 0.043979067, b: 0.49411774, a: 0}
     - Color_d87b2a76345e42a882d847f77d9df433: {r: 0, g: 0.32961917, b: 0.754717, a: 0}
   m_BuildTextureStacks: []
