@@ -11,6 +11,7 @@ public class TileManager : MonoBehaviour
     public Vector2 position;
     public float height;
     public TileType type = TileType.Grass;
+    public bool under_water = false;
 
     void Start()
     {

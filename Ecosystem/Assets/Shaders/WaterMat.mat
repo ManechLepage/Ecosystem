@@ -50,9 +50,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_827897c3330a4efe9dc505c699cb3d9c: 1
+    - Vector1_827897c3330a4efe9dc505c699cb3d9c: 0.65
     - Vector1_b95f0cec86734b8ab5fd112be1d3bf0f: 7
-    - Vector1_e0575f6eb5554afebf2a559a38330a52: 200
+    - Vector1_e0575f6eb5554afebf2a559a38330a52: 300
     - _AlphaClip: 0
     - _Blend: 0
     - _CastShadows: 1

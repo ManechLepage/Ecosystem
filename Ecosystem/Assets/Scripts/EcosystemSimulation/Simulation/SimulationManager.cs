@@ -29,6 +29,9 @@ public class SimulationManager : MonoBehaviour
     public float definition_quality = 5f;
     public GameObject terrainParent;
 
+    [Header("Water Settings")]
+    [SerializeField] public GameObject waterPlane;
+
     [Header("Tile Materials Prefabs")]
     [SerializeField] public Material grassTile;
     [SerializeField] public Material sandTile;
@@ -56,6 +59,7 @@ public class SimulationManager : MonoBehaviour
 
     [Space]
     public List<GameObject> living_things_list;
+    public GameObject water_plane;
     
     public void Start()
     {
@@ -72,6 +76,34 @@ public class SimulationManager : MonoBehaviour
         {
             seed = Random.Range(1, 100_000); // DO NOT make this number bigger, it will cause terrain generation bugs
         }
+    }
+
+    public void AddWater()
+    {
+        water_plane = Instantiate(waterPlane);
+        water_plane.transform.parent = gameObject.transform;
+
+        // Because the grid is composed of hexagons, the size of the plane is not the same as the size of the grid
+
+        float x_size_factor = Mathf.Sqrt(3f);
+        float y_size_factor = Mathf.Sqrt(2f) * Mathf.Sqrt(Mathf.Sqrt(1.25f));
+
+        water_plane.transform.localScale = new Vector3(
+            size.x * tile_size * definition_quality / 10 * x_size_factor,
+            1,
+            size.y * tile_size * definition_quality / 10 * y_size_factor);
+
+        float y_pos = 1f;
+
+        if (biome == BiomeType.Plains)
+            y_pos = 0.3f;
+        else if (biome == BiomeType.Forest)
+            y_pos = 0.7f;
+        
+        water_plane.transform.position = new Vector3(
+            water_plane.transform.localScale.x * 10 / 2,
+            Mathf.Round(y_pos * 20f) * definition_quality + 1f,
+            water_plane.transform.localScale.z * 10 / 2);
     }
 
     void AddAnimal(GameObject spawning_tile, System.Type type)
@@ -175,24 +207,20 @@ public class SimulationManager : MonoBehaviour
     {
         var populations_random = new System.Random(seed);
         
-        for (int x = 0; x < Mathf.Round(tiles.Count * tiles[0].Count / 25); x++)
-        {
-            int random_x = populations_random.Next(3, tiles.Count - 4);
-            int random_y = populations_random.Next(3, tiles[random_x].Count - 4);
-
-            GameObject tile = tiles[random_x][random_y];
-            TileType type = tile.GetComponent<TileManager>().type;
-
-            if (type == TileType.Grass)
-            {
-                AddAnimal(tile, typeof(Rabbit));
-            }
-        }
+        // Add plants
         
         for (int x = 2; x < tiles.Count - 3; x++)
         {
             for (int y = 2; y < tiles[x].Count - 3; y++)
             {
+                // If the top of the tile is under water, skip it
+                if (tiles[x][y].GetComponent<TileManager>().centerPlacement.transform.position.y
+                    <= water_plane.transform.position.y + 1f) // 1f is for the animation of water
+                {
+                    tiles[x][y].GetComponent<TileManager>().under_water = true;
+                    continue;
+                }
+                
                 float noise_value_1 = Mathf.PerlinNoise(x / 100 + seed * 7, y / 100 + seed * 7);
                 float noise_value_2 = Mathf.PerlinNoise(x / 10 + seed * 14, y / 10 + seed * 14);
 
@@ -216,10 +244,28 @@ public class SimulationManager : MonoBehaviour
 
             }
         }
+
+        // Add animals
+
+        for (int x = 0; x < Mathf.Round(tiles.Count * tiles[0].Count / 25); x++)
+        {
+            int random_x = populations_random.Next(3, tiles.Count - 4);
+            int random_y = populations_random.Next(3, tiles[random_x].Count - 4);
+
+            GameObject tile = tiles[random_x][random_y];
+            TileType type = tile.GetComponent<TileManager>().type;
+
+            if (type == TileType.Grass && tile.GetComponent<TileManager>().under_water == false)
+            {
+                AddAnimal(tile, typeof(Rabbit));
+            }
+        }
     }
 
     public void GenerateTerrain()
     {
+        AddWater();
+        
         float x_pos = 0;
         float y_pos = 0;
 
@@ -250,7 +296,7 @@ public class SimulationManager : MonoBehaviour
                 tile.transform.localScale = new Vector3(
                     tile.transform.localScale.x * tile_size * definition_quality,
                     tile.transform.localScale.y * tile_size * definition_quality,
-                    tile.transform.localScale.z * tile_size * definition_quality * 0.2f);  
+                    tile.transform.localScale.z * tile_size * definition_quality * 0.2f);
 
                 column.Add(tile);
                 x_pos += Mathf.Sqrt(3f);
@@ -277,6 +323,8 @@ public class SimulationManager : MonoBehaviour
         {
             DestroyImmediate(living_things_list[i]);
         }
+
+        DestroyImmediate(water_plane);
     }
 
     private float blocks_distance_from_side(Vector2 position)
