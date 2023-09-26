@@ -15,7 +15,6 @@ public class AnimalBehaviour : MonoBehaviour
 
     void Start()
     {
-        transform.localScale *= definition_quality;
         agent = gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
     }
 
