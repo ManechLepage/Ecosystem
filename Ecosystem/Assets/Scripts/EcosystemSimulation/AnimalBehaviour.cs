@@ -7,9 +7,10 @@ public class AnimalBehaviour : MonoBehaviour
 {
     public Vector2 position = new Vector2(0, 0);
     public float definition_quality = 1f;
+    public List<GameObject> growth_stages = new List<GameObject>();
 
     private SimulationManager simulation;
-    public Animal simulated_animal;
+    public Animal simulated_living;
     private UnityEngine.AI.NavMeshAgent agent;
     private Vector3 goal;
 
@@ -18,11 +19,11 @@ public class AnimalBehaviour : MonoBehaviour
         agent = gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
     }
 
-    public void Initialize(Animal simulated_animal, float definition_quality = 1f)
+    public void Initialize(Animal simulated_living, float definition_quality = 1f)
     {  
-        this.simulated_animal = simulated_animal;
-        // Debug.Log("Lifespan: " + simulated_animal.base_lifespan.mean + " " + simulated_animal.base_lifespan.standard_deviation + " " + simulated_animal.lifespan);
-        Debug.Log("Number of childs: " + simulated_animal.number_of_childs);
+        this.simulated_living = simulated_living;
+        // Debug.Log("Lifespan: " + simulated_living.base_lifespan.mean + " " + simulated_living.base_lifespan.standard_deviation + " " + simulated_living.lifespan);
+        Debug.Log("Number of childs: " + simulated_living.number_of_childs);
 
         this.definition_quality = definition_quality;
         gameObject.transform.localScale *= this.definition_quality;

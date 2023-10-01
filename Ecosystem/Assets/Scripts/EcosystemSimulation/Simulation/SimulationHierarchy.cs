@@ -47,7 +47,7 @@ public class LivingEntity
         this.position = new Vector2(0, 0);
         this.base_lifespan = new BellCurve(5, 0.25f); // Mean: 5, Standard deviation: 25%
         this.lifespan = this.base_lifespan.get_random_value();
-        this.growth_sizes = new List<float> { 0.2f, 0.5f, 0.8f, 0.9f, 1f };
+        this.growth_sizes = new List<float> { 0.2f, 0.5f, 1f };
         this.size = 1f; //this.growth_sizes[0];
         this.age = 0;
         this.thirst = 0;
@@ -192,14 +192,18 @@ public class Herb : Plant
 {
     public Herb(SimulationManager simulation, string name="herbe")
         : base(simulation, name)
-    { }
+    {
+        this.growth_sizes = new List<float> { 0.6f, 1f, 1.5f };
+    }
 }
 
 public class OakTree : Plant
 {
     public OakTree(SimulationManager simulation, string name="chêne")
         : base(simulation, name)
-    { }
+    {
+        this.growth_sizes = new List<float> { 0.7f, 1.1f, 1.6f };
+    }
 }
 
 
