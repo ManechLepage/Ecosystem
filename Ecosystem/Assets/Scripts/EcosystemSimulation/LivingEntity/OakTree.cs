@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OakTree : Plant
 {
-    void Start()
+    public override void Start()
     {
         growth_sizes = new List<float> { 0.7f, 1.1f, 1.6f };
     }

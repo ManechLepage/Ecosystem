@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EntityType
+public enum AnimalType
 {
-    herb,
-    oakTree,
     rabbit,
     fox
+}
+public enum PlantType
+{
+    herb,
+    oakTree
 }
 
 public class LivingEntity : MonoBehaviour
@@ -20,14 +23,14 @@ public class LivingEntity : MonoBehaviour
     public string objectName;
     public List<float> growth_sizes;
     public List<Mesh> growth_stages;
-    public EntityType type; // a faire plus tard
+    public System.Enum type; // a faire plus tard
 
     public void simulationUpdate(float delta_time)
     {
         age += delta_time;
     }
 
-    public void Start()
+    public virtual void Start()
     {
         
     }

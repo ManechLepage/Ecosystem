@@ -23,7 +23,7 @@ public class Animal : LivingEntity
     public float reproductive_urge;
     public Gender gender;
     public float desirability;
-    public Dictionary<EntityType, float> urge_to_run;
+    public Dictionary<System.Enum, float> urge_to_run;
     public Food can_eat;
     public Vector2 objective;
     public List<Vector2> path;
@@ -55,6 +55,6 @@ public class Animal : LivingEntity
 [System.Serializable]
 public class Food
 {
-    public List<EntityType> plants = new List<EntityType>();
-    public List<EntityType> animals = new List<EntityType>();
+    public List<PlantType> plants = new List<PlantType>();
+    public List<AnimalType> animals = new List<AnimalType>();
 }

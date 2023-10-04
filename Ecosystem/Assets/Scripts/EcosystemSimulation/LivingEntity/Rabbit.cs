@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Rabbit : Animal
 {
-    void Start()
+    public override void Start()
     {
         base_lifespan = new BellCurve(5, 0.25f);
         lifespan = base_lifespan.get_random_value();
@@ -17,15 +18,16 @@ public class Rabbit : Animal
         number_of_childs = (int)Mathf.Round(this.base_number_of_childs.get_random_value());
         desirability = 0.5f;
 
-        urge_to_run = new Dictionary<EntityType, float> {
-            { EntityType.rabbit, 0f },
-            { EntityType.fox, 0.75f },
-            { EntityType.herb, 0f },
-            { EntityType.oakTree, 0f}
+        urge_to_run = new Dictionary<System.Enum, float> 
+        {
+            { AnimalType.rabbit, 0f },
+            { AnimalType.fox, 0.75f },
+            { PlantType.herb, 0f },
+            { PlantType.oakTree, 0f}
         };
 
         can_eat = new Food();
-        can_eat.plants = new List<EntityType>() { EntityType.herb };
-        can_eat.animals = new List<EntityType>();
+        can_eat.plants = new List<PlantType>() { PlantType.herb };
+        can_eat.animals = new List<AnimalType>();
     }
 }

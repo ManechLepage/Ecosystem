@@ -17,6 +17,19 @@ public enum BiomeType
     Desert,
     Mountain
 }
+[System.Serializable]
+public class AnimalPrefab
+{
+    public AnimalType type;
+    public GameObject prefab;
+}
+[System.Serializable]
+public class PlantPrefab
+{
+    public PlantType type;
+    public GameObject prefab;
+}
+
 
 public class SimulationManager : MonoBehaviour
 {
@@ -40,12 +53,10 @@ public class SimulationManager : MonoBehaviour
     [Space]
     public GameObject tilePrefab;
 
-    [Header("Animal Prefabs")]
-    [SerializeField] public GameObject rabbitPrefab;
-
-    [Header("Plant Prefabs")]
-    [SerializeField] public List<GameObject> herbPrefabs;
-    [SerializeField] public List<GameObject> oakTreePrefabs;
+    [Header("Entity Prefabs")]
+    public AnimalPrefab[] animalPrefabs;
+    public PlantPrefab[] plantPrefabs;
+    
 
     private Dictionary<TileType, List<Material>> tileMaterials;
 
@@ -208,9 +219,9 @@ public class SimulationManager : MonoBehaviour
         // spawning_tile.GetComponent<TileManager>().Populate(herb_go); faire ça
     }
 
-    void AddLivingEntity()
+    void AddLivingEntity(GameObject spawning_tile, GameObject spawning_tile_empty, System.Enum type)
     {
-        // Merge both methods and maybe split into 2 others
+        
     }
 
     public TileType get_type(Vector2 position)  // Add height as an argument
