@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Rabbit
+  m_EditorClassIdentifier: Assembly-CSharp::AnimalData
+  lifespan:
+    mean: 5
+    standard_deviation: 1
+  objectName: 
+  growth_sizes: []
+  growth_stages: []
+  number_of_children:
+    mean: 0
+    standard_deviation: 0
+  gestation_duration:
+    mean: 0
+    standard_deviation: 0
+  sensory_distance:
+    mean: 0
+    standard_deviation: 0
+  desirability:
+    mean: 0
+    standard_deviation: 0
+  speed:
+    mean: 0
+    standard_deviation: 0
+  can_eat:
+    plants: 00000000
+    animals: 

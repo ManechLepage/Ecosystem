@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,13 +12,14 @@ public enum Gender
 
 public class Animal : LivingEntity
 {
+    public AnimalData data;
     public float size;
-    public float sensory_distance;
     public float speed;
-    public float hunger;
-    public BellCurve base_number_of_childs;
-    public int number_of_childs;
+    public float sensory_distance;
     public float gestation_duration;
+    public float hunger;
+    public float thirst;
+    public int number_of_children;
     public float reproductive_urge;
     public Gender gender;
     public float desirability;
