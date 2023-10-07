@@ -6,6 +6,7 @@ public class TileManager : MonoBehaviour
 {
     public GameObject[] placementPositions = new GameObject[6];
     public GameObject centerPlacement;
+    public GameObject centerPopulation;
     public GameObject[] tilePopulation = new GameObject[6];
 
     public Vector2 position;

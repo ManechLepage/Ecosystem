@@ -56,7 +56,6 @@ public class SimulationManager : MonoBehaviour
     [Header("Entity Prefabs")]
     public AnimalPrefab[] animalPrefabs;
     public PlantPrefab[] plantPrefabs;
-    
 
     private Dictionary<TileType, List<Material>> tileMaterials;
 
@@ -221,7 +220,78 @@ public class SimulationManager : MonoBehaviour
 
     void AddLivingEntity(GameObject spawning_tile, GameObject spawning_tile_empty, System.Enum type)
     {
+        GameObject prefab = GetGameObjectFromType(type);
+
+        if (prefab != null)
+        {
+            GameObject go = GameObject.Instantiate(prefab);
+            go.transform.parent = gameObject.transform;
+            go.transform.localScale = new Vector3(
+                go.transform.localScale.x,
+                go.transform.localScale.y,
+                go.transform.localScale.z
+            );
+
+            Vector3 position = new Vector3(
+                spawning_tile_empty.transform.position.x,
+                spawning_tile_empty.transform.position.y + go.GetComponent<MeshRenderer>().bounds.size.y / 2,
+                spawning_tile_empty.transform.position.z
+            );
+
+            go.transform.position = position;
+            
+            //
+            if (spawning_tile_empty == spawning_tile.GetComponent<TileManager>().centerPlacement)
+                spawning_tile.GetComponent<TileManager>().centerPopulation = go;
+            else
+            {
+                int empty_index = System.Array.IndexOf(spawning_tile.GetComponent<TileManager>().placementPositions, spawning_tile_empty);
+                spawning_tile.GetComponent<TileManager>().tilePopulation[empty_index] = go;
+            }
+
+            // changer le code pour la prochaine partie (très moche)
+            LivingEntity livingEntity = null;
+            switch (type)
+            {
+                case AnimalType.rabbit:
+                    livingEntity = go.GetComponent<Rabbit>();
+                    break;
+                case PlantType.herb:
+                    livingEntity = go.GetComponent<Herb>();
+                    break;
+                case PlantType.oakTree:
+                    livingEntity = go.GetComponent<OakTree>();
+                    break;
+            }
+
+            living_entity_list[go] = livingEntity;
+        }
+    }
+
+    GameObject GetGameObjectFromType(System.Enum type)
+    {
+        if (type.GetType() == typeof(AnimalType))
+        {
+            foreach (AnimalPrefab animal_prefab in animalPrefabs)
+            {
+                if (animal_prefab.type == (AnimalType)type)
+                {
+                    return animal_prefab.prefab;
+                }
+            }
+        }
+        else if (type.GetType() == typeof(PlantType))
+        {
+            foreach (PlantPrefab plant_prefab in plantPrefabs)
+            {
+                if (plant_prefab.type == (PlantType)type)
+                {
+                    return plant_prefab.prefab;
+                }
+            }
+        }
         
+        return null;
     }
 
     public TileType get_type(Vector2 position)  // Add height as an argument
@@ -235,6 +305,7 @@ public class SimulationManager : MonoBehaviour
     {
         var populations_random = new System.Random(seed);
         
+        // TODO: change the population system
         // Add plants
         
         for (int x = 2; x < tiles.Count - 3; x++)
@@ -259,14 +330,14 @@ public class SimulationManager : MonoBehaviour
                 {
                     if (tiles[x][y].GetComponent<TileManager>().type == TileType.Grass && populations_random.Next(0, probability + 1) <= 1)
                     {
-                        System.Type plant_type = typeof(Herb);
+                        System.Enum plant_type = PlantType.herb;
 
                         if (populations_random.Next(0, 30) <= 1)
                         {
-                            plant_type = typeof(OakTree);
+                            plant_type = PlantType.oakTree;
                         }
                         
-                        AddPlant(tiles[x][y], tile_empty_placement, plant_type);
+                        AddLivingEntity(tiles[x][y], tile_empty_placement, plant_type);
                     }
                 }
 
@@ -285,7 +356,7 @@ public class SimulationManager : MonoBehaviour
 
             if (type == TileType.Grass && tile.GetComponent<TileManager>().under_water == false)
             {
-                AddAnimal(tile, typeof(Rabbit));
+                AddLivingEntity(tile, tile.GetComponent<TileManager>().centerPlacement, (System.Enum)AnimalType.rabbit);
             }
         }
     }

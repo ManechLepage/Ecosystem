@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3092226014791451621}
   - component: {fileID: 6066365335919397462}
   - component: {fileID: 2984761201169804380}
-  - component: {fileID: -8209447774757609499}
+  - component: {fileID: 2779057924476268314}
   m_Layer: 0
   m_Name: Herb
   m_TagString: Untagged
@@ -108,7 +108,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &-8209447774757609499
+--- !u!114 &2779057924476268314
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,8 +117,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2743919181196733262}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b298cd65daafa2d43aa5036525535054, type: 3}
+  m_Script: {fileID: 11500000, guid: aa6a148020c4e834f8f06dbd54dda243, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position: {x: 0, y: 0}
-  definition_quality: 1
+  gridPosition: {x: 0, y: 0}
+  lifespan: 0
+  age: 0
