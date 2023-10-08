@@ -13,26 +13,26 @@ MonoBehaviour:
   m_Name: Rabbit
   m_EditorClassIdentifier: 
   lifespan:
-    mean: 0
-    standard_deviation: 0
+    mean: 8.5
+    standard_deviation: 0.2
   objectName: 
   growth_sizes: []
   growth_stages: []
   number_of_children:
-    mean: 0
-    standard_deviation: 0
+    mean: 6
+    standard_deviation: 1
   gestation_duration:
-    mean: 0
-    standard_deviation: 0
+    mean: 31.5
+    standard_deviation: 0.1
   sensory_distance:
-    mean: 0
-    standard_deviation: 0
+    mean: 5
+    standard_deviation: 0.2
   desirability:
     mean: 0
     standard_deviation: 0
   speed:
-    mean: 0
-    standard_deviation: 0
+    mean: 1
+    standard_deviation: 0.2
   can_eat:
-    plants: 
+    plants: 00000000
     animals: 

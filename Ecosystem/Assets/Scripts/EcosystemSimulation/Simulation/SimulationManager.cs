@@ -154,6 +154,7 @@ public class SimulationManager : MonoBehaviour
             switch (type)
             {
                 case AnimalType.rabbit:
+                    Debug.Log("rabbit");
                     livingEntity = go.GetComponent<Rabbit>();
                     break;
                 case PlantType.herb:
@@ -165,6 +166,8 @@ public class SimulationManager : MonoBehaviour
             }
 
             livingEntity.Start();
+            if (type is AnimalType.rabbit)
+                Debug.Log(livingEntity.lifespan);
             living_entity_list[go] = livingEntity;
         }
     }
