@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 523df3d1c5ee87643a2e350be4849ad5, type: 3}
   m_Name: Rabbit
-  m_EditorClassIdentifier: Assembly-CSharp::AnimalData
+  m_EditorClassIdentifier: 
   lifespan:
-    mean: 5
-    standard_deviation: 1
+    mean: 0
+    standard_deviation: 0
   objectName: 
   growth_sizes: []
   growth_stages: []
@@ -34,5 +34,5 @@ MonoBehaviour:
     mean: 0
     standard_deviation: 0
   can_eat:
-    plants: 00000000
+    plants: 
     animals: 

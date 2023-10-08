@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: d5760260c76d09e42ab8355b223ea039, type: 3}
   m_Name: OakTree
-  m_EditorClassIdentifier: Assembly-CSharp::PlantData
+  m_EditorClassIdentifier: 
   lifespan:
     mean: 0
     standard_deviation: 0

@@ -26,7 +26,7 @@ public class LivingEntity : MonoBehaviour
         age += delta_time;
     }
 
-    public void Start()
+    public virtual void Start()
     {
         age = 0f;
     }

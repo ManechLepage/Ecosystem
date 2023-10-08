@@ -121,7 +121,7 @@ MonoBehaviour:
   gridPosition: {x: 0, y: 0}
   lifespan: 5
   age: 0
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: 08c574fb66d296242ad6bc6d36874304, type: 2}
   size: 5
   speed: 5
   sensory_distance: 5

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Rabbit : Animal
 {
-    public void Start()
-    {
+    public override void Start()
+    {        
         lifespan = data.lifespan.get_random_value();
         size = 1f; //this.growth_sizes[0];
         sensory_distance = data.sensory_distance.get_random_value();
@@ -21,5 +21,7 @@ public class Rabbit : Animal
             { PlantType.herb, 0f },
             { PlantType.oakTree, 0f}
         };
+
+        base.Start();
     }
 }

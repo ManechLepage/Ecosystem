@@ -42,6 +42,9 @@ public class SimulationManager : MonoBehaviour
     public float definition_quality = 5f;
     public GameObject terrainParent;
 
+    [Header("Entities Settings")]
+    public GameObject entitiesParent;
+
     [Header("Water Settings")]
     [SerializeField] public GameObject waterPlane;
 
@@ -64,7 +67,7 @@ public class SimulationManager : MonoBehaviour
     public List<List<GameObject>> tiles;
 
     public BiomeType biome;
-    public Dictionary<System.Type, int> populations = new Dictionary<System.Type, int>() {};
+    public Dictionary<System.Enum, int> populations = new Dictionary<System.Enum, int>() {};
     public bool add_walls = true;
 
     [Space]
@@ -91,7 +94,7 @@ public class SimulationManager : MonoBehaviour
     public void AddWater()
     {
         water_plane = Instantiate(waterPlane);
-        water_plane.transform.parent = gameObject.transform;
+        water_plane.transform.parent = terrainParent.transform;
 
         // Because the grid is composed of hexagons, the size of the plane is not the same as the size of the grid
 
@@ -116,108 +119,6 @@ public class SimulationManager : MonoBehaviour
             water_plane.transform.localScale.z * 10 / 2);
     }
 
-    void AddAnimal(GameObject spawning_tile, System.Type type)
-    {
-        // if (populations.ContainsKey(type))
-        //     populations[type] += 1;
-        // else
-        //     populations.Add(type, 1);
-
-
-        // Animal simulated_living;
-
-        // if (type == typeof(Rabbit))
-        // {
-        //     simulated_living = new Rabbit(this);
-        // }
-        // else
-        // {
-        //     Debug.LogError("Animal type not found");
-        //     return;
-        // }
-
-        // Vector2 grid_position = spawning_tile.GetComponent<TileManager>().position;
-        
-        // GameObject animal_go = GameObject.Instantiate(rabbitPrefab);
-
-        // animal_go.GetComponent<AnimalBehaviour>().SetSimulation(gameObject.GetComponent<SimulationManager>());
-        // animal_go.GetComponent<AnimalBehaviour>().position = grid_position;
-        // animal_go.GetComponent<AnimalBehaviour>().Initialize(simulated_living, definition_quality);
-        // the animal in automatically added to the living_things_list in the AnimalBehaviour script
-
-    //     animal_go.transform.parent = gameObject.transform;
-    //     animal_go.transform.localScale = new Vector3(
-    //         animal_go.transform.localScale.x * simulated_living.size,
-    //         animal_go.transform.localScale.y * simulated_living.size,
-    //         animal_go.transform.localScale.z * simulated_living.size
-    //     );
-
-    //     GameObject center = spawning_tile.GetComponent<TileManager>().centerPlacement;
-
-    //     Vector3 position = new Vector3(
-    //         center.transform.position.x,
-    //         center.transform.position.y + animal_go.GetComponent<MeshRenderer>().bounds.size.y / 2,
-    //         center.transform.position.z
-    //     );
-
-    //     animal_go.transform.position = position;
-    }
-
-    void AddPlant(GameObject spawning_tile, GameObject spawning_tile_empty, System.Type type)
-    {
-        // If the type is a key of populations, add 1 to it, else add it to the dictionary and set it to 1
-        // if (populations.ContainsKey(type))
-        //     populations[type] += 1;
-        // else
-        //     populations.Add(type, 1);
-
-        // List<GameObject> plant_prefabs = null;
-        // Plant simulated_living = null;
-
-        // if (type == typeof(Herb))
-        // {
-        //     plant_prefabs = herbPrefabs;
-        //     simulated_living = new Herb(this);
-        // }
-        // else if (type == typeof(OakTree))
-        // {
-        //     plant_prefabs = oakTreePrefabs;
-        //     simulated_living = new OakTree(this);
-        // }
-
-        // Vector2 grid_position = spawning_tile.GetComponent<TileManager>().position;
-
-        // int size_index = Random.Range(0, simulated_living.growth_sizes.Count);
-        // simulated_living.size = simulated_living.growth_sizes[size_index];
-        // GameObject plant_prefab;
-        // if (size_index + 1 > plant_prefabs.Count)
-        //     plant_prefab = plant_prefabs[plant_prefabs.Count - 1];
-        // else
-        //     plant_prefab = plant_prefabs[size_index];
-
-        // GameObject plant_go = GameObject.Instantiate(plant_prefab);
-        // plant_go.GetComponent<PlantBehaviour>().SetSimulation(gameObject.GetComponent<SimulationManager>());
-        // plant_go.GetComponent<PlantBehaviour>().position = grid_position;
-        // plant_go.GetComponent<PlantBehaviour>().Initialize(simulated_living, definition_quality);
-        // plant_go.GetComponent<PlantBehaviour>().growth_stages = plant_prefabs;
-        // plant_go.transform.parent = gameObject.transform;
-        // plant_go.transform.localScale = new Vector3(
-        //     plant_go.transform.localScale.x * simulated_living.size / 5f,
-        //     plant_go.transform.localScale.y * simulated_living.size / 5f,
-        //     plant_go.transform.localScale.z * simulated_living.size / 5f
-        // );
-        
-        // Vector3 position = new Vector3(
-        //     spawning_tile_empty.transform.position.x,
-        //     spawning_tile_empty.transform.position.y + plant_go.GetComponent<MeshRenderer>().bounds.size.y / 2,
-        //     spawning_tile_empty.transform.position.z
-        // );
-
-        // plant_go.transform.position = position;
-
-        // spawning_tile.GetComponent<TileManager>().Populate(herb_go); faire ça
-    }
-
     void AddLivingEntity(GameObject spawning_tile, GameObject spawning_tile_empty, System.Enum type)
     {
         GameObject prefab = GetGameObjectFromType(type);
@@ -225,7 +126,7 @@ public class SimulationManager : MonoBehaviour
         if (prefab != null)
         {
             GameObject go = GameObject.Instantiate(prefab);
-            go.transform.parent = gameObject.transform;
+            go.transform.parent = entitiesParent.transform;
             go.transform.localScale = new Vector3(
                 go.transform.localScale.x,
                 go.transform.localScale.y,
@@ -240,7 +141,6 @@ public class SimulationManager : MonoBehaviour
 
             go.transform.position = position;
             
-            //
             if (spawning_tile_empty == spawning_tile.GetComponent<TileManager>().centerPlacement)
                 spawning_tile.GetComponent<TileManager>().centerPopulation = go;
             else
@@ -264,6 +164,7 @@ public class SimulationManager : MonoBehaviour
                     break;
             }
 
+            livingEntity.Start();
             living_entity_list[go] = livingEntity;
         }
     }
