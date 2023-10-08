@@ -28,6 +28,7 @@ public class LivingEntity : MonoBehaviour
 
     public virtual void Start()
     {
+        Debug.Log("LivingEntity created");
         age = 0f;
     }
 

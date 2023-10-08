@@ -24,7 +24,6 @@ public class Animal : LivingEntity
     public Gender gender;
     public float desirability;
     public Dictionary<System.Enum, float> urge_to_run;
-    public Food can_eat;
     public Vector2 objective;
     public List<Vector2> path;
 
