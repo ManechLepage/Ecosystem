@@ -13,7 +13,6 @@ public enum Gender
 public class Animal : LivingEntity
 {
     public AnimalData data;
-    public float size;
     public float speed;
     public float sensory_distance;
     public float gestation_duration;
@@ -26,6 +25,19 @@ public class Animal : LivingEntity
     public Dictionary<System.Enum, float> urge_to_run;
     public Vector2 objective;
     public List<Vector2> path;
+
+    public override void Start()
+    {
+        base.Start();
+
+        lifespan = data.lifespan.get_random_value();
+        size = 1f;
+        sensory_distance = data.sensory_distance.get_random_value();
+        speed = data.speed.get_random_value();
+        gestation_duration = data.gestation_duration.get_random_value();
+        number_of_children = (int)Mathf.Round(data.number_of_children.get_random_value());
+        desirability = 0.5f;
+    }
 
     // public Animal reproduce(Animal partner) // pas encore testé
     // {

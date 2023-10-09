@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Herb : Plant
 {
-    public void Start()
+    public override void Start()
     {
-        // growth_sizes = new List<float> { 0.6f, 1f, 1.5f };
+        base.Start();
     }
 }

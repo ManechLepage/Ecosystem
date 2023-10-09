@@ -19,6 +19,7 @@ public class LivingEntity : MonoBehaviour
     
     public float lifespan;
     public float age;
+    public float size;
 
 
     public void simulationUpdate(float delta_time)

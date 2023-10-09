@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: OakTree
   m_EditorClassIdentifier: 
   lifespan:
-    mean: 0
-    standard_deviation: 0
-  objectName: 
+    mean: 125
+    standard_deviation: 15
+  objectName: "ch\xEAne"
   growth_sizes: []
   growth_stages: []

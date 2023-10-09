@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Herb
   m_EditorClassIdentifier: 
   lifespan:
-    mean: 0
-    standard_deviation: 0
-  objectName: 
+    mean: 1
+    standard_deviation: 0.2
+  objectName: herbe
   growth_sizes: []
   growth_stages: []

@@ -15,7 +15,7 @@ MonoBehaviour:
   lifespan:
     mean: 8.5
     standard_deviation: 0.2
-  objectName: 
+  objectName: lapin
   growth_sizes: []
   growth_stages: []
   number_of_children:
@@ -23,16 +23,16 @@ MonoBehaviour:
     standard_deviation: 1
   gestation_duration:
     mean: 31.5
-    standard_deviation: 0.1
+    standard_deviation: 1.5
   sensory_distance:
     mean: 5
-    standard_deviation: 0.2
+    standard_deviation: 0.5
   desirability:
     mean: 0
     standard_deviation: 0
   speed:
     mean: 1
-    standard_deviation: 0.2
+    standard_deviation: 0.25
   can_eat:
     plants: 00000000
     animals: 
