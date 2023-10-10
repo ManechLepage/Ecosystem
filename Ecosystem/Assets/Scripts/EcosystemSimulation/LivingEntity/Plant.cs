@@ -11,6 +11,5 @@ public class Plant : LivingEntity
         base.Start();
 
         lifespan = data.lifespan.get_random_value();
-        size = 1f;
     }
 }

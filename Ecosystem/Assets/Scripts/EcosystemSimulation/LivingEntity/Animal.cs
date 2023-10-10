@@ -14,6 +14,7 @@ public class Animal : LivingEntity
 {
     public AnimalData data;
     public float speed;
+    public float size;
     public float sensory_distance;
     public float gestation_duration;
     public float hunger;
@@ -31,12 +32,13 @@ public class Animal : LivingEntity
         base.Start();
 
         lifespan = data.lifespan.get_random_value();
-        size = 1f;
+        
         sensory_distance = data.sensory_distance.get_random_value();
         speed = data.speed.get_random_value();
         gestation_duration = data.gestation_duration.get_random_value();
         number_of_children = (int)Mathf.Round(data.number_of_children.get_random_value());
         desirability = 0.5f;
+        size = data.minMaxSize.x;
     }
 
     // public Animal reproduce(Animal partner) // pas encore testé

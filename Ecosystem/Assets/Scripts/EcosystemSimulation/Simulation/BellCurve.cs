@@ -23,3 +23,10 @@ public class BellCurve
         return rand_normal;
     }
 }
+
+[System.Serializable]
+public class AgeAffected
+{
+    public int value;
+    public float age;
+}
