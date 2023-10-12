@@ -11,7 +11,6 @@ public class AnimalData : LivingEntityData
     public BellCurve desirability;
     public BellCurve speed;
     public Food can_eat;
-
     public Vector2 minMaxSize;
 }
 
