@@ -16,8 +16,6 @@ MonoBehaviour:
     mean: 8.5
     standard_deviation: 0.2
   objectName: lapin
-  growth_sizes: []
-  growth_stages: []
   number_of_children:
     mean: 6
     standard_deviation: 1
@@ -31,8 +29,9 @@ MonoBehaviour:
     mean: 0
     standard_deviation: 0
   speed:
-    mean: 1
+    mean: 4
     standard_deviation: 0.25
   can_eat:
     plants: 00000000
     animals: 
+  minMaxSize: {x: 0, y: 0}

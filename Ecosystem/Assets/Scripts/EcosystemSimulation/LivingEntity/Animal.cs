@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum Gender 
 {
@@ -27,6 +28,9 @@ public class Animal : LivingEntity
     public Vector2 objective;
     public List<Vector2> path;
 
+    public GameObject goal;
+    public NavMeshAgent agent;
+
     public override void Start()
     {
         base.Start();
@@ -39,6 +43,14 @@ public class Animal : LivingEntity
         number_of_children = (int)Mathf.Round(data.number_of_children.get_random_value());
         desirability = 0.5f;
         size = data.minMaxSize.x;
+        agent = GetComponent<NavMeshAgent>();
+
+        agent.speed = speed * 2;
+    }
+
+    public void Update()
+    {
+        SetGoal();
     }
 
     // public Animal reproduce(Animal partner) // pas encore testé
@@ -62,6 +74,11 @@ public class Animal : LivingEntity
 
     //     return child;
     // }
+
+    public void SetGoal()
+    {
+        agent.destination = goal.transform.position;
+    }
 
 }
 

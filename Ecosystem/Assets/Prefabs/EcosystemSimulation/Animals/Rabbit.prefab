@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 5045705198099102997}
   - component: {fileID: 8396173787099681718}
   - component: {fileID: 6009850568803113541}
+  - component: {fileID: 2288888702637116303}
+  - component: {fileID: 7189754981515248757}
   m_Layer: 0
   m_Name: Rabbit
   m_TagString: Untagged
@@ -122,8 +124,8 @@ MonoBehaviour:
   lifespan: 5
   age: 0
   data: {fileID: 11400000, guid: 08c574fb66d296242ad6bc6d36874304, type: 2}
-  size: 5
   speed: 5
+  size: 5
   sensory_distance: 5
   gestation_duration: 2
   hunger: 0
@@ -132,8 +134,46 @@ MonoBehaviour:
   reproductive_urge: 0
   gender: 0
   desirability: 0
-  can_eat:
-    plants: 
-    animals: 
   objective: {x: 0, y: 0}
   path: []
+--- !u!114 &2288888702637116303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418303132130933100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
+--- !u!195 &7189754981515248757
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418303132130933100}
+  m_Enabled: 1
+  m_AgentTypeID: -1372625422
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
