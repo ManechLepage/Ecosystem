@@ -20,14 +20,28 @@ public class LivingEntity : MonoBehaviour
     public float lifespan;
     public float age;
 
-
-    public void simulationUpdate(float delta_time)
+    public void Awake()
     {
-        age += delta_time;
+        StartCoroutine(SimulationLoop());
+    }
+
+    IEnumerator SimulationLoop()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            SimulationUpdate();
+        }
+    }
+
+    public virtual void SimulationUpdate()
+    {
+        age += 0.1f;
     }
 
     public virtual void Start()
     {
+        
         age = 0f;
     }
 

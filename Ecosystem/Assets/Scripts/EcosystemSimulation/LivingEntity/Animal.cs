@@ -28,8 +28,9 @@ public class Animal : LivingEntity
     public Vector2 objective;
     public List<Vector2> path;
 
-    public GameObject goal;
+    [Header("Navigation")]
     public NavMeshAgent agent;
+    public bool isWandering;
 
     public override void Start()
     {
@@ -46,11 +47,7 @@ public class Animal : LivingEntity
         agent = GetComponent<NavMeshAgent>();
 
         agent.speed = speed * 2;
-    }
-
-    public void Update()
-    {
-        SetGoal();
+        isWandering = true;
     }
 
     // public Animal reproduce(Animal partner) // pas encore testé
@@ -75,9 +72,27 @@ public class Animal : LivingEntity
     //     return child;
     // }
 
-    public void SetGoal()
+    public void SetRandomGoal()
     {
-        agent.destination = goal.transform.position;
+        
+    }
+
+    public override void SimulationUpdate()
+    {
+        base.SimulationUpdate();
+        Debug.Log("Updating from animal...");
+        if (HasReachedGoal())
+        {
+            if (isWandering)
+            {
+                SetRandomGoal();
+            }
+        }
+    }
+
+    private bool HasReachedGoal()
+    {
+        return !agent.pathPending && agent.remainingDistance < 0.1f;
     }
 
 }
