@@ -374,8 +374,8 @@ public class SimulationManager : MonoBehaviour
     public void GenerateEcosystem()
     {
         GenerateTerrain();
-        surface.BuildNavMesh();
         PopulateTerrain();
+        surface.BuildNavMesh();
     }
 
     public void DeleteTerrain()
