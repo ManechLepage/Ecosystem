@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.AI;
+using Unity.AI.Navigation;
 
 public enum TileType
 {
@@ -76,6 +77,8 @@ public class SimulationManager : MonoBehaviour
     [Space]
     public List<GameObject> entities = new List<GameObject>();
     public GameObject water_plane;
+    [Space]
+    public NavMeshSurface surface;
     
     public void Start()
     {
@@ -92,7 +95,7 @@ public class SimulationManager : MonoBehaviour
         if (seed == -1)
         {
             seed = Random.Range(1, 100_000); // DO NOT make this number bigger, it will cause terrain generation bugs
-        }
+        }        
     }
 
     public void AddWater()
@@ -292,6 +295,7 @@ public class SimulationManager : MonoBehaviour
 
     public void Awake()
     {
+        surface.BuildNavMesh();
         StartCoroutine(SimulationLoop());
     }
 
@@ -467,5 +471,10 @@ public class SimulationManager : MonoBehaviour
         //         animal.simulated_living.update(Time.deltaTime);
         //     }
         // }
+    }
+
+    public void OnApplicationQuit()
+    {
+        DeleteTerrain();
     }
 }
