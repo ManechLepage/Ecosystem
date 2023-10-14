@@ -17,8 +17,7 @@ public class GenerateInInspector : Editor
             generator.Start();
             generator.DeleteTerrain();
             generator.Start();
-            generator.GenerateTerrain();
-            generator.PopulateTerrain();
+            generator.GenerateEcosystem();
 
             string pop_text = "Populations :\n";
             foreach (KeyValuePair<System.Enum, int> population in generator.populations)

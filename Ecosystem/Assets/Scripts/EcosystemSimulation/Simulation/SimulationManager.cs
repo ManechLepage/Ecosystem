@@ -295,7 +295,7 @@ public class SimulationManager : MonoBehaviour
 
     public void Awake()
     {
-        surface.BuildNavMesh();
+        // surface.BuildNavMesh();
         StartCoroutine(SimulationLoop());
     }
 
@@ -371,6 +371,13 @@ public class SimulationManager : MonoBehaviour
         }
     }
 
+    public void GenerateEcosystem()
+    {
+        GenerateTerrain();
+        surface.BuildNavMesh();
+        PopulateTerrain();
+    }
+
     public void DeleteTerrain()
     {
         for (int x = 0; x < tiles.Count; x++)
@@ -389,6 +396,7 @@ public class SimulationManager : MonoBehaviour
         }
 
         DestroyImmediate(water_plane);
+        surface.RemoveData();
     }
 
     private float blocks_distance_from_side(Vector2 position)
