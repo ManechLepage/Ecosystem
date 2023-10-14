@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 5317620378222405438}
   - component: {fileID: 8205061295064178164}
   - component: {fileID: 2300751743642966436}
+  - component: {fileID: -3297126293292821540}
   m_Layer: 0
   m_Name: Oak Tree
   m_TagString: Untagged
@@ -230,3 +231,15 @@ MonoBehaviour:
   lifespan: 0
   age: 0
   data: {fileID: 11400000, guid: 19e1eb3f78c2d514b8e41d6e08fc7d20, type: 2}
+--- !u!114 &-3297126293292821540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7321852126976835807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d529b1f63b8796448b0ea55423ab4638, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

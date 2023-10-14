@@ -38,5 +38,10 @@ public class GenerateInInspector : Editor
         {
             generator.Start();
         }
+
+        if (GUILayout.Button("Update Simulation"))
+        {
+            generator.SimulationUpdate();
+        }
     }
 }

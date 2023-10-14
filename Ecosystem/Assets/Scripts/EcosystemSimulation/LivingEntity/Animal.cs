@@ -100,6 +100,7 @@ public class Animal : LivingEntity
     public override void SimulationUpdate()
     {
         base.SimulationUpdate();
+        
         if (HasReachedGoal())
         {
             if (isWandering)

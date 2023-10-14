@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.AI;
 
 public enum TileType
 {
@@ -73,13 +74,14 @@ public class SimulationManager : MonoBehaviour
     public bool add_walls = true;
 
     [Space]
-    public Dictionary<GameObject, LivingEntity> living_entity_list = new Dictionary<GameObject, LivingEntity>() {};
+    public List<GameObject> entities = new List<GameObject>();
     public GameObject water_plane;
     
     public void Start()
     {
-
         tiles = new List<List<GameObject>>();
+        entities = new List<GameObject>();
+        populations = new Dictionary<System.Enum, int>() {};
 
         tileMaterials = new Dictionary<TileType, List<Material>>() {
             {TileType.Grass, new List<Material>() {dirtTile, grassTile, dirtTile}}, // Bottom, Top, Transition (middle)
@@ -152,11 +154,12 @@ public class SimulationManager : MonoBehaviour
             }
 
             // changer le code pour la prochaine partie (très moche)
+            go.GetComponent<LivingEntityType>().type = type;
             LivingEntity livingEntity = GetLivingEntityFromEntity(type, go);
 
             livingEntity.Start();
             AddEntitiesToPopulations(type);
-            living_entity_list[go] = livingEntity;
+            entities.Add(go);
         }
     }
 
@@ -234,7 +237,6 @@ public class SimulationManager : MonoBehaviour
         var populations_random = new System.Random(seed);
         
         // Add plants
-        
         for (int x = 2; x < tiles.Count - 3; x++)
         {
             for (int y = 2; y < tiles[x].Count - 3; y++)
@@ -293,15 +295,29 @@ public class SimulationManager : MonoBehaviour
         StartCoroutine(SimulationLoop());
     }
 
+    public void SimulationUpdate()
+    {
+        Debug.Log(entities.Count);
+        foreach (GameObject living_entity in entities)
+        {
+            LivingEntity livingEntity = GetLivingEntityFromEntity(living_entity.GetComponent<LivingEntityType>().type, living_entity);
+            if (livingEntity != null)
+            {
+                livingEntity.SimulationUpdate();
+            }
+            else
+            {
+                Debug.Log("Living entity is null");
+            }
+        }
+    }
+    
     public IEnumerator SimulationLoop()
     {
         while (true)
         {
             yield return new WaitForSeconds(1);
-            foreach (GameObject living_entity in living_entity_list.Keys)
-            {
-                living_entity_list[living_entity].SimulationUpdate();
-            }
+            SimulationUpdate();
             Debug.Log("Simulation updated");
         }
     }
@@ -363,9 +379,9 @@ public class SimulationManager : MonoBehaviour
         }
         tiles.Clear();
 
-        foreach (GameObject livingEntity in living_entity_list.Keys)
+        foreach (GameObject living_entity in entities)
         {
-            DestroyImmediate(livingEntity);
+            DestroyImmediate(living_entity);
         }
 
         DestroyImmediate(water_plane);
@@ -438,7 +454,7 @@ public class SimulationManager : MonoBehaviour
 
     void Update()
     {
-        // foreach (GameObject living_entity in living_entity_list)
+        // foreach (GameObject living_entity in livingEntityConversion)
         // {
         //     if (living_entity.GetComponent<PlantBehaviour>() != null)
         //     {

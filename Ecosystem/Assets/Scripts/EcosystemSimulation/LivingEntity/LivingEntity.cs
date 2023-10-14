@@ -23,7 +23,7 @@ public class LivingEntity : MonoBehaviour
     public virtual void SimulationUpdate()
     {
         age += 0.1f;
-        Debug.Log($"{this.GetType()} is {age} years old.");
+        Debug.Log("Simulation updated for living entity");
     }
 
     public virtual void Start()
