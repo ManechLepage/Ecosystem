@@ -36,6 +36,8 @@ public class SimulationManager : MonoBehaviour
     [Header("General Settings")]
     public int seed = -1; // If -1, the seed is random
     public Vector2 size = new Vector2(64, 64);
+    public float plantsDensity = 1f;
+    public float animalsDensity = 1f;
 
     [Header("Terrain Settings")]
     public float tile_size = 1f;
@@ -228,7 +230,7 @@ public class SimulationManager : MonoBehaviour
                 float noise_value_2 = Mathf.PerlinNoise(x / 10 + seed * 14, y / 10 + seed * 14);
 
                 float noise_value = 0.5f + (noise_value_1 * 0.75f + noise_value_2 * 0.25f) / 2f / 2f;
-                int probability = (int)Mathf.Max(Mathf.Round(noise_value * 10f), 1);
+                int probability = (int)Mathf.Max(Mathf.Round(noise_value * 10f * (1 / plantsDensity)), 1);
                 
                 foreach (GameObject tile_empty_placement in tiles[x][y].GetComponent<TileManager>().placementPositions)
                 {
@@ -250,7 +252,7 @@ public class SimulationManager : MonoBehaviour
 
         // Add animals
 
-        for (int x = 0; x < Mathf.Round(tiles.Count * tiles[0].Count / 25); x++)
+        for (int x = 0; x < Mathf.Round(tiles.Count * tiles[0].Count / 25 * animalsDensity); x++)
         {
             int random_x = populations_random.Next(3, tiles.Count - 4);
             int random_y = populations_random.Next(3, tiles[random_x].Count - 4);
