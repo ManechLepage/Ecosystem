@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 6009850568803113541}
   - component: {fileID: 2288888702637116303}
   - component: {fileID: 7189754981515248757}
-  - component: {fileID: 6452497328422131606}
   m_Layer: 0
   m_Name: Rabbit
   m_TagString: Untagged
@@ -127,7 +126,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 08c574fb66d296242ad6bc6d36874304, type: 2}
   speed: 5
   size: 5
-  sensory_distance: 5
+  sensoryDistance: 0
   gestation_duration: 2
   hunger: 0
   thirst: 0
@@ -139,6 +138,7 @@ MonoBehaviour:
   path: []
   agent: {fileID: 0}
   isWandering: 0
+  sensoryCollider: {fileID: 0}
 --- !u!114 &2288888702637116303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,24 +180,3 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!135 &6452497328422131606
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 418303132130933100}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 5
-  m_Center: {x: 0, y: 0, z: 0}

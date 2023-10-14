@@ -16,7 +16,7 @@ public class Animal : LivingEntity
     public AnimalData data;
     public float speed;
     public float size;
-    public float sensory_distance;
+    public float sensoryDistance;
     public float gestation_duration;
     public float hunger;
     public float thirst;
@@ -31,6 +31,7 @@ public class Animal : LivingEntity
     [Header("Navigation")]
     public NavMeshAgent agent;
     public bool isWandering;
+    public SphereCollider sensoryCollider;
 
     public override void Start()
     {
@@ -38,7 +39,7 @@ public class Animal : LivingEntity
 
         lifespan = data.lifespan.get_random_value();
         
-        sensory_distance = data.sensory_distance.get_random_value();
+        sensoryDistance = data.sensory_distance.get_random_value();
         speed = data.speed.get_random_value();
         gestation_duration = data.gestation_duration.get_random_value();
         number_of_children = (int)Mathf.Round(data.number_of_children.get_random_value());
@@ -74,13 +75,31 @@ public class Animal : LivingEntity
 
     public void SetRandomGoal()
     {
+        GameObject target = GetNearbyTiles()[(int)Random.Range(0, GetNearbyTiles().Count)];
+        agent.destination = target.GetComponent<TileManager>().centerPlacement.transform.position;
+    }
+
+    public List<GameObject> GetNearbyTiles()
+    {
+        List<GameObject> nearbyTiles = new List<GameObject>();
         
+        Vector3 sensoryPosition = transform.position;
+        Collider[] colliders = Physics.OverlapSphere(sensoryPosition, sensoryDistance);
+
+        foreach (Collider collider in colliders)
+        {
+            if (collider.gameObject.tag == "Tile")
+            {
+                nearbyTiles.Add(collider.gameObject);
+            }
+        }
+
+        return nearbyTiles;
     }
 
     public override void SimulationUpdate()
     {
         base.SimulationUpdate();
-        Debug.Log("Updating from animal...");
         if (HasReachedGoal())
         {
             if (isWandering)

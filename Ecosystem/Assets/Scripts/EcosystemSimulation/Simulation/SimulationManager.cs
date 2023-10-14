@@ -61,7 +61,7 @@ public class SimulationManager : MonoBehaviour
     [Header("Entity Prefabs")]
     public AnimalPrefab[] animalPrefabs;
     public PlantPrefab[] plantPrefabs;
-
+    
     private Dictionary<TileType, List<Material>> tileMaterials;
 
     [Header("Biome Settings")]
@@ -183,7 +183,7 @@ public class SimulationManager : MonoBehaviour
                 if (animal_prefab.type == (AnimalType)type)
                 {
                     return animal_prefab.prefab;
-                }
+}
             }
         }
         else if (type.GetType() == typeof(PlantType))
@@ -193,10 +193,10 @@ public class SimulationManager : MonoBehaviour
                 if (plant_prefab.type == (PlantType)type)
                 {
                     return plant_prefab.prefab;
-                }
+}
             }
         }
-        
+
         return null;
     }
 
@@ -211,7 +211,6 @@ public class SimulationManager : MonoBehaviour
     {
         var populations_random = new System.Random(seed);
         
-        // TODO: change the population system
         // Add plants
         
         for (int x = 2; x < tiles.Count - 3; x++)
@@ -264,6 +263,24 @@ public class SimulationManager : MonoBehaviour
             {
                 AddLivingEntity(tile, tile.GetComponent<TileManager>().centerPlacement, (System.Enum)AnimalType.rabbit);
             }
+        }
+    }
+
+    public void Awake()
+    {
+        StartCoroutine(SimulationLoop());
+    }
+
+    public IEnumerator SimulationLoop()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            foreach (GameObject living_entity in living_entity_list.Keys)
+            {
+                living_entity_list[living_entity].SimulationUpdate();
+            }
+            Debug.Log("Simulation updated");
         }
     }
 

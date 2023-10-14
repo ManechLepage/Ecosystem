@@ -23,8 +23,8 @@ MonoBehaviour:
     mean: 31.5
     standard_deviation: 1.5
   sensory_distance:
-    mean: 5
-    standard_deviation: 0.5
+    mean: 20
+    standard_deviation: 2
   desirability:
     mean: 0
     standard_deviation: 0
