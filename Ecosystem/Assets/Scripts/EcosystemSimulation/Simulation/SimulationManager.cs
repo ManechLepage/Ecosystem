@@ -73,7 +73,7 @@ public class SimulationManager : MonoBehaviour
     public bool add_walls = true;
 
     [Space]
-    public Dictionary<GameObject, LivingEntity> living_entity_list = new Dictionary<GameObject, LivingEntity>();
+    public Dictionary<GameObject, LivingEntity> living_entity_list = new Dictionary<GameObject, LivingEntity>() {};
     public GameObject water_plane;
     
     public void Start()
@@ -152,25 +152,47 @@ public class SimulationManager : MonoBehaviour
             }
 
             // changer le code pour la prochaine partie (très moche)
-            LivingEntity livingEntity = null;
-            switch (type)
-            {
-                case AnimalType.rabbit:
-                    Debug.Log("rabbit");
-                    livingEntity = go.GetComponent<Rabbit>();
-                    break;
-                case PlantType.herb:
-                    livingEntity = go.GetComponent<Herb>();
-                    break;
-                case PlantType.oakTree:
-                    livingEntity = go.GetComponent<OakTree>();
-                    break;
-            }
+            LivingEntity livingEntity = GetLivingEntityFromEntity(type, go);
 
             livingEntity.Start();
-            if (type is AnimalType.rabbit)
-                Debug.Log(livingEntity.lifespan);
+            AddEntitiesToPopulations(type);
             living_entity_list[go] = livingEntity;
+        }
+    }
+
+    LivingEntity GetLivingEntityFromEntity(System.Enum type, GameObject entity)
+    {
+        LivingEntity livingEntity = null;
+        switch (type)
+        {
+            case AnimalType.rabbit:
+                livingEntity = entity.GetComponent<Rabbit>();
+                break;
+            case PlantType.herb:
+                livingEntity = entity.GetComponent<Herb>();
+                break;
+            case PlantType.oakTree:
+                livingEntity = entity.GetComponent<OakTree>();
+                break;
+        }
+
+        return livingEntity;
+    }
+
+    void AddEntitiesToPopulations(System.Enum type, int count=1)
+    {
+        if (populations.ContainsKey(type))
+        {
+            populations[type] += count;
+        }
+        else
+        {
+            populations[type] = count;
+        }
+
+        if (populations[type] < 0)
+        {
+            populations.Remove(type);
         }
     }
 
