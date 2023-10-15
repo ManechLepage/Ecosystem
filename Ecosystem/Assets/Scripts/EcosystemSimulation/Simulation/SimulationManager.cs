@@ -80,7 +80,7 @@ public class SimulationManager : MonoBehaviour
     [Space]
     public NavMeshSurface surface;
     
-    public void Start()
+    public void Initialize()
     {
         tiles = new List<List<GameObject>>();
         entities = new List<GameObject>();
@@ -95,7 +95,13 @@ public class SimulationManager : MonoBehaviour
         if (seed == -1)
         {
             seed = Random.Range(1, 100_000); // DO NOT make this number bigger, it will cause terrain generation bugs
-        }        
+        }
+    }
+    
+    public void Start()
+    {
+        Initialize();
+        GenerateEcosystem();
     }
 
     public void AddWater()
@@ -301,17 +307,12 @@ public class SimulationManager : MonoBehaviour
 
     public void SimulationUpdate()
     {
-        Debug.Log(entities.Count);
         foreach (GameObject living_entity in entities)
         {
             LivingEntity livingEntity = GetLivingEntityFromEntity(living_entity.GetComponent<LivingEntityType>().type, living_entity);
             if (livingEntity != null)
             {
                 livingEntity.SimulationUpdate();
-            }
-            else
-            {
-                Debug.Log("Living entity is null");
             }
         }
     }

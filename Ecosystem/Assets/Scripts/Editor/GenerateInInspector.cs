@@ -14,9 +14,9 @@ public class GenerateInInspector : Editor
         
         if (GUILayout.Button("Generate Terrain"))
         {
-            generator.Start();
+            generator.Initialize();
             generator.DeleteTerrain();
-            generator.Start();
+            generator.Initialize();
             generator.GenerateEcosystem();
 
             string pop_text = "Populations :\n";
@@ -35,7 +35,7 @@ public class GenerateInInspector : Editor
 
         if (GUILayout.Button("Initialize Variables"))
         {
-            generator.Start();
+            generator.Initialize();
         }
 
         if (GUILayout.Button("Update Simulation"))
