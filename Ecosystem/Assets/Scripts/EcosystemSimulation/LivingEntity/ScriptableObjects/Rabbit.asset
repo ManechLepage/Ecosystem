@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifespan:
     mean: 8.5
-    standard_deviation: 0.2
+    standard_deviation: 2
   objectName: lapin
   number_of_children:
     mean: 6

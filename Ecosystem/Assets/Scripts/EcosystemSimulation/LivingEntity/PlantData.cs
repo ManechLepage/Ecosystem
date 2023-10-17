@@ -7,6 +7,7 @@ public class PlantData : LivingEntityData
 {
     public List<PlantMesh> meshes;
     public Material[] materials;
+    public float stageIncrement;
 }
 
 [System.Serializable]

@@ -16,5 +16,9 @@ MonoBehaviour:
     mean: 125
     standard_deviation: 15
   objectName: "ch\xEAne"
-  growth_sizes: []
-  growth_stages: []
+  meshes:
+  - meshes:
+    - {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  materials:
+  - {fileID: 2100000, guid: 207cfcba934f0ce4d8b97f690549b152, type: 2}
+  stageIncrement: 0

@@ -8,7 +8,7 @@ public class Herb : Plant
     {
         base.Start();
 
-        gameObject.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
-        gameObject.transform.localScale = new Vector3(150f, 150f, 150f);
+        gameObject.transform.rotation = Quaternion.Euler(-90f, gameObject.transform.rotation.y, gameObject.transform.rotation.z);
+        gameObject.transform.localScale = new Vector3(750f, 750f, 750f);
     }
 }

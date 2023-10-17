@@ -17,8 +17,8 @@ public class LivingEntity : MonoBehaviour
 {
     public Vector2 gridPosition;
     
-    public float lifespan;
     public float age;
+    public float lifespan;
 
     public virtual void SimulationUpdate()
     {
