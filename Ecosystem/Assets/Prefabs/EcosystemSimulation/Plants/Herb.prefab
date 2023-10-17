@@ -106,10 +106,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
+  m_Radius: 0.05
+  m_Height: 0.2
   m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2779057924476268314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +126,9 @@ MonoBehaviour:
   lifespan: 0
   age: 0
   data: {fileID: 11400000, guid: 64360b234485c4941911dd5fd739a796, type: 2}
+  stageIndex: 1
+  meshTypeIndex: 0
+  stageIncrement: 0
 --- !u!114 &-8299479110913397222
 MonoBehaviour:
   m_ObjectHideFlags: 0

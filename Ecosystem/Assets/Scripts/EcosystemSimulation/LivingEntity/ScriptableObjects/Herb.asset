@@ -16,5 +16,17 @@ MonoBehaviour:
     mean: 1
     standard_deviation: 0.2
   objectName: herbe
-  growth_sizes: []
-  growth_stages: []
+  meshes:
+  - meshes:
+    - {fileID: -6184586740775097203, guid: 004f8fb95cafa214caa3dde5706d9f2a, type: 3}
+    - {fileID: -2662107281484226228, guid: 62ecad479ca5e26449e06892484c60c2, type: 3}
+    - {fileID: -6603643620641136521, guid: dd0eb1063706f084b998940f4a46b960, type: 3}
+    - {fileID: -3316979174637270650, guid: c72c663b99f10834db484407629dc171, type: 3}
+  - meshes:
+    - {fileID: -3721117525623378262, guid: c946bbf133d081e4f94d8f8f383d2aef, type: 3}
+    - {fileID: 3228344771992171360, guid: c15a506200f714a438955114e0dca7c6, type: 3}
+    - {fileID: -5757458098634056367, guid: 8454757d6d6bf1d4f88f02f142694da0, type: 3}
+    - {fileID: 58790485413775150, guid: ba63ebce4133b2045b5de464a620ce50, type: 3}
+  materials:
+  - {fileID: 2100000, guid: 1407d18a695b5ff4092a296da7ff5fcf, type: 2}
+  - {fileID: 2394842151426504971, guid: dd0eb1063706f084b998940f4a46b960, type: 3}
