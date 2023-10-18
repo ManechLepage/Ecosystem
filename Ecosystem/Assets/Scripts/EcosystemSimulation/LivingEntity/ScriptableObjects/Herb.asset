@@ -31,3 +31,4 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 1407d18a695b5ff4092a296da7ff5fcf, type: 2}
   - {fileID: 2394842151426504971, guid: dd0eb1063706f084b998940f4a46b960, type: 3}
   stageIncrement: 1.5
+  minMaxSizeRange: {x: 0.7, y: 1.3}

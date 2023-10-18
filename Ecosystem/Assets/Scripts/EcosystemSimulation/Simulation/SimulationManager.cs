@@ -148,7 +148,7 @@ public class SimulationManager : MonoBehaviour
 
             Vector3 position = new Vector3(
                 spawning_tile_empty.transform.position.x,
-                spawning_tile_empty.transform.position.y + go.GetComponent<MeshRenderer>().bounds.size.y / 2,
+                spawning_tile_empty.transform.position.y,
                 spawning_tile_empty.transform.position.z
             );
 

@@ -17,11 +17,14 @@ public class Plant : LivingEntity
         gameObject.GetComponent<Renderer>().materials = data.materials;
         stageIndex = 1;
 
-        // gameObject.transform.rotation = Quaternion.Euler(0f, 0f, (int)Random.Range(0, 360));
+        gameObject.transform.rotation = Quaternion.Euler(-90f, Random.Range(0f, 360f), 0f);
         // print(gameObject.transform.rotation.z);
 
         lifespan = data.lifespan.get_random_value();
+        age = Random.Range(0f, lifespan);
         SetMesh();
+
+        gameObject.transform.localScale *= Random.Range(data.minMaxSizeRange.x, data.minMaxSizeRange.y); 
     }
 
     public override void SimulationUpdate()
