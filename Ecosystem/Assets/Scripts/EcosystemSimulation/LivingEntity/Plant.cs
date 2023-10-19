@@ -18,13 +18,17 @@ public class Plant : LivingEntity
         stageIndex = 1;
 
         gameObject.transform.rotation = Quaternion.Euler(-90f, Random.Range(0f, 360f), 0f);
-        // print(gameObject.transform.rotation.z);
 
         lifespan = data.lifespan.get_random_value();
         age = Random.Range(0f, lifespan);
         SetMesh();
 
-        gameObject.transform.localScale *= Random.Range(data.minMaxSizeRange.x, data.minMaxSizeRange.y); 
+        gameObject.transform.localScale *= Random.Range(data.minMaxSizeRange.x, data.minMaxSizeRange.y);
+
+        if (gameObject.transform.localScale.x == 0f)
+        {
+            gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
+        }
     }
 
     public override void SimulationUpdate()
