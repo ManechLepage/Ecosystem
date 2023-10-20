@@ -262,7 +262,7 @@ public class SimulationManager : MonoBehaviour
                 float noise_value_2 = Mathf.PerlinNoise(x / 10 + seed * 14, y / 10 + seed * 14);
 
                 float noise_value = 0.5f + (noise_value_1 * 0.75f + noise_value_2 * 0.25f) / 2f / 2f;
-                int probability = (int)Mathf.Max(Mathf.Round(noise_value * 10f * (1 / plantsDensity)), 1);
+                int probability = (int)Mathf.Max(Mathf.Round(noise_value * 15f * (1 / plantsDensity)), 1);
                 
                 foreach (GameObject tile_empty_placement in tiles[x][y].GetComponent<TileManager>().placementPositions)
                 {
@@ -270,7 +270,7 @@ public class SimulationManager : MonoBehaviour
                     {
                         System.Enum plant_type = PlantType.herb;
 
-                        if (populations_random.Next(0, 30) <= 1)
+                        if (populations_random.Next(0, 20) <= 1)
                         {
                             plant_type = PlantType.oakTree;
                         }

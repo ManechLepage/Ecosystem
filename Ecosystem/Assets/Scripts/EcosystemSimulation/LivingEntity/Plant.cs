@@ -23,7 +23,8 @@ public class Plant : LivingEntity
         age = Random.Range(0f, lifespan);
         SetMesh();
 
-        gameObject.transform.localScale *= Random.Range(data.minMaxSizeRange.x, data.minMaxSizeRange.y);
+        if (data.minMaxSizeRange.x != 0f || data.minMaxSizeRange.y != 0f)
+            gameObject.transform.localScale *= Random.Range(data.minMaxSizeRange.x, data.minMaxSizeRange.y);
 
         if (gameObject.transform.localScale.x == 0f)
         {
