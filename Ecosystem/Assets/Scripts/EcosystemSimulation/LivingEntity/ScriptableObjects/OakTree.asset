@@ -18,14 +18,10 @@ MonoBehaviour:
   objectName: "ch\xEAne"
   meshes:
   - meshes:
-    - {fileID: 3613567641014311022, guid: ffdb4ae3fc2cee740844850ae74b3c44, type: 3}
-  - meshes:
-    - {fileID: -6195245291975648998, guid: 7fdd592e9559243458265fbe365eb3b8, type: 3}
-  - meshes:
-    - {fileID: 5769486934180388862, guid: 1c14e31b59cceef48aec56d373beadc5, type: 3}
-  - meshes:
-    - {fileID: 2504345457074934838, guid: 9ce00301ddf69d744a32ca376431e61c, type: 3}
+    - {fileID: 289301614986012343, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
   materials:
-  - {fileID: 2100000, guid: 207cfcba934f0ce4d8b97f690549b152, type: 2}
+  - {fileID: -4006148316881293267, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
+  - {fileID: 2208238522589761848, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
+  - {fileID: 6849546283596164469, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
   stageIncrement: 0
   minMaxSizeRange: {x: 0, y: 0}
