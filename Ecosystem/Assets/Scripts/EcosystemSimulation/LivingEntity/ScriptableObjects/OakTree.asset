@@ -24,4 +24,4 @@ MonoBehaviour:
   - {fileID: 2208238522589761848, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
   - {fileID: 6849546283596164469, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
   stageIncrement: 0
-  minMaxSizeRange: {x: 0, y: 0}
+  minMaxSizeRange: {x: 0.8, y: 1.2}
