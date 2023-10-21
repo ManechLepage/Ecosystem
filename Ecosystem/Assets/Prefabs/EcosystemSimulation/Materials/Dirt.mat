@@ -96,6 +96,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
+    - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -128,7 +129,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.10878839, g: 0.043364648, b: 0.009428309, a: 1}
-    - _Color: {r: 0.10878839, g: 0.043364648, b: 0.009428309, a: 1}
+    - _Color: {r: 0.10878836, g: 0.043364637, b: 0.009428309, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
