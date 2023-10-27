@@ -8,8 +8,8 @@ public class OakTree : Plant
     {
         base.Start();
 
-        float m = 13f;
-        gameObject.transform.localScale *= m;
+        //float m = 13f;
+        //gameObject.transform.localScale *= m;
 
         // Ne fonctionne pas (tentative de mettre les arbres sur le sol)
         // print($"{gameObject.GetComponent<MeshRenderer>().bounds.size.y / 2f * (m / 1000f)} avec m={m}");

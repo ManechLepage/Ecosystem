@@ -14,5 +14,6 @@ public class PlantData : LivingEntityData
 [System.Serializable]
 public class PlantMesh
 {
+    public float scale = 1f;
     public List<Mesh> meshes;
 }
