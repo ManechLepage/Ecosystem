@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5008986093561645630}
   m_Layer: 0
   m_Name: Herb
-  m_TagString: Herb
+  m_TagString: Plant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,12 +124,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0}
-  lifespan: 0
   age: 0
+  lifespan: 0
   data: {fileID: 11400000, guid: 64360b234485c4941911dd5fd739a796, type: 2}
   stageIndex: 1
   meshTypeIndex: 0
-  stageIncrement: 0
 --- !u!114 &-8299479110913397222
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -24,7 +24,7 @@ public class TileManager : MonoBehaviour
         
     }
 
-    void Populate(int placement, GameObject obj)
+    public void Populate(int placement, GameObject obj)
     {
         tilePopulation[placement] = obj;
     }

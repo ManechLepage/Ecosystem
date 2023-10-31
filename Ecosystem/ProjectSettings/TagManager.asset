@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Herb
   - Tile
+  - Plant
   layers:
   - Default
   - TransparentFX

@@ -132,9 +132,19 @@ public class SimulationManager : MonoBehaviour
             water_plane.transform.localScale.z * 10 / 2);
     }
 
-    void AddLivingEntity(GameObject spawning_tile, GameObject spawning_tile_empty, System.Enum type)
+    void AddLivingEntity(GameObject spawning_tile, int spawnEmptyIndex, System.Enum type)
     {
         GameObject prefab = GetGameObjectFromType(type);
+        GameObject spawning_tile_empty;
+
+        if (spawnEmptyIndex == -1)
+        {
+            spawning_tile_empty = spawning_tile.GetComponent<TileManager>().centerPlacement;
+        }
+        else
+        {
+            spawning_tile_empty = spawning_tile.GetComponent<TileManager>().placementPositions[spawnEmptyIndex];
+        }
 
         if (prefab != null)
         {
@@ -146,11 +156,7 @@ public class SimulationManager : MonoBehaviour
                 go.transform.localScale.z
             );
 
-            Vector3 position = new Vector3(
-                spawning_tile_empty.transform.position.x,
-                spawning_tile_empty.transform.position.y,
-                spawning_tile_empty.transform.position.z
-            );
+            Vector3 position = spawning_tile_empty.transform.position;
 
             go.transform.position = position;
             
@@ -165,6 +171,12 @@ public class SimulationManager : MonoBehaviour
             // changer le code pour la prochaine partie (très moche)
             go.GetComponent<LivingEntityType>().type = type;
             LivingEntity livingEntity = GetLivingEntityFromEntity(type, go);
+
+            if (type is PlantType) 
+            {
+                go.transform.parent = spawning_tile.transform;
+                spawning_tile.GetComponent<TileManager>().Populate(spawnEmptyIndex, go); 
+            }
 
             livingEntity.Start();
             AddEntitiesToPopulations(type);
@@ -264,7 +276,7 @@ public class SimulationManager : MonoBehaviour
                 float noise_value = 0.5f + (noise_value_1 * 0.75f + noise_value_2 * 0.25f) / 2f / 2f;
                 int probability = (int)Mathf.Max(Mathf.Round(noise_value * 15f * (1 / plantsDensity)), 1);
                 
-                foreach (GameObject tile_empty_placement in tiles[x][y].GetComponent<TileManager>().placementPositions)
+                for (int i = 0; i < 6; i++)
                 {
                     if (tiles[x][y].GetComponent<TileManager>().type == TileType.Grass && populations_random.Next(0, probability + 1) <= 1)
                     {
@@ -275,7 +287,7 @@ public class SimulationManager : MonoBehaviour
                             plant_type = PlantType.oakTree;
                         }
                         
-                        AddLivingEntity(tiles[x][y], tile_empty_placement, plant_type);
+                        AddLivingEntity(tiles[x][y], i, plant_type);
                     }
                 }
 
@@ -294,7 +306,7 @@ public class SimulationManager : MonoBehaviour
 
             if (type == TileType.Grass && tile.GetComponent<TileManager>().under_water == false)
             {
-                AddLivingEntity(tile, tile.GetComponent<TileManager>().centerPlacement, (System.Enum)AnimalType.rabbit);
+                AddLivingEntity(tile, -1, (System.Enum)AnimalType.rabbit);
             }
         }
     }

@@ -23,7 +23,6 @@ public class Animal : LivingEntity
     public int number_of_children;
     public float reproductive_urge;
     public Gender gender;
-    public float desirability;
     public Dictionary<System.Enum, float> urge_to_run;
     public Vector2 objective;
     public List<Vector2> path;
@@ -31,7 +30,6 @@ public class Animal : LivingEntity
     [Header("Navigation")]
     public NavMeshAgent agent;
     public bool isWandering;
-    public SphereCollider sensoryCollider;
 
     public override void Start()
     {
@@ -49,6 +47,9 @@ public class Animal : LivingEntity
 
         agent.speed = speed * 2;
         isWandering = true;
+
+        hunger = data.maxHunger;
+        thirst = data.maxThirst;
     }
 
     // public Animal reproduce(Animal partner) // pas encore testé
@@ -97,6 +98,11 @@ public class Animal : LivingEntity
         return nearbyTiles;
     }
 
+    public GameObject[] GetPlantsFromTile(GameObject tile)
+    {
+        return tile.GetComponent<TileManager>().tilePopulation;
+    }
+
     public override void SimulationUpdate()
     {
         base.SimulationUpdate();
@@ -107,6 +113,48 @@ public class Animal : LivingEntity
             {
                 SetRandomGoal();
             }
+        }
+
+        hunger -= 0.1f;
+        thirst -= 0.1f;
+    }
+
+    public GameObject FindObjective()
+    {
+        List<GameObject> nearbyTiles = GetNearbyTiles();
+        
+        GameObject closestFood = null;
+
+        foreach (GameObject tile in nearbyTiles)
+        {
+            GameObject[] plants = GetPlantsFromTile(tile);
+
+            foreach (GameObject plant in plants)
+            {
+                if (plant.GetComponent<Plant>().type == PlantType.Grass)
+                {
+                    if (closestFood == null)
+                    {
+                        closestFood = plant;
+                    }
+                    else
+                    {
+                        if (Vector3.Distance(transform.position, plant.transform.position) < Vector3.Distance(transform.position, closestFood.transform.position))
+                        {
+                            closestFood = plant;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (closestFood == null)
+        {
+            return null;
+        }
+        else
+        {
+            return closestFood;
         }
     }
 

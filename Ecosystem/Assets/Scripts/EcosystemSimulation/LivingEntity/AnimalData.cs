@@ -12,5 +12,7 @@ public class AnimalData : LivingEntityData
     public BellCurve speed;
     public Food can_eat;
     public Vector2 minMaxSize;
+    public float maxHunger;
+    public float maxThirst;
 }
 
