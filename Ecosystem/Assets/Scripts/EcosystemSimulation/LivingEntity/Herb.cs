@@ -6,9 +6,10 @@ public class Herb : Plant
 {
     public override void Start()
     {
+        base.Start();
+        
+        type = PlantType.herb;
         gameObject.transform.rotation = Quaternion.Euler(-90f, gameObject.transform.rotation.y, gameObject.transform.rotation.z);
         //gameObject.transform.localScale = new Vector3(650f, 650f, 650f);
-        
-        base.Start();
     }
 }

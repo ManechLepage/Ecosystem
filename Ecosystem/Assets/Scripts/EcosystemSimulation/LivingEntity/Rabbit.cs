@@ -8,6 +8,8 @@ public class Rabbit : Animal
     {        
         base.Start();
 
+        type = AnimalType.rabbit;
+
         this.urge_to_run = new Dictionary<System.Enum, float>
         {
             { AnimalType.rabbit, 0f },

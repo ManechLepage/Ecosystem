@@ -41,7 +41,6 @@ public class Animal : LivingEntity
         speed = data.speed.get_random_value();
         gestation_duration = data.gestation_duration.get_random_value();
         number_of_children = (int)Mathf.Round(data.number_of_children.get_random_value());
-        desirability = 0.5f;
         size = data.minMaxSize.x;
         agent = GetComponent<NavMeshAgent>();
 
@@ -80,6 +79,16 @@ public class Animal : LivingEntity
         agent.destination = target.GetComponent<TileManager>().centerPlacement.transform.position;
     }
 
+    public List<GameObject> GetNearbyPredators()
+    {
+        return new List<GameObject>();
+    }
+
+    public List<GameObject> GetNearbyFood()
+    {
+        return new List<GameObject>();
+    }
+    
     public List<GameObject> GetNearbyTiles()
     {
         List<GameObject> nearbyTiles = new List<GameObject>();
@@ -103,6 +112,24 @@ public class Animal : LivingEntity
         return tile.GetComponent<TileManager>().tilePopulation;
     }
 
+    // À compléter
+    public bool FindPredator()
+    {
+        return false;
+    }
+    public bool FindWater()
+    {
+        return false;
+    }
+    public bool FindFood()
+    {
+        return false;
+    }
+    public bool FindMate()
+    {
+        return false;
+    }
+
     public override void SimulationUpdate()
     {
         base.SimulationUpdate();
@@ -114,6 +141,20 @@ public class Animal : LivingEntity
                 SetRandomGoal();
             }
         }
+
+        /*
+        Idée : Créer une liste des priorités de l'animal, et les tester dans l'ordre
+        Chaque fonction retourne un bool wui représente si c'est le choix qu'il a pris
+        
+        if (FindPredator()) {}
+        else if (FindWater()) {}
+        else if (FindFood()) {}
+        else if (FindMate()) {}
+        else
+        {
+            SetRandomGoal();
+        }
+        */
 
         hunger -= 0.1f;
         thirst -= 0.1f;
@@ -131,7 +172,7 @@ public class Animal : LivingEntity
 
             foreach (GameObject plant in plants)
             {
-                if (plant.GetComponent<Plant>().type == PlantType.Grass)
+                if (plant.GetComponent<Plant>().type == (System.Enum)PlantType.herb)
                 {
                     if (closestFood == null)
                     {

@@ -8,6 +8,8 @@ public class OakTree : Plant
     {
         base.Start();
 
+        type = PlantType.oakTree;
+
         //float m = 13f;
         //gameObject.transform.localScale *= m;
 
