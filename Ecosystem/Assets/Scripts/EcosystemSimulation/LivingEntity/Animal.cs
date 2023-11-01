@@ -172,7 +172,11 @@ public class Animal : LivingEntity
 
             foreach (GameObject plant in plants)
             {
+<<<<<<< Updated upstream
                 if (plant.GetComponent<Plant>().type == (System.Enum)PlantType.herb)
+=======
+                if (plant.GetComponent<LivingEntityType>().type is Herb)
+>>>>>>> Stashed changes
                 {
                     if (closestFood == null)
                     {
