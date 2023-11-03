@@ -186,13 +186,16 @@ public class SimulationManager : MonoBehaviour
         }
     }
 
-    LivingEntity GetLivingEntityFromEntity(System.Enum type, GameObject entity)
+    public LivingEntity GetLivingEntityFromEntity(System.Enum type, GameObject entity)
     {
         LivingEntity livingEntity = null;
         switch (type)
         {
             case AnimalType.rabbit:
                 livingEntity = entity.GetComponent<Rabbit>();
+                break;
+            case AnimalType.fox:
+                livingEntity = entity.GetComponent<Fox>();
                 break;
             case PlantType.herb:
                 livingEntity = entity.GetComponent<Herb>();
@@ -308,7 +311,12 @@ public class SimulationManager : MonoBehaviour
 
             if (type == TileType.Grass && tile.GetComponent<TileManager>().under_water == false)
             {
-                AddLivingEntity(tile, -1, (System.Enum)AnimalType.rabbit);
+                AnimalType animalType = AnimalType.rabbit;
+                if (populations_random.Next(0, 20) <= 5)
+                {
+                    animalType = AnimalType.fox;
+                }
+                AddLivingEntity(tile, -1, (System.Enum)animalType);
             }
         }
     }

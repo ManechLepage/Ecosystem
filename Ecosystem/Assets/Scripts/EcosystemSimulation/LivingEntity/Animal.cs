@@ -49,6 +49,20 @@ public class Animal : LivingEntity
 
         hunger = data.maxHunger;
         thirst = data.maxThirst;
+
+        urge_to_run = new Dictionary<System.Enum, float>
+        {
+            { AnimalType.rabbit, 0f },
+            { AnimalType.fox, 0.75f },
+            { PlantType.herb, 0f },
+            { PlantType.oakTree, 0f}
+        };
+
+        gameObject.transform.position += new Vector3(
+            0f,
+            gameObject.GetComponent<MeshRenderer>().bounds.size.y / 2,
+            0f
+        );
     }
 
     // public Animal reproduce(Animal partner) // pas encore testé
@@ -79,9 +93,53 @@ public class Animal : LivingEntity
         agent.destination = target.GetComponent<TileManager>().centerPlacement.transform.position;
     }
 
-    public List<GameObject> GetNearbyPredators()
+    public LivingEntity GetLivingEntityFromEntity(System.Enum type, GameObject entity)
     {
-        return new List<GameObject>();
+        LivingEntity livingEntity = null;
+        switch (type)
+        {
+            case AnimalType.rabbit:
+                livingEntity = entity.GetComponent<Rabbit>();
+                Debug.Log(((Animal)livingEntity).data.objectName);
+                break;
+            case AnimalType.fox:
+                livingEntity = entity.GetComponent<Fox>();
+                break;
+            case PlantType.herb:
+                livingEntity = entity.GetComponent<Herb>();
+                break;
+            case PlantType.oakTree:
+                livingEntity = entity.GetComponent<OakTree>();
+                break;
+        }
+
+        return livingEntity;
+    }
+
+    public GameObject GetMostDangerousPredator()
+    {
+        GameObject predator = null;
+        float highestFear = 0f;
+
+        foreach (GameObject entity in GetNearbyEntities())
+        {
+            Debug.Log(entity.GetComponent<LivingEntityType>().type);
+            if (entity.GetComponent<LivingEntityType>().type is AnimalType)
+            {
+                Animal animalScript = (Animal)GetLivingEntityFromEntity(entity.GetComponent<LivingEntityType>().type, entity);
+                if (this.data.type != null && animalScript.data.can_eat.animals.Contains((AnimalType)this.data.type))
+                {
+                    System.Enum entityType = (System.Enum)animalScript.data.type;
+                    if (urge_to_run.ContainsKey(entityType) && urge_to_run[entityType] > highestFear)
+                    {
+                            predator = entity;
+                            highestFear = urge_to_run[entityType];
+                    }
+                }
+            }
+        }
+        
+        return predator;
     }
 
     public List<GameObject> GetNearbyFood()
@@ -107,6 +165,24 @@ public class Animal : LivingEntity
         return nearbyTiles;
     }
 
+    public List<GameObject> GetNearbyEntities()
+    {
+        List<GameObject> nearbyEntities = new List<GameObject>();
+        
+        Vector3 sensoryPosition = transform.position;
+        Collider[] colliders = Physics.OverlapSphere(sensoryPosition, sensoryDistance);
+
+        foreach (Collider collider in colliders)
+        {
+            if (collider.gameObject.GetComponent<LivingEntityType>() != null)
+            {
+                nearbyEntities.Add(collider.gameObject);
+            }
+        }
+
+        return nearbyEntities;
+    }
+
     public GameObject[] GetPlantsFromTile(GameObject tile)
     {
         return tile.GetComponent<TileManager>().tilePopulation;
@@ -115,7 +191,34 @@ public class Animal : LivingEntity
     // À compléter
     public GameObject GetFleeingObjective()
     {
-        return null;
+        GameObject predator = GetMostDangerousPredator();
+        if (predator != null)
+        {
+            // Find the tile that is the furthest from the predator, in range
+            GameObject furthestTile = null;
+            List<GameObject> nearbyTiles = GetNearbyTiles();
+
+            foreach (GameObject tile in nearbyTiles)
+            {
+                if (furthestTile == null)
+                {
+                    furthestTile = tile;
+                }
+                else
+                {
+                    if (Vector3.Distance(tile.transform.position, predator.transform.position) > Vector3.Distance(furthestTile.transform.position, predator.transform.position))
+                    {
+                        furthestTile = tile;
+                    }
+                }
+            }
+
+            return furthestTile.GetComponent<TileManager>().centerPlacement;
+        }
+        else
+        {
+            return null;
+        }
     }
     public GameObject GetWaterObjective()
     {
@@ -138,16 +241,6 @@ public class Animal : LivingEntity
     public override void SimulationUpdate()
     {
         base.SimulationUpdate();
-        
-        /*
-        if (HasReachedGoal())
-        {
-            if (isWandering)
-            {
-                SetRandomGoal();
-            }
-        }
-        */
 
         /*
         Idée : Avoir tout les objectifs, pour chaque possibilité,
@@ -156,15 +249,19 @@ public class Animal : LivingEntity
         à une position aléatoire.
         */
 
-        GameObject fleeingPredatorObjective = GetFleeingObjective();
-        GameObject waterObjective = GetWaterObjective();
+        GameObject fleeingPredatorObjective = GetFleeingObjective(); // Now working
+        GameObject waterObjective = GetWaterObjective(); // TODO: add isNearbyWater attribute to tiles
         GameObject foodObjective = GetFoodObjective();
         GameObject mateObjective = GetMateObjective();
         GameObject randomObjective = GetRandomObjective();
 
         // TODO: remove the HasReachedGoal() check, because the
         // animal has to change destination if needed
-        if (HasReachedGoal())
+        if (fleeingPredatorObjective != null)
+        {
+            agent.destination = fleeingPredatorObjective.transform.position;
+        }
+        else if (HasReachedGoal())
         {
             // Just wander around for now
             agent.destination = randomObjective.transform.position;

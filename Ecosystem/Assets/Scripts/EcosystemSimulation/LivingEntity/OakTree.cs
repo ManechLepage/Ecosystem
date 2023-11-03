@@ -7,7 +7,7 @@ public class OakTree : Plant
     public override void Start()
     {
         base.Start();
-        
         type = PlantType.oakTree;
+        data.type = type;
     }
 }

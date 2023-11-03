@@ -10,30 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 523df3d1c5ee87643a2e350be4849ad5, type: 3}
-  m_Name: Rabbit
+  m_Name: Fox
   m_EditorClassIdentifier: 
   lifespan:
-    mean: 8.5
-    standard_deviation: 2
-  objectName: lapin
-  number_of_children:
-    mean: 6
+    mean: 4
     standard_deviation: 1
+  objectName: renard
+  number_of_children:
+    mean: 4
+    standard_deviation: 0.8
   gestation_duration:
-    mean: 31.5
-    standard_deviation: 1.5
+    mean: 50
+    standard_deviation: 2.5
   sensory_distance:
-    mean: 100
-    standard_deviation: 8
+    mean: 150
+    standard_deviation: 12
   desirability:
     mean: 0
     standard_deviation: 0
   speed:
-    mean: 4
-    standard_deviation: 0.25
+    mean: 6
+    standard_deviation: 0.35
   can_eat:
-    plants: 00000000
-    animals: 
+    plants: 
+    animals: 00000000
   minMaxSize: {x: 0, y: 0}
-  maxHunger: 25
-  maxThirst: 25
+  maxHunger: 50
+  maxThirst: 35
