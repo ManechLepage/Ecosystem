@@ -113,27 +113,33 @@ public class Animal : LivingEntity
     }
 
     // À compléter
-    public bool FindPredator()
+    public GameObject GetFleeingObjective()
     {
-        return false;
+        return null;
     }
-    public bool FindWater()
+    public GameObject GetWaterObjective()
     {
-        return false;
+        return null;
     }
-    public bool FindFood()
+    public GameObject GetFoodObjective()
     {
-        return false;
+        return null;
     }
-    public bool FindMate()
+    public GameObject GetMateObjective()
     {
-        return false;
+        return null;
+    }
+    public GameObject GetRandomObjective()
+    {
+        GameObject tile = GetNearbyTiles()[(int)Random.Range(0, GetNearbyTiles().Count)];
+        return tile.GetComponent<TileManager>().centerPlacement;
     }
 
     public override void SimulationUpdate()
     {
         base.SimulationUpdate();
         
+        /*
         if (HasReachedGoal())
         {
             if (isWandering)
@@ -141,20 +147,28 @@ public class Animal : LivingEntity
                 SetRandomGoal();
             }
         }
+        */
 
         /*
-        Idée : Créer une liste des priorités de l'animal, et les tester dans l'ordre
-        Chaque fonction retourne un bool wui représente si c'est le choix qu'il a pris
-        
-        if (FindPredator()) {}
-        else if (FindWater()) {}
-        else if (FindFood()) {}
-        else if (FindMate()) {}
-        else
-        {
-            SetRandomGoal();
-        }
+        Idée : Avoir tout les objectifs, pour chaque possibilité,
+        et choisir l'objectif selon les statistiques de l'animal et des
+        autres objectifs. Si il n'y a pas d'objectif, l'animal avance
+        à une position aléatoire.
         */
+
+        GameObject fleeingPredatorObjective = GetFleeingObjective();
+        GameObject waterObjective = GetWaterObjective();
+        GameObject foodObjective = GetFoodObjective();
+        GameObject mateObjective = GetMateObjective();
+        GameObject randomObjective = GetRandomObjective();
+
+        // TODO: remove the HasReachedGoal() check, because the
+        // animal has to change destination if needed
+        if (HasReachedGoal())
+        {
+            // Just wander around for now
+            agent.destination = randomObjective.transform.position;
+        }
 
         hunger -= 0.1f;
         thirst -= 0.1f;
@@ -172,11 +186,7 @@ public class Animal : LivingEntity
 
             foreach (GameObject plant in plants)
             {
-<<<<<<< Updated upstream
                 if (plant.GetComponent<Plant>().type == (System.Enum)PlantType.herb)
-=======
-                if (plant.GetComponent<LivingEntityType>().type is Herb)
->>>>>>> Stashed changes
                 {
                     if (closestFood == null)
                     {

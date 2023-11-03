@@ -229,12 +229,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0}
-  lifespan: 0
   age: 0
+  lifespan: 0
   data: {fileID: 11400000, guid: 19e1eb3f78c2d514b8e41d6e08fc7d20, type: 2}
   stageIndex: 1
   meshTypeIndex: 0
-  stageIncrement: 0
 --- !u!114 &-3297126293292821540
 MonoBehaviour:
   m_ObjectHideFlags: 0

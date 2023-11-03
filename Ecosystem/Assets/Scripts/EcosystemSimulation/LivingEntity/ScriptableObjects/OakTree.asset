@@ -18,14 +18,20 @@ MonoBehaviour:
   objectName: "ch\xEAne"
   meshes:
   - scale: 13
+    isCenterAnchored: 0
     meshes:
     - {fileID: 289301614986012343, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
+    materials:
+    - {fileID: -4006148316881293267, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
+    - {fileID: 2208238522589761848, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
+    - {fileID: 6849546283596164469, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
   - scale: 20
+    isCenterAnchored: 1
     meshes:
     - {fileID: 2494185979427425891, guid: d8151cff290b5784383dbe93f727d222, type: 3}
-  materials:
-  - {fileID: -4006148316881293267, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
-  - {fileID: 2208238522589761848, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
-  - {fileID: 6849546283596164469, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
+    materials:
+    - {fileID: 6849546283596164469, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
+    - {fileID: -4006148316881293267, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
+    - {fileID: 2208238522589761848, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
   stageIncrement: 0
   minMaxSizeRange: {x: 0.8, y: 1.2}

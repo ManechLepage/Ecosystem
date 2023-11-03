@@ -14,7 +14,7 @@ public class Plant : LivingEntity
 
         // meshTypeIndex = 0;
         meshTypeIndex = (int)Random.Range(0, data.meshes.Count);
-        gameObject.GetComponent<Renderer>().materials = data.materials;
+        gameObject.GetComponent<Renderer>().materials = data.meshes[meshTypeIndex].materials;
         stageIndex = 1;
 
         gameObject.transform.rotation = Quaternion.Euler(-90f, Random.Range(0f, 360f), 0f);
@@ -32,6 +32,14 @@ public class Plant : LivingEntity
         if (gameObject.transform.localScale.x == 0f)
         {
             gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
+        }
+
+        if (!data.meshes[meshTypeIndex].isCenterAnchored)
+        {
+            gameObject.transform.position += new Vector3(
+                0f,
+                gameObject.GetComponent<MeshRenderer>().bounds.size.y / 2f,
+                0f);
         }
     }
 

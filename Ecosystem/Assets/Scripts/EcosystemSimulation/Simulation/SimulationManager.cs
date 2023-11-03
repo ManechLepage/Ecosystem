@@ -19,12 +19,14 @@ public enum BiomeType
     Desert,
     Mountain
 }
+
 [System.Serializable]
 public class AnimalPrefab
 {
     public AnimalType type;
     public GameObject prefab;
 }
+
 [System.Serializable]
 public class PlantPrefab
 {

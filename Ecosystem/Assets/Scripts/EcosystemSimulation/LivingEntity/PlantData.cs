@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlantData : LivingEntityData
 {
     public List<PlantMesh> meshes;
-    public Material[] materials;
     public float stageIncrement;
     public Vector2 minMaxSizeRange;
 }
@@ -15,5 +14,7 @@ public class PlantData : LivingEntityData
 public class PlantMesh
 {
     public float scale = 1f;
+    public bool isCenterAnchored = false;
     public List<Mesh> meshes;
+    public Material[] materials;
 }
