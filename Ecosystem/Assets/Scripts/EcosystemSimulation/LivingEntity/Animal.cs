@@ -93,29 +93,6 @@ public class Animal : LivingEntity
         agent.destination = target.GetComponent<TileManager>().centerPlacement.transform.position;
     }
 
-    public LivingEntity GetLivingEntityFromEntity(System.Enum type, GameObject entity)
-    {
-        LivingEntity livingEntity = null;
-        switch (type)
-        {
-            case AnimalType.rabbit:
-                livingEntity = entity.GetComponent<Rabbit>();
-                Debug.Log(((Animal)livingEntity).data.objectName);
-                break;
-            case AnimalType.fox:
-                livingEntity = entity.GetComponent<Fox>();
-                break;
-            case PlantType.herb:
-                livingEntity = entity.GetComponent<Herb>();
-                break;
-            case PlantType.oakTree:
-                livingEntity = entity.GetComponent<OakTree>();
-                break;
-        }
-
-        return livingEntity;
-    }
-
     public GameObject GetMostDangerousPredator()
     {
         GameObject predator = null;
@@ -123,13 +100,11 @@ public class Animal : LivingEntity
 
         foreach (GameObject entity in GetNearbyEntities())
         {
-            Debug.Log(entity.GetComponent<LivingEntityType>().type);
-            if (entity.GetComponent<LivingEntityType>().type is AnimalType)
+            if (entity.GetComponent<Entity>().type is AnimalType)
             {
-                Animal animalScript = (Animal)GetLivingEntityFromEntity(entity.GetComponent<LivingEntityType>().type, entity);
-                if (this.data.type != null && animalScript.data.can_eat.animals.Contains((AnimalType)this.data.type))
+                if (((Animal)entity.GetComponent<Entity>().livingEntity).data.can_eat.animals.Contains((AnimalType)gameObject.GetComponent<Entity>().type))
                 {
-                    System.Enum entityType = (System.Enum)animalScript.data.type;
+                    System.Enum entityType = (System.Enum)((Animal)entity.GetComponent<Entity>().livingEntity).data.type;
                     if (urge_to_run.ContainsKey(entityType) && urge_to_run[entityType] > highestFear)
                     {
                             predator = entity;
@@ -174,7 +149,7 @@ public class Animal : LivingEntity
 
         foreach (Collider collider in colliders)
         {
-            if (collider.gameObject.GetComponent<LivingEntityType>() != null)
+            if (collider.gameObject.GetComponent<Entity>() != null)
             {
                 nearbyEntities.Add(collider.gameObject);
             }

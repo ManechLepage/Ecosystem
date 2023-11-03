@@ -170,9 +170,8 @@ public class SimulationManager : MonoBehaviour
                 spawning_tile.GetComponent<TileManager>().tilePopulation[empty_index] = go;
             }
 
-            // changer le code pour la prochaine partie (très moche)
-            go.GetComponent<LivingEntityType>().type = type;
-            LivingEntity livingEntity = GetLivingEntityFromEntity(type, go);
+            go.GetComponent<Entity>().type = type;
+            go.GetComponent<Entity>().livingEntity = GetLivingEntityFromEntity(type, go);
 
             if (type is PlantType) 
             {
@@ -180,7 +179,7 @@ public class SimulationManager : MonoBehaviour
                 spawning_tile.GetComponent<TileManager>().Populate(spawnEmptyIndex, go); 
             }
 
-            livingEntity.Start();
+            go.GetComponent<Entity>().livingEntity.Start();
             AddEntitiesToPopulations(type);
             entities.Add(go);
         }
@@ -331,10 +330,9 @@ public class SimulationManager : MonoBehaviour
     {
         foreach (GameObject living_entity in entities)
         {
-            LivingEntity livingEntity = GetLivingEntityFromEntity(living_entity.GetComponent<LivingEntityType>().type, living_entity);
-            if (livingEntity != null)
+            if (living_entity.GetComponent<Entity>().livingEntity != null)
             {
-                livingEntity.SimulationUpdate();
+                living_entity.GetComponent<Entity>().livingEntity.SimulationUpdate();
             }
         }
     }
