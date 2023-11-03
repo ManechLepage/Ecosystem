@@ -104,7 +104,7 @@ public class Animal : LivingEntity
             {
                 if (((Animal)entity.GetComponent<Entity>().livingEntity).data.can_eat.animals.Contains((AnimalType)gameObject.GetComponent<Entity>().type))
                 {
-                    System.Enum entityType = (System.Enum)((Animal)entity.GetComponent<Entity>().livingEntity).data.type;
+                    System.Enum entityType = (System.Enum)entity.GetComponent<Entity>().type;
                     if (urge_to_run.ContainsKey(entityType) && urge_to_run[entityType] > highestFear)
                     {
                             predator = entity;
@@ -258,7 +258,7 @@ public class Animal : LivingEntity
 
             foreach (GameObject plant in plants)
             {
-                if (plant.GetComponent<Plant>().type == (System.Enum)PlantType.herb)
+                if (plant.GetComponent<Entity>().type == (System.Enum)PlantType.herb)
                 {
                     if (closestFood == null)
                     {

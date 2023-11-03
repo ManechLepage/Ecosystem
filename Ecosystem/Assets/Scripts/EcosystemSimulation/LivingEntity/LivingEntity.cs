@@ -19,7 +19,6 @@ public class LivingEntity : MonoBehaviour
     
     public float age;
     public float lifespan;
-    public System.Enum type;
 
     public virtual void SimulationUpdate()
     {

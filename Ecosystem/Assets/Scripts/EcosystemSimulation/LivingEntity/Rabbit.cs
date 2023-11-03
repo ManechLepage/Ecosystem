@@ -7,10 +7,6 @@ public class Rabbit : Animal
     public override void Start()
     {        
         base.Start();
-
-        type = AnimalType.rabbit;
-        data.type = type;
-
         this.urge_to_run = new Dictionary<System.Enum, float>
         {
             { AnimalType.rabbit, 0f },
