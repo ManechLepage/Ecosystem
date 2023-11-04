@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlacementManager : MonoBehaviour
 {
+    public GameObject tileParent;
     public bool waterAccess = false;
     public float radius;
 
@@ -23,8 +24,17 @@ public class PlacementManager : MonoBehaviour
         }
     }
 
+    public void UpdateTileWaterAccess()
+    {
+        if (waterAccess)
+        {
+            tileParent.GetComponent<TileManager>().isNearWater = true;
+        }
+    }
+
     public void Start()
     {
         CheckNearbyWater();
+        UpdateTileWaterAccess();
     }
 }

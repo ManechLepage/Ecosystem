@@ -104,12 +104,12 @@ public class Animal : LivingEntity
         agent.destination = target.GetComponent<TileManager>().centerPlacement.transform.position;
     }
 
-    public GameObject GetMostDangerousPredator()
+    public GameObject GetMostDangerousPredator(List<GameObject> entities)
     {
         GameObject predator = null;
         float highestFear = 0f;
 
-        foreach (GameObject entity in GetNearbyEntities())
+        foreach (GameObject entity in entities)
         {
             if (entity.GetComponent<Entity>().type is AnimalType)
             {
@@ -128,9 +128,9 @@ public class Animal : LivingEntity
         return predator;
     }
 
-    public List<GameObject> GetNearbyFood()
+    public List<GameObject> GetNearbyFood(List<GameObject> entities)
     {
-        return new List<GameObject>();
+        return null;
     }
     
     public List<GameObject> GetNearbyTiles()
@@ -175,9 +175,9 @@ public class Animal : LivingEntity
     }
 
     // À compléter
-    public Transform GetFleeingObjective()
+    public Transform GetFleeingObjective(List<GameObject> entities)
     {
-        GameObject predator = GetMostDangerousPredator();
+        GameObject predator = GetMostDangerousPredator(entities);
         if (predator != null)
         {
             // Find the tile that is the furthest from the predator, in range
@@ -206,48 +206,71 @@ public class Animal : LivingEntity
             return null;
         }
     }
-    public Transform GetWaterObjective()
+    public Transform GetWaterObjective(List<GameObject> tiles)
     {
-        List<GameObject> tiles = GetNearbyTiles();
+        GameObject closestPlacement = null;
+        float closestDistance = 0f;
         foreach (GameObject tile in tiles)
         {
-            foreach (GameObject placement in tile.GetComponent<TileManager>().placementPositions)
+            if (tile.GetComponent<TileManager>().isNearWater)
             {
-                if (placement.GetComponent<PlacementManager>().waterAccess)
+                foreach (GameObject placement in tile.GetComponent<TileManager>().placementPositions)
                 {
-                    return placement.transform;
+                    float distance = Vector3.Distance(transform.position, placement.transform.position);
+                    if (placement.GetComponent<PlacementManager>().waterAccess &&
+                        (closestPlacement == null || distance < closestDistance))
+                    {
+                        closestPlacement = placement;
+                        closestDistance = distance;
+                    }
                 }
             }
         }
+
+        if (closestPlacement != null)
+        {
+            return closestPlacement.transform;
+        }
+
         return null;
     }
-    public Transform GetFoodObjective()
+    public Transform GetFoodObjective(List<GameObject> entities)
     {
-        List<GameObject> entities = GetNearbyEntities();
+        GameObject closestFood = null;
+        float closestDistance = 0f;
         foreach (GameObject entity in entities)
         {
             if (entity.GetComponent<Entity>().type is PlantType)
             {
-                if (data.can_eat.plants.Contains((PlantType)entity.GetComponent<Entity>().type))
+                float distance = Vector3.Distance(transform.position, entity.transform.position);
+
+                if (closestFood == null || distance < closestDistance)
                 {
-                    return entity.transform;
-                }
-                else if (data.can_eat.animals.Contains((AnimalType)entity.GetComponent<Entity>().type))
-                {
-                    return entity.transform;
+                    if (data.can_eat.plants.Contains((PlantType)entity.GetComponent<Entity>().type)
+                        || data.can_eat.animals.Contains((AnimalType)entity.GetComponent<Entity>().type))
+                    {
+                        closestFood = entity;
+                        closestDistance = Vector3.Distance(transform.position, entity.transform.position);
+                    }
                 }
             }
         }
+
+        if (closestFood != null)
+        {
+            return closestFood.transform;
+        }
+
         return null;
     }
-    public Transform GetMateObjective()
+    public Transform GetMateObjective(List<GameObject> entities)
     {
         // Find a center placement between both entities for mating
         return null;
     }
-    public Transform GetRandomObjective()
+    public Transform GetRandomObjective(List<GameObject> tiles)
     {
-        GameObject tile = GetNearbyTiles()[(int)Random.Range(0, GetNearbyTiles().Count)];
+        GameObject tile = tiles[(int)Random.Range(0, GetNearbyTiles().Count)];
         return tile.GetComponent<TileManager>().centerPlacement.transform;
     }
 
@@ -262,11 +285,14 @@ public class Animal : LivingEntity
         à une position aléatoire.
         */
 
-        Transform fleeingPredatorObjective = GetFleeingObjective();
-        Transform waterObjective = GetWaterObjective();
-        Transform foodObjective = GetFoodObjective();
-        Transform mateObjective = GetMateObjective();
-        Transform randomObjective = GetRandomObjective();
+        List<GameObject> nearbyTiles = GetNearbyTiles();
+        List<GameObject> nearbyEntities = GetNearbyEntities();
+        
+        Transform fleeingPredatorObjective = GetFleeingObjective(nearbyEntities);
+        Transform waterObjective = GetWaterObjective(nearbyTiles);
+        Transform foodObjective = GetFoodObjective(nearbyEntities);
+        Transform mateObjective = GetMateObjective(nearbyEntities);
+        Transform randomObjective = GetRandomObjective(nearbyTiles);
 
         // PRIORITY
         // 1: Fleeing
@@ -310,21 +336,37 @@ public class Animal : LivingEntity
             agent.destination = mateObjective.position;
             currentObjective = ObjectiveType.Mate;
         }
-        else
+        else if (currentObjective != ObjectiveType.Random || HasReachedGoal())
         {
-            agent.destination = randomObjective.position;
-            currentObjective = ObjectiveType.Random;
+            {
+                // sometimes stay stuck on a tile, or juste changes tile randomly before getting to its objective
+                agent.destination = randomObjective.position;
+                currentObjective = ObjectiveType.Random;
+            }
         }
         
-        hunger -= 0.1f;
-        thirst -= 0.1f;
+        hunger -= 0.2f;
+        thirst -= 0.2f;
     }
 
     private bool HasReachedGoal()
     {
-        return !agent.pathPending && agent.remainingDistance < 2f;
+        return !agent.pathPending || agent.remainingDistance < 2f;
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        // Deal with eating and drinking
+
+        if (currentObjective == ObjectiveType.Food)
+        {
+            // try eating
+        }
+        else if (currentObjective == ObjectiveType.Water)
+        {
+            // try drinking
+        }
+    }
 }
 
 [System.Serializable]

@@ -297,6 +297,10 @@ public class SimulationManager : MonoBehaviour
                     }
                 }
 
+                foreach (GameObject placement in tiles[x][y].GetComponent<TileManager>().placementPositions)
+                {
+                    placement.GetComponent<PlacementManager>().tileParent = tiles[x][y];
+                }
             }
         }
 

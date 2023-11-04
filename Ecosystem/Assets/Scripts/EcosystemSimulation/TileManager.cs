@@ -13,6 +13,7 @@ public class TileManager : MonoBehaviour
     public float height;
     public TileType type = TileType.Grass;
     public bool under_water = false;
+    public bool isNearWater = false;
 
     void Start()
     {
