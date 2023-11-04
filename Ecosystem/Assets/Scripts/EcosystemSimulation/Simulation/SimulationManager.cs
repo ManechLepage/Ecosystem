@@ -81,6 +81,8 @@ public class SimulationManager : MonoBehaviour
     public GameObject water_plane;
     [Space]
     public NavMeshSurface[] surface;
+
+    private int simulationAge = 0;
     
     public void Initialize()
     {
@@ -344,7 +346,44 @@ public class SimulationManager : MonoBehaviour
             yield return new WaitForSeconds(1);
             SimulationUpdate();
             Debug.Log("Simulation updated");
+            simulationAge++;
+            CreateAnimalData("Rabbit");
+            CreateAnimalData("Fox");
         }
+    }
+
+    public void CreateAnimalData(string animalName)
+    {
+        List<float> age = new List<float>();
+        List<float> speed = new List<float>();
+        List<float> thirst = new List<float>();
+        List<float> hunger = new List<float>();
+
+        foreach (GameObject entity in entities)
+        {
+            LivingEntity livingEntity = entity.GetComponent<LivingEntity>();
+
+            if (livingEntity is Animal animalEntity && livingEntity.GetType().Name == animalName)
+            {
+                age.Add(animalEntity.age);
+                speed.Add(animalEntity.speed);
+                thirst.Add(animalEntity.thirst);
+                hunger.Add(animalEntity.hunger);
+            }
+        }
+
+        gameObject.GetComponent<SendInfoToSheets>().SendAnimalData(simulationAge, animalName, GetAverageFromList(age), GetAverageFromList(speed), GetAverageFromList(thirst), GetAverageFromList(hunger));
+    }
+
+    float GetAverageFromList(List<float> list)
+    {
+        float sum = 0f;
+        foreach (float value in list)
+        {
+            sum += value;
+        }
+
+        return sum / list.Count;
     }
 
     public void GenerateTerrain()

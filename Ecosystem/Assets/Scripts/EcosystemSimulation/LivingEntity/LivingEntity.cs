@@ -30,9 +30,4 @@ public class LivingEntity : MonoBehaviour
         
         age = 0f;
     }
-
-    public void convertGridToWorldPosition()
-    {
-
-    }
 }
