@@ -80,7 +80,7 @@ public class SimulationManager : MonoBehaviour
     public List<GameObject> entities = new List<GameObject>();
     public GameObject water_plane;
     [Space]
-    public NavMeshSurface surface;
+    public NavMeshSurface[] surface;
     
     public void Initialize()
     {
@@ -396,7 +396,11 @@ public class SimulationManager : MonoBehaviour
     {
         GenerateTerrain();
         PopulateTerrain();
-        surface.BuildNavMesh();
+        
+        foreach (NavMeshSurface _surface in surface)
+        {
+            _surface.BuildNavMesh();
+        }
     }
 
     public void DeleteTerrain()
@@ -417,7 +421,11 @@ public class SimulationManager : MonoBehaviour
         }
 
         DestroyImmediate(water_plane);
-        surface.RemoveData();
+
+        foreach (NavMeshSurface _surface in surface)
+        {
+            _surface.RemoveData();
+        }
     }
 
     private float blocks_distance_from_side(Vector2 position)
