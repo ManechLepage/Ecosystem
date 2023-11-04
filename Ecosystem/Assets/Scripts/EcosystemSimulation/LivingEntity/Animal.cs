@@ -10,6 +10,16 @@ public enum Gender
     Female
 }
 
+[System.Serializable]
+public enum ObjectiveType
+{
+    Fleeing,
+    Water,
+    Food,
+    Mate,
+    Random
+}
+
 
 public class Animal : LivingEntity
 {
@@ -24,12 +34,13 @@ public class Animal : LivingEntity
     public float reproductive_urge;
     public Gender gender;
     public Dictionary<System.Enum, float> urge_to_run;
-    public Vector2 objective;
-    public List<Vector2> path;
+    public ObjectiveType currentObjective;
 
     [Header("Navigation")]
     public NavMeshAgent agent;
     public bool isWandering;
+    public Vector2 objective;
+    public List<Vector2> path;
 
     public override void Start()
     {
@@ -164,7 +175,7 @@ public class Animal : LivingEntity
     }
 
     // À compléter
-    public GameObject GetFleeingObjective()
+    public Transform GetFleeingObjective()
     {
         GameObject predator = GetMostDangerousPredator();
         if (predator != null)
@@ -188,29 +199,56 @@ public class Animal : LivingEntity
                 }
             }
 
-            return furthestTile.GetComponent<TileManager>().centerPlacement;
+            return furthestTile.GetComponent<TileManager>().centerPlacement.transform;
         }
         else
         {
             return null;
         }
     }
-    public GameObject GetWaterObjective()
+    public Transform GetWaterObjective()
     {
+        List<GameObject> tiles = GetNearbyTiles();
+        foreach (GameObject tile in tiles)
+        {
+            foreach (GameObject placement in tile.GetComponent<TileManager>().placementPositions)
+            {
+                if (placement.GetComponent<PlacementManager>().waterAccess)
+                {
+                    return placement.transform;
+                }
+            }
+        }
         return null;
     }
-    public GameObject GetFoodObjective()
+    public Transform GetFoodObjective()
     {
+        List<GameObject> entities = GetNearbyEntities();
+        foreach (GameObject entity in entities)
+        {
+            if (entity.GetComponent<Entity>().type is PlantType)
+            {
+                if (data.can_eat.plants.Contains((PlantType)entity.GetComponent<Entity>().type))
+                {
+                    return entity.transform;
+                }
+                else if (data.can_eat.animals.Contains((AnimalType)entity.GetComponent<Entity>().type))
+                {
+                    return entity.transform;
+                }
+            }
+        }
         return null;
     }
-    public GameObject GetMateObjective()
+    public Transform GetMateObjective()
     {
+        // Find a center placement between both entities for mating
         return null;
     }
-    public GameObject GetRandomObjective()
+    public Transform GetRandomObjective()
     {
         GameObject tile = GetNearbyTiles()[(int)Random.Range(0, GetNearbyTiles().Count)];
-        return tile.GetComponent<TileManager>().centerPlacement;
+        return tile.GetComponent<TileManager>().centerPlacement.transform;
     }
 
     public override void SimulationUpdate()
@@ -224,65 +262,62 @@ public class Animal : LivingEntity
         à une position aléatoire.
         */
 
-        GameObject fleeingPredatorObjective = GetFleeingObjective(); // Now working
-        GameObject waterObjective = GetWaterObjective(); // TODO: add isNearbyWater attribute to tiles
-        GameObject foodObjective = GetFoodObjective();
-        GameObject mateObjective = GetMateObjective();
-        GameObject randomObjective = GetRandomObjective();
+        Transform fleeingPredatorObjective = GetFleeingObjective();
+        Transform waterObjective = GetWaterObjective();
+        Transform foodObjective = GetFoodObjective();
+        Transform mateObjective = GetMateObjective();
+        Transform randomObjective = GetRandomObjective();
 
-        // TODO: remove the HasReachedGoal() check, because the
-        // animal has to change destination if needed
+        // PRIORITY
+        // 1: Fleeing
+        // 2: Water or Food (smallest value) | If both value greater then 75% of max value, skip action
+        // 3: Mate
+        // 4: Else: Wander around until next objective
+        
         if (fleeingPredatorObjective != null)
         {
-            agent.destination = fleeingPredatorObjective.transform.position;
+            agent.destination = fleeingPredatorObjective.position;
+            currentObjective = ObjectiveType.Fleeing;
         }
-        else if (HasReachedGoal())
+        else if (waterObjective != null && foodObjective != null)
         {
-            // Just wander around for now
-            agent.destination = randomObjective.transform.position;
-        }
-
-        hunger -= 0.1f;
-        thirst -= 0.1f;
-    }
-
-    public GameObject FindObjective()
-    {
-        List<GameObject> nearbyTiles = GetNearbyTiles();
-        
-        GameObject closestFood = null;
-
-        foreach (GameObject tile in nearbyTiles)
-        {
-            GameObject[] plants = GetPlantsFromTile(tile);
-
-            foreach (GameObject plant in plants)
+            if (hunger < data.maxHunger * 0.75f && thirst < data.maxThirst * 0.75f)
             {
-                if (plant.GetComponent<Entity>().type == (System.Enum)PlantType.herb)
+                if (hunger > thirst || foodObjective != null)
                 {
-                    if (closestFood == null)
-                    {
-                        closestFood = plant;
-                    }
-                    else
-                    {
-                        if (Vector3.Distance(transform.position, plant.transform.position) < Vector3.Distance(transform.position, closestFood.transform.position))
-                        {
-                            closestFood = plant;
-                        }
-                    }
+                    agent.destination = foodObjective.position;
+                    currentObjective = ObjectiveType.Food;
+                }
+                else if (thirst >= hunger || waterObjective != null)
+                {
+                    agent.destination = waterObjective.position;
+                    currentObjective = ObjectiveType.Water;
+                }
+                else if (mateObjective != null)
+                {
+                    agent.destination = mateObjective.position;
+                    currentObjective = ObjectiveType.Mate;
+                }
+                else
+                {
+                    agent.destination = randomObjective.position;
+                    currentObjective = ObjectiveType.Random;
                 }
             }
-        }
-
-        if (closestFood == null)
+        }    
+        else if (mateObjective != null)
         {
-            return null;
+            agent.destination = mateObjective.position;
+            currentObjective = ObjectiveType.Mate;
         }
         else
         {
-            return closestFood;
+            agent.destination = randomObjective.position;
+            currentObjective = ObjectiveType.Random;
         }
+        
+        hunger -= 0.1f;
+        thirst -= 0.1f;
     }
 
     private bool HasReachedGoal()

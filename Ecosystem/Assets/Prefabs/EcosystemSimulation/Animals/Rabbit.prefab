@@ -134,10 +134,11 @@ MonoBehaviour:
   number_of_children: 0
   reproductive_urge: 0
   gender: 0
-  objective: {x: 0, y: 0}
-  path: []
+  currentObjective: 0
   agent: {fileID: 7189754981515248757}
   isWandering: 0
+  objective: {x: 0, y: 0}
+  path: []
 --- !u!114 &2288888702637116303
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -17,7 +17,6 @@ public class SendInfoToSheets : MonoBehaviour
         form.AddField("entry.945527933", ((byte)age).ToString());
         form.AddField("entry.725240975", ((byte)speed).ToString());
         form.AddField("entry.43320279", ((byte)thirst).ToString());
-        Debug.Log("Thirst: " + thirst.ToString());
         form.AddField("entry.32602555", ((byte)hunger).ToString());
         
         byte[] rawData = form.data;
