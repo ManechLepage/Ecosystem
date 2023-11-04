@@ -367,6 +367,10 @@ public class SimulationManager : MonoBehaviour
             {
                 age.Add(animalEntity.age);
                 speed.Add(animalEntity.speed);
+
+                // Normalize thirst and hunger to make it universal
+                // thirst.Add(animalEntity.thirst / animalEntity.data.maxThirst);
+                // hunger.Add(animalEntity.hunger / animalEntity.data.maxHunger);
                 thirst.Add(animalEntity.thirst);
                 hunger.Add(animalEntity.hunger);
             }
@@ -525,29 +529,6 @@ public class SimulationManager : MonoBehaviour
 
         return get_height(position) + distance_from_side_value * 35f;
     } 
-
-
-    void AddTile(Vector2 position, float height) // C'est nécessaire ?
-    {
-        // TODO
-    }
-
-    void Update()
-    {
-        // foreach (GameObject living_entity in livingEntityConversion)
-        // {
-        //     if (living_entity.GetComponent<PlantBehaviour>() != null)
-        //     {
-        //         PlantBehaviour plant = living_entity.GetComponent<PlantBehaviour>();
-        //         plant.simulated_living.update(Time.deltaTime);
-        //     }
-        //     else if (living_entity.GetComponent<AnimalBehaviour>() != null)
-        //     {
-        //         AnimalBehaviour animal = living_entity.GetComponent<AnimalBehaviour>();
-        //         animal.simulated_living.update(Time.deltaTime);
-        //     }
-        // }
-    }
 
     public void OnApplicationQuit()
     {

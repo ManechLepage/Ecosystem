@@ -158,6 +158,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2456633193999121164}
   - component: {fileID: 4423337426536352292}
+  - component: {fileID: 3056096619983854954}
   m_Layer: 0
   m_Name: Placement1
   m_TagString: Untagged
@@ -222,6 +223,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3056096619983854954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2180048175968575396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4f95d78568eb448a549c28dc3e3ad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waterAccess: 0
+  radius: 10
 --- !u!1 &3876569503759556418
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,6 +247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6734046304869943360}
   - component: {fileID: 5459183848609823615}
+  - component: {fileID: 5229583932872224061}
   m_Layer: 0
   m_Name: Placement3
   m_TagString: Untagged
@@ -296,6 +312,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5229583932872224061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3876569503759556418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4f95d78568eb448a549c28dc3e3ad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waterAccess: 0
+  radius: 10
 --- !u!1 &5012416498602038573
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,6 +336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 774526362345660577}
   - component: {fileID: 6549810960133221121}
+  - component: {fileID: 4446568819318336908}
   m_Layer: 0
   m_Name: Placement6
   m_TagString: Untagged
@@ -370,6 +401,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4446568819318336908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5012416498602038573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4f95d78568eb448a549c28dc3e3ad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waterAccess: 0
+  radius: 10
 --- !u!1 &5795461997177795536
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,6 +425,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3874157363136128695}
   - component: {fileID: 1954158510581185296}
+  - component: {fileID: 2419744156838506743}
   m_Layer: 0
   m_Name: Placement5
   m_TagString: Untagged
@@ -444,6 +490,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2419744156838506743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5795461997177795536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4f95d78568eb448a549c28dc3e3ad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waterAccess: 0
+  radius: 10
 --- !u!1 &5883361953883338345
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,6 +514,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1008045112147777880}
   - component: {fileID: 3575731101425214044}
+  - component: {fileID: 7078160058424883946}
   m_Layer: 0
   m_Name: Placement2
   m_TagString: Untagged
@@ -518,6 +579,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7078160058424883946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5883361953883338345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4f95d78568eb448a549c28dc3e3ad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waterAccess: 0
+  radius: 10
 --- !u!1 &6275285964003191695
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,6 +634,7 @@ GameObject:
   m_Component:
   - component: {fileID: 402069371174189836}
   - component: {fileID: 486857255993912926}
+  - component: {fileID: 1627213628306472126}
   m_Layer: 0
   m_Name: Placement4
   m_TagString: Untagged
@@ -623,3 +699,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1627213628306472126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6480215607777641714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4f95d78568eb448a549c28dc3e3ad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waterAccess: 0
+  radius: 10
