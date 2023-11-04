@@ -144,7 +144,10 @@ public class Animal : LivingEntity
         {
             if (collider.gameObject.tag == "Tile")
             {
-                nearbyTiles.Add(collider.gameObject);
+                if (!collider.gameObject.GetComponent<TileManager>().under_water)
+                {
+                   nearbyTiles.Add(collider.gameObject);
+                }
             }
         }
 
