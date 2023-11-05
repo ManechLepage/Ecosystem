@@ -134,10 +134,11 @@ MonoBehaviour:
   number_of_children: 0
   reproductive_urge: 0
   gender: 0
+  currentObjective: 0
+  agent: {fileID: -8402916976295212273}
+  isWandering: 0
   objective: {x: 0, y: 0}
   path: []
-  agent: {fileID: 0}
-  isWandering: 0
 --- !u!114 &-8149341777088380405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,3 +192,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d529b1f63b8796448b0ea55423ab4638, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  livingEntity: {fileID: 0}

@@ -40,6 +40,7 @@ public class SimulationManager : MonoBehaviour
     [Header("General Settings")]
     public int seed = -1; // If -1, the seed is random
     public Vector2 size = new Vector2(64, 64);
+    public BiomeData biomeData;
     public float plantsDensity = 1f;
     public float animalsDensity = 1f;
 
@@ -72,7 +73,7 @@ public class SimulationManager : MonoBehaviour
     public float time;
     public List<List<GameObject>> tiles;
 
-    public BiomeType biome;
+    // public BiomeType biome;
     public Dictionary<System.Enum, int> populations = new Dictionary<System.Enum, int>() {};
     public bool add_walls = true;
 
@@ -123,12 +124,7 @@ public class SimulationManager : MonoBehaviour
             1,
             size.y * tile_size * definition_quality / 10 * y_size_factor);
 
-        float y_pos = 1f;
-
-        if (biome == BiomeType.Plains)
-            y_pos = 0.3f;
-        else if (biome == BiomeType.Forest)
-            y_pos = 0.7f;
+        float y_pos = biomeData.waterLevel;
         
         water_plane.transform.position = new Vector3(
             water_plane.transform.localScale.x * 10 / 2,
@@ -280,32 +276,21 @@ public class SimulationManager : MonoBehaviour
                 float noise_value_2 = Mathf.PerlinNoise(x / 10 + seed * 14, y / 10 + seed * 14);
 
                 float noise_value = 0.5f + (noise_value_1 * 0.75f + noise_value_2 * 0.25f) / 2f / 2f;
-                int probability = (int)Mathf.Max(Mathf.Round(noise_value * 15f * (1 / plantsDensity)), 1);
+                int probability = (int)Mathf.Max(Mathf.Round(noise_value * 15f * (1 / biomeData.plantDensity)), 1);
                 
                 for (int i = 0; i < 6; i++)
                 {
                     if (tiles[x][y].GetComponent<TileManager>().type == TileType.Grass && populations_random.Next(0, probability + 1) <= 1)
                     {
-                        System.Enum plant_type = PlantType.herb;
-
-                        if (populations_random.Next(0, 20) <= 1)
-                        {
-                            plant_type = PlantType.oakTree;
-                        }
+                        PlantType plant_type = biomeData.populations.GetRandomPlant(populations_random);
                         
-                        AddLivingEntity(tiles[x][y], i, plant_type);
+                        AddLivingEntity(tiles[x][y], i, (System.Enum)plant_type);
                     }
-                }
-
-                foreach (GameObject placement in tiles[x][y].GetComponent<TileManager>().placementPositions)
-                {
-                    placement.GetComponent<PlacementManager>().tileParent = tiles[x][y];
                 }
             }
         }
 
         // Add animals
-
         for (int x = 0; x < Mathf.Round(tiles.Count * tiles[0].Count / 25 * animalsDensity); x++)
         {
             int random_x = populations_random.Next(3, tiles.Count - 4);
@@ -316,14 +301,18 @@ public class SimulationManager : MonoBehaviour
 
             if (type == TileType.Grass && tile.GetComponent<TileManager>().under_water == false)
             {
-                AnimalType animalType = AnimalType.rabbit;
-                if (populations_random.Next(0, 20) <= 5)
-                {
-                    animalType = AnimalType.fox;
-                }
+                AnimalType animalType = biomeData.populations.GetRandomAnimal(populations_random);
                 AddLivingEntity(tile, -1, (System.Enum)animalType);
             }
         }
+
+        string pop_text = "Populations :\n";
+        foreach (KeyValuePair<System.Enum, int> population in populations)
+        {
+            pop_text += "   " + population.Key.ToString() + " : " + population.Value.ToString() + "\n";
+        }
+
+        Debug.Log(pop_text);
     }
 
     public void Awake()
@@ -430,6 +419,11 @@ public class SimulationManager : MonoBehaviour
                     tile.transform.localScale.y * tile_size * definition_quality,
                     tile.transform.localScale.z * tile_size * definition_quality * 0.2f);
 
+                foreach (GameObject placement in tile.GetComponent<TileManager>().placementPositions)
+                {
+                    placement.GetComponent<PlacementManager>().tileParent = tile;
+                }
+
                 column.Add(tile);
                 x_pos += Mathf.Sqrt(3f);
             }
@@ -499,7 +493,7 @@ public class SimulationManager : MonoBehaviour
     public float get_height(Vector2 position)
     {
         float diff_seed = seed * 10f;
-        float smoothness = 1f;
+        /*float smoothness = 1f;
         float intensity = 1f;
 
         if (biome == BiomeType.Plains)
@@ -511,13 +505,19 @@ public class SimulationManager : MonoBehaviour
         {
             smoothness = 1.5f;
             intensity = 3f;
-        }
+        }*/
         
         // two random noises combined together
-        float first_noise_value = Mathf.PerlinNoise(position.x / (15f * smoothness) + diff_seed, position.y / (15f * smoothness) + diff_seed);
-        float second_noise_value = Mathf.PerlinNoise(position.x / (8f * smoothness) + diff_seed, position.y / (8f * smoothness) + diff_seed);
+        float first_noise_value = Mathf.PerlinNoise(
+            position.x / (15f * biomeData.smoothness) + diff_seed,
+            position.y / (15f * biomeData.smoothness) + diff_seed
+        );
+        float second_noise_value = Mathf.PerlinNoise(
+            position.x / (8f * biomeData.smoothness) + diff_seed,
+            position.y / (8f * biomeData.smoothness) + diff_seed
+        );
 
-        return (first_noise_value + second_noise_value) / 2f * 12f * intensity;
+        return (first_noise_value + second_noise_value) / 2f * 12f * biomeData.intensity;
     }
 
     private float get_real_height(Vector2 position)
