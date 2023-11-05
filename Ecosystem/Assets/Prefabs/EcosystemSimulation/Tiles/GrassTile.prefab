@@ -126,6 +126,7 @@ MonoBehaviour:
   height: 0
   type: 0
   under_water: 0
+  isNearWater: 0
 --- !u!64 &4505297433301562632
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -235,6 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4f95d78568eb448a549c28dc3e3ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileParent: {fileID: 2176254930294104800}
   waterAccess: 0
   radius: 10
 --- !u!1 &3876569503759556418
@@ -324,6 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4f95d78568eb448a549c28dc3e3ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileParent: {fileID: 2176254930294104800}
   waterAccess: 0
   radius: 10
 --- !u!1 &5012416498602038573
@@ -413,6 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4f95d78568eb448a549c28dc3e3ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileParent: {fileID: 2176254930294104800}
   waterAccess: 0
   radius: 10
 --- !u!1 &5795461997177795536
@@ -502,6 +506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4f95d78568eb448a549c28dc3e3ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileParent: {fileID: 2176254930294104800}
   waterAccess: 0
   radius: 10
 --- !u!1 &5883361953883338345
@@ -591,6 +596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4f95d78568eb448a549c28dc3e3ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileParent: {fileID: 2176254930294104800}
   waterAccess: 0
   radius: 10
 --- !u!1 &6275285964003191695
@@ -711,5 +717,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4f95d78568eb448a549c28dc3e3ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileParent: {fileID: 2176254930294104800}
   waterAccess: 0
   radius: 10
