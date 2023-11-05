@@ -353,7 +353,8 @@ public class Animal : LivingEntity
         base.SimulationUpdate();
 
         GameObject target = ChooseObjective();
-        agent.destination = target.transform.position;
+        if (target != null)
+            agent.destination = target.transform.position;
 
         if (HasReachedGoal())
         {
@@ -384,13 +385,14 @@ public class Animal : LivingEntity
 
     public void EatPlant(GameObject food)
     {
-        if (hunger += food.GetComponent<Plant>().Eat() > data.maxHunger)
+        float nutrition = food.GetComponent<Plant>().Eat();
+        if (hunger + nutrition > data.maxHunger)
         {
             hunger = data.maxHunger;
         }
         else
         {
-            hunger += food.GetComponent<Plant>().Eat();
+            hunger += nutrition;
         }
     }
 
