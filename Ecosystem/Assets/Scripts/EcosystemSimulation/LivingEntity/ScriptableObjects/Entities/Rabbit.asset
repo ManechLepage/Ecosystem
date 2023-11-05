@@ -21,19 +21,16 @@ MonoBehaviour:
     standard_deviation: 1
   gestation_duration:
     mean: 31.5
-    standard_deviation: 1.5
+    standard_deviation: 5
   sensory_distance:
-    mean: 50
-    standard_deviation: 4
-  desirability:
-    mean: 0
-    standard_deviation: 0
+    mean: 30
+    standard_deviation: 5
   speed:
     mean: 4
     standard_deviation: 0.25
   can_eat:
     plants: 00000000
     animals: 
-  minMaxSize: {x: 0, y: 0}
+  minMaxSize: {x: 0.8, y: 1.2}
   maxHunger: 25
   maxThirst: 25
