@@ -51,6 +51,7 @@ public class Plant : LivingEntity
         {
             stageIndex++;            
             
+            // Maybe better idea to keep the last stage instead of resetting to stage 1
             if (stageIndex >= data.meshes[meshTypeIndex].meshes.Count)
             {
                 stageIndex = 1;
@@ -66,5 +67,18 @@ public class Plant : LivingEntity
     {
         gameObject.GetComponent<MeshFilter>().mesh = data.meshes[meshTypeIndex].meshes[stageIndex - 1];
         
+    }
+
+    public float Eat()
+    {
+        stageIndex--;
+        SetMesh();
+        Debug.Log("Plant eaten...", gameObject);
+        return data.nutritionPerStage;
+    }
+
+    public bool CanBeEaten()
+    {
+        return stageIndex >= data.minStageToBeEaten;
     }
 }

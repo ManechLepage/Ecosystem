@@ -8,6 +8,9 @@ public class PlantData : LivingEntityData
     public List<PlantMesh> meshes;
     public float stageIncrement;
     public Vector2 minMaxSizeRange;
+    public float nutritionPerStage;
+    public int minStageToBeEaten; // >=
+    public int nbrOfUpdatesToEat;
 }
 
 [System.Serializable]

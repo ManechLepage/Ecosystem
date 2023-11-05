@@ -8,7 +8,6 @@ public class AnimalData : LivingEntityData
     public BellCurve number_of_children;
     public BellCurve gestation_duration;
     public BellCurve sensory_distance;
-    public BellCurve desirability;
     public BellCurve speed;
     public Food can_eat;
     public Vector2 minMaxSize;
