@@ -136,7 +136,6 @@ MonoBehaviour:
   gender: 0
   currentObjective: 0
   agent: {fileID: 7189754981515248757}
-  isWandering: 0
   objective: {x: 0, y: 0}
   path: []
 --- !u!114 &2288888702637116303

@@ -323,12 +323,27 @@ public class SimulationManager : MonoBehaviour
 
     public void SimulationUpdate()
     {
+        List<GameObject> deadEntities = new List<GameObject>();
         foreach (GameObject living_entity in entities)
         {
             if (living_entity.GetComponent<Entity>().livingEntity != null)
             {
                 living_entity.GetComponent<Entity>().livingEntity.SimulationUpdate();
+
+                if (living_entity.GetComponent<Entity>().livingEntity is Animal animalEntity)
+                {
+                    if (!animalEntity.IsAlive())
+                    {
+                        deadEntities.Add(living_entity);
+                    }
+                }
             }
+        }
+
+        foreach (GameObject deadEntity in deadEntities)
+        {
+            entities.Remove(deadEntity);
+            Destroy(deadEntity);
         }
     }
     

@@ -128,12 +128,12 @@ public class Animal : LivingEntity
         return null;
     }
     
-    public List<GameObject> GetNearbyTiles()
+    public List<GameObject> GetNearbyTiles(float radius)
     {
         List<GameObject> nearbyTiles = new List<GameObject>();
         
         Vector3 sensoryPosition = transform.position;
-        Collider[] colliders = Physics.OverlapSphere(sensoryPosition, sensoryDistance);
+        Collider[] colliders = Physics.OverlapSphere(sensoryPosition, radius);
 
         foreach (Collider collider in colliders)
         {
@@ -149,12 +149,12 @@ public class Animal : LivingEntity
         return nearbyTiles;
     }
 
-    public List<GameObject> GetNearbyEntities()
+    public List<GameObject> GetNearbyEntities(float radius)
     {
         List<GameObject> nearbyEntities = new List<GameObject>();
         
         Vector3 sensoryPosition = transform.position;
-        Collider[] colliders = Physics.OverlapSphere(sensoryPosition, sensoryDistance);
+        Collider[] colliders = Physics.OverlapSphere(sensoryPosition, radius);
 
         foreach (Collider collider in colliders)
         {
@@ -168,14 +168,13 @@ public class Animal : LivingEntity
     }
 
     // À compléter
-    public GameObject GetFleeingObjective(List<GameObject> entities)
+    public GameObject GetFleeingObjective(List<GameObject> entities, List<GameObject> nearbyTiles)
     {
         GameObject predator = GetMostDangerousPredator(entities);
         if (predator != null)
         {
             // Find the tile that is the furthest from the predator, in range
             GameObject furthestTile = null;
-            List<GameObject> nearbyTiles = GetNearbyTiles();
 
             foreach (GameObject tile in nearbyTiles)
             {
@@ -266,16 +265,17 @@ public class Animal : LivingEntity
     }
     public GameObject GetRandomObjective(List<GameObject> tiles)
     {
-        GameObject tile = tiles[(int)Random.Range(0, GetNearbyTiles().Count)];
+        GameObject tile = tiles[(int)Random.Range(0, GetNearbyTiles(sensoryDistance).Count)];
         return tile.GetComponent<TileManager>().centerPlacement;
     }
 
     public GameObject ChooseObjective()
     {
-        List<GameObject> nearbyTiles = GetNearbyTiles();
-        List<GameObject> nearbyEntities = GetNearbyEntities();
+        List<GameObject> nearbyTiles = GetNearbyTiles(sensoryDistance);
+        List<GameObject> nearbyEntities = GetNearbyEntities(sensoryDistance);
+        List<GameObject> nearbyWater = GetNearbyEntities(sensoryDistance);
         
-        GameObject fleeingPredatorObjective = GetFleeingObjective(nearbyEntities);
+        GameObject fleeingPredatorObjective = GetFleeingObjective(nearbyEntities, nearbyTiles);
         GameObject waterObjective = GetWaterObjective(nearbyTiles);
         GameObject foodObjective = GetFoodObjective(nearbyEntities);
         GameObject mateObjective = GetMateObjective(nearbyEntities);
@@ -283,25 +283,42 @@ public class Animal : LivingEntity
 
         // PRIORITY
         // 1: Fleeing
-        // 2: Water or Food (smallest value) | If both value greater then 75% of max value, check mating before
-        // 3: Mate
-        // 4: Water or Food (smallest value)
-        // 5: Else: Wander around until next objective
+        // 2: Wander around | If value of water or food is less than 25% and none of this type is found
+        // 3: Water or Food (smallest value) | If both value greater then 75% of max value, check mating before
+        // 4: Mate
+        // 5: Water or Food (smallest value)
+        // 6: Wander around
 
         float matingThreshold = 0.75f; //TODO: Make this variable a part of the animal data
         
         bool isFood = false;
+        bool isWater = false;
+
+        bool needsFood = false;
+        bool needsWater = false;
+
+        bool canMate = false;
+
         if (foodObjective != null)
         {
             isFood = true;
         }
-        bool isWater = false;
+        
         if (waterObjective != null)
         {
             isWater = true;
         }
+
+        if (hunger < 0.25f * data.maxHunger)
+        {
+            needsFood = true;
+        }
+
+        if (thirst < 0.25f * data.maxThirst)
+        {
+            needsWater = true;
+        }
         
-        bool canMate = false;
         if (hunger < matingThreshold * data.maxHunger && thirst < matingThreshold * data.maxThirst)
         {
             canMate = true;
@@ -312,6 +329,16 @@ public class Animal : LivingEntity
         {
             currentObjective = ObjectiveType.Fleeing;
             return fleeingPredatorObjective;
+        }
+        else if (needsFood)
+        {
+            currentObjective = ObjectiveType.Food;
+            return foodObjective;
+        }
+        else if (needsWater)
+        {
+            currentObjective = ObjectiveType.Water;
+            return waterObjective;
         }
         else if (!canMate && isWater && isFood)
         {
@@ -394,6 +421,10 @@ public class Animal : LivingEntity
         {
             hunger += nutrition;
         }
+    }
+    public bool IsAlive()
+    {
+        return age < lifespan && hunger > 0f && thirst > 0f;
     }
 
     public void OnDrawGizmosSelected()
