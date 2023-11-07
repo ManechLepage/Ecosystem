@@ -53,13 +53,13 @@ public class SimulationManager : MonoBehaviour
     public GameObject entitiesParent;
 
     [Header("Water Settings")]
-    [SerializeField] public GameObject waterPlane;
+    public GameObject waterPlane;
 
     [Header("Tile Materials Prefabs")]
-    [SerializeField] public Material grassTile;
-    [SerializeField] public Material sandTile;
-    [SerializeField] public Material rockTile;
-    [SerializeField] public Material dirtTile;
+    public Material grassTile;
+    public Material sandTile;
+    public Material rockTile;
+    public Material dirtTile;
     [Space]
     public GameObject tilePrefab;
 

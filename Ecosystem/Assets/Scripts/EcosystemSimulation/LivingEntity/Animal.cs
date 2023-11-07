@@ -450,7 +450,8 @@ public class Animal : LivingEntity
 
     private bool HasReachedGoal()
     {
-        return !agent.pathPending || agent.remainingDistance < 2f;
+        Debug.Log(!agent.pathPending || agent.remainingDistance < 0.1f);
+        return !agent.pathPending || agent.remainingDistance < 0.1f;
     }
 }
 
