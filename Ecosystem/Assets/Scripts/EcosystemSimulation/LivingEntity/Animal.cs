@@ -289,7 +289,8 @@ public class Animal : LivingEntity
         // 5: Water or Food (smallest value)
         // 6: Wander around
 
-        float matingThreshold = 0.75f; //TODO: Make this variable a part of the animal data
+        float matingThreshold = 0.75f;
+        float searchingThreshold = 0.50f;
         
         bool isFood = false;
         bool isWater = false;
@@ -309,12 +310,12 @@ public class Animal : LivingEntity
             isWater = true;
         }
 
-        if (hunger < 0.25f * data.maxHunger)
+        if (hunger <= searchingThreshold * data.maxHunger)
         {
             needsFood = true;
         }
 
-        if (thirst < 0.25f * data.maxThirst)
+        if (thirst < searchingThreshold * data.maxThirst)
         {
             needsWater = true;
         }
@@ -394,6 +395,7 @@ public class Animal : LivingEntity
             }
             else if (currentObjective == ObjectiveType.Water)
             {
+                Drink();
                 Debug.Log("Drinking...", gameObject);
             }
             else if (currentObjective == ObjectiveType.Mate)
@@ -420,6 +422,19 @@ public class Animal : LivingEntity
         else
         {
             hunger += nutrition;
+        }
+    }
+
+    public void Drink()
+    {
+        float nutrition = 3f;
+        if (thirst + nutrition > data.maxThirst)
+        {
+            thirst = data.maxThirst;
+        }
+        else
+        {
+            thirst += nutrition;
         }
     }
     public bool IsAlive()

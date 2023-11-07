@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Forest
   m_EditorClassIdentifier: 
   type: 1
-  smoothness: 1.5
-  intensity: 3
-  waterLevel: 0.7
+  smoothness: 0.5
+  intensity: 2
+  waterLevel: 0.6
   populations:
     animalPopulations:
     - type: 0
@@ -27,5 +27,5 @@ MonoBehaviour:
       population: 5
     - type: 1
       population: 1
-  animalDensity: 1
-  plantDensity: 2
+  animalDensity: 0.1
+  plantDensity: 1

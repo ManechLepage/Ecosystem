@@ -10,7 +10,6 @@ public class PlantData : LivingEntityData
     public Vector2 minMaxSizeRange;
     public float nutritionPerStage;
     public int minStageToBeEaten; // >=
-    public int nbrOfUpdatesToEat;
 }
 
 [System.Serializable]
