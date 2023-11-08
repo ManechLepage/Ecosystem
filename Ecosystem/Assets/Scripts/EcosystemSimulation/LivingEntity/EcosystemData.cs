@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BiomeData", menuName = "Biomes/BiomeData")]
-public class BiomeData : ScriptableObject
+[CreateAssetMenu(fileName = "EcosystemData", menuName = "Ecosystems/EcosystemData")]
+public class EcosystemData : ScriptableObject
 {
     public BiomeType type;
     [Header("Terrain")]
@@ -14,6 +14,16 @@ public class BiomeData : ScriptableObject
     public Populations populations = new Populations();
     public float animalDensity = 1f;
     public float plantDensity = 1f;
+    [Header("Events")]
+    public List<Event> events = new List<Event>();
+}
+
+[System.Serializable]
+public class Event
+{
+    public int time = 0;
+    public AnimalType animalType;
+    public int count = 1;
 }
 
 [System.Serializable]

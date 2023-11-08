@@ -40,7 +40,7 @@ public class SimulationManager : MonoBehaviour
     [Header("General Settings")]
     public int seed = -1; // If -1, the seed is random
     public Vector2 size = new Vector2(64, 64);
-    public BiomeData biomeData;
+    public EcosystemData biomeData;
     public float plantsDensity = 1f;
     public float animalsDensity = 1f;
 
