@@ -51,6 +51,7 @@ public class SimulationManager : MonoBehaviour
 
     [Header("Entities Settings")]
     public GameObject entitiesParent;
+    private Dictionary<GameObject, GameObject> allMatingAnimals = new Dictionary<GameObject, GameObject>();
 
     [Header("Water Settings")]
     public GameObject waterPlane;
@@ -132,7 +133,7 @@ public class SimulationManager : MonoBehaviour
             water_plane.transform.localScale.z * 10 / 2);
     }
 
-    void AddLivingEntity(GameObject spawning_tile, int spawnEmptyIndex, System.Enum type)
+    void AddLivingEntity(GameObject spawning_tile, int spawnEmptyIndex, System.Enum type) // Change to give a placement position and not a tile
     {
         GameObject prefab = GetGameObjectFromType(type);
         GameObject spawning_tile_empty;
@@ -321,6 +322,11 @@ public class SimulationManager : MonoBehaviour
         StartCoroutine(SimulationLoop());
     }
 
+    public void AddAnimalToMating(GameObject animal, GameObject animalToMate)
+    {
+        allMatingAnimals.Add(animal, animalToMate);
+    }
+
     public void SimulationUpdate()
     {
         List<GameObject> deadEntities = new List<GameObject>();
@@ -340,10 +346,33 @@ public class SimulationManager : MonoBehaviour
             }
         }
 
+        List<GameObject> alreadyMated = new List<GameObject>();
+        foreach (KeyValuePair<GameObject, GameObject> animal in allMatingAnimals)
+        {
+            
+        }
+
         foreach (GameObject deadEntity in deadEntities)
         {
             entities.Remove(deadEntity);
             Destroy(deadEntity);
+        }
+    }
+
+    public void Reproduce(GameObject animal1, GameObject animal2)
+    {
+        Animal animal1Entity = animal1.GetComponent<Animal>();
+        Animal animal2Entity = animal2.GetComponent<Animal>();
+
+        for (int i = 0; i < animal1Entity.number_of_children; i++)
+        {
+            // Instantiate new child
+            GameObject child = Instantiate(animal1Entity.data.prefab);
+            child.transform.parent = entitiesParent.transform;
+            
+            
+
+            
         }
     }
     

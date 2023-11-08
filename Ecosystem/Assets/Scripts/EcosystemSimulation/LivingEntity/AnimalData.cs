@@ -13,5 +13,7 @@ public class AnimalData : LivingEntityData
     public Vector2 minMaxSize;
     public float maxHunger;
     public float maxThirst;
+    public int reproductiveCoolDown;
+    public float reproductiveMaturity;
 }
 

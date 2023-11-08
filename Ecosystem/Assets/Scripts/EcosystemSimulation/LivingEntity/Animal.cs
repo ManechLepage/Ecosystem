@@ -3,13 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum Gender 
-{
-    Male,
-
-    Female
-}
-
 [System.Serializable]
 public enum ObjectiveType
 {
@@ -27,12 +20,14 @@ public class Animal : LivingEntity
     public float speed;
     public float size;
     public float sensoryDistance;
-    public float gestation_duration;
+    public int gestation_duration;
+    public int currentGestation;
     public float hunger;
     public float thirst;
     public int number_of_children;
-    public float reproductive_urge;
-    public Gender gender;
+    public int reproductive_urge;
+    public bool isPregnant;
+    public List<Animal> children = new List<Animal>();
     public Dictionary<System.Enum, float> urge_to_run;
     public ObjectiveType currentObjective;
 
@@ -44,6 +39,22 @@ public class Animal : LivingEntity
 
     private bool isInAction = false;
 
+    public bool CanReproduce()
+    {
+        return reproductive_urge >= data.reproductiveCoolDown && age >= data.reproductiveMaturity;
+    }
+
+    public void SetChildren(List<Animal> _children)
+    {
+        children = _children;
+    }
+
+    public void RandomInitializing()
+    {
+        age = Random.Range(0, lifespan / 2);
+        thirst = Random.Range(data.maxThirst / 2, data.maxThirst);
+        hunger = Random.Range(data.maxHunger / 2, data.maxHunger);
+    }
     public override void Start()
     {
         base.Start();
@@ -52,7 +63,7 @@ public class Animal : LivingEntity
         
         sensoryDistance = data.sensory_distance.get_random_value();
         speed = data.speed.get_random_value();
-        gestation_duration = data.gestation_duration.get_random_value();
+        gestation_duration = (int)Mathf.Round(data.gestation_duration.get_random_value());
         number_of_children = (int)Mathf.Round(data.number_of_children.get_random_value());
         size = data.minMaxSize.x;
         agent = GetComponent<NavMeshAgent>();
@@ -260,7 +271,24 @@ public class Animal : LivingEntity
     }
     public GameObject GetMateObjective(List<GameObject> entities)
     {
-        // Find a center placement between both entities for mating
+        GameObject animal = null;
+        if (CanReproduce())
+        {
+            foreach (GameObject entity in entities)
+            {
+                if (entity.GetComponent<LivingEntityType>().type == gameObject.GetComponent<LivingEntityType>().type
+                    && entity.GetComponent<Animal>().CanReproduce())
+                {
+                    animal = entity;
+                    break;
+                }
+            }
+        }
+
+        if (animal != null)
+        {
+            return animal;
+        }
         return null;
     }
     public GameObject GetRandomObjective(List<GameObject> tiles)
@@ -400,6 +428,7 @@ public class Animal : LivingEntity
             }
             else if (currentObjective == ObjectiveType.Mate)
             {
+                Mate(target);
                 Debug.Log("Mating...", gameObject);
             }
             else if (currentObjective == ObjectiveType.Random)
@@ -410,6 +439,12 @@ public class Animal : LivingEntity
         
         hunger -= 0.2f;
         thirst -= 0.2f;
+        reproductive_urge += 1;
+
+        if (isPregnant)
+        {
+            currentGestation += 1;
+        }
     }
 
     public void EatPlant(GameObject food)
@@ -436,6 +471,16 @@ public class Animal : LivingEntity
         {
             thirst += nutrition;
         }
+    }
+
+    public void Mate(GameObject animalToMate)
+    {
+        reproductive_urge = 0;
+        currentGestation = 0;
+        
+        SimulationManager simulationManager = GameObject.Find("Simulator").GetComponent<SimulationManager>();
+        simulationManager.AddAnimalToMating(gameObject, animalToMate);
+
     }
     public bool IsAlive()
     {
