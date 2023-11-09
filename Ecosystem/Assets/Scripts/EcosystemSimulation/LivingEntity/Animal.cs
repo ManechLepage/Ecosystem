@@ -27,7 +27,8 @@ public class Animal : LivingEntity
     public int number_of_children;
     public int reproductive_urge;
     public bool isPregnant;
-    public List<Animal> children = new List<Animal>();
+    public GameObject partner;
+    public List<GameObject> children = new List<GameObject>();
     public Dictionary<System.Enum, float> urge_to_run;
     public ObjectiveType currentObjective;
 
@@ -41,10 +42,10 @@ public class Animal : LivingEntity
 
     public bool CanReproduce()
     {
-        return reproductive_urge >= data.reproductiveCoolDown && age >= data.reproductiveMaturity;
+        return reproductive_urge >= data.reproductiveCoolDown && age >= (data.reproductiveMaturity / 365.25f) && !isPregnant;
     }
 
-    public void SetChildren(List<Animal> _children)
+    public void SetChildren(List<GameObject> _children)
     {
         children = _children;
     }
@@ -54,6 +55,7 @@ public class Animal : LivingEntity
         age = Random.Range(0, lifespan / 2);
         thirst = Random.Range(data.maxThirst / 2, data.maxThirst);
         hunger = Random.Range(data.maxHunger / 2, data.maxHunger);
+        reproductive_urge = Random.Range(0, (int)((float)data.reproductiveCoolDown * 1.5f));
     }
     public override void Start()
     {
@@ -276,8 +278,8 @@ public class Animal : LivingEntity
         {
             foreach (GameObject entity in entities)
             {
-                if (entity.GetComponent<LivingEntityType>().type == gameObject.GetComponent<LivingEntityType>().type
-                    && entity.GetComponent<Animal>().CanReproduce())
+                if (entity.GetComponent<Entity>().type == gameObject.GetComponent<Entity>().type
+                    && ((Animal)entity.GetComponent<Entity>().livingEntity).CanReproduce())
                 {
                     animal = entity;
                     break;
@@ -309,10 +311,12 @@ public class Animal : LivingEntity
         GameObject mateObjective = GetMateObjective(nearbyEntities);
         GameObject randomObjective = GetRandomObjective(nearbyTiles);
 
+        nearbyEntities.Remove(gameObject);
+
         // PRIORITY
         // 1: Fleeing
-        // 2: Wander around | If value of water or food is less than 25% and none of this type is found
-        // 3: Water or Food (smallest value) | If both value greater then 75% of max value, check mating before
+        // 2: Wander around | If value of water or food is less than 50% and none of this type is found
+        // 3: Water or Food (smallest value) | If both value greater then 75% of max value, check mating
         // 4: Mate
         // 5: Water or Food (smallest value)
         // 6: Wander around
@@ -323,42 +327,52 @@ public class Animal : LivingEntity
         bool isFood = false;
         bool isWater = false;
 
+        bool needsUrgentFood = false;
+        bool needsUrgentWater = false;
+
         bool needsFood = false;
         bool needsWater = false;
 
         bool canMate = false;
+        bool isMate = false;
 
         if (foodObjective != null)
-        {
             isFood = true;
-        }
-        
         if (waterObjective != null)
-        {
             isWater = true;
-        }
 
         if (hunger <= searchingThreshold * data.maxHunger)
-        {
-            needsFood = true;
-        }
-
+            needsUrgentFood = true;
         if (thirst < searchingThreshold * data.maxThirst)
-        {
+            needsUrgentWater = true;
+        if (hunger < matingThreshold * data.maxHunger)
+            needsFood = true;
+        if (thirst < matingThreshold * data.maxThirst)
             needsWater = true;
-        }
         
-        if (hunger < matingThreshold * data.maxHunger && thirst < matingThreshold * data.maxThirst)
-        {
+        if (CanReproduce())
             canMate = true;
-        }
+        if (mateObjective != null)
+            isMate = true;
         
-        
+        // 1: Fleeing
         if (fleeingPredatorObjective != null)
         {
             currentObjective = ObjectiveType.Fleeing;
             return fleeingPredatorObjective;
         }
+
+        // 2: Wander around | If value of water or food is less than 25% and none of this type is found
+        else if (
+            (needsUrgentFood && !isFood) ||
+            (needsUrgentWater && !isWater)
+            )
+        {
+            currentObjective = ObjectiveType.Random;
+            return randomObjective;
+        }
+
+        // 3: Water or Food (smallest value) | If both value greater then 75% of max value, check mating
         else if (needsFood)
         {
             currentObjective = ObjectiveType.Food;
@@ -369,7 +383,16 @@ public class Animal : LivingEntity
             currentObjective = ObjectiveType.Water;
             return waterObjective;
         }
-        else if (!canMate && isWater && isFood)
+
+        // 4: Mate
+        else if (canMate && isMate)
+        {
+            currentObjective = ObjectiveType.Mate;
+            return mateObjective;
+        }
+
+        // 5: Water or Food (smallest value)
+        else if (isWater && isFood)
         {
             if (hunger < thirst)
             {
@@ -382,11 +405,6 @@ public class Animal : LivingEntity
                 return waterObjective;
             }
         }
-        else if (canMate)
-        {
-            currentObjective = ObjectiveType.Mate;
-            return mateObjective;
-        }
         else if (isWater)
         {
             currentObjective = ObjectiveType.Water;
@@ -397,6 +415,8 @@ public class Animal : LivingEntity
             currentObjective = ObjectiveType.Food;
             return foodObjective;
         }
+
+        // 6: Wander around
         else
         {
             currentObjective = ObjectiveType.Random;
@@ -428,7 +448,7 @@ public class Animal : LivingEntity
             }
             else if (currentObjective == ObjectiveType.Mate)
             {
-                Mate(target);
+                Mate(target); // place this in OnTriggerEnter
                 Debug.Log("Mating...", gameObject);
             }
             else if (currentObjective == ObjectiveType.Random)
@@ -444,6 +464,13 @@ public class Animal : LivingEntity
         if (isPregnant)
         {
             currentGestation += 1;
+        }
+
+        if (currentGestation >= gestation_duration)
+        {
+            isPregnant = false;
+            currentGestation = 0;
+            GiveBirth();
         }
     }
 
@@ -480,8 +507,14 @@ public class Animal : LivingEntity
         
         SimulationManager simulationManager = GameObject.Find("Simulator").GetComponent<SimulationManager>();
         simulationManager.AddAnimalToMating(gameObject, animalToMate);
-
     }
+
+    public void GiveBirth()
+    {
+        SimulationManager simulationManager = GameObject.Find("Simulator").GetComponent<SimulationManager>();
+        simulationManager.Reproduce(gameObject, partner);
+    }
+
     public bool IsAlive()
     {
         return age < lifespan && hunger > 0f && thirst > 0f;

@@ -40,9 +40,7 @@ public class SimulationManager : MonoBehaviour
     [Header("General Settings")]
     public int seed = -1; // If -1, the seed is random
     public Vector2 size = new Vector2(64, 64);
-    public EcosystemData biomeData;
-    public float plantsDensity = 1f;
-    public float animalsDensity = 1f;
+    public EcosystemData ecosystemData;
 
     [Header("Terrain Settings")]
     public float tile_size = 1f;
@@ -125,7 +123,7 @@ public class SimulationManager : MonoBehaviour
             1,
             size.y * tile_size * definition_quality / 10 * y_size_factor);
 
-        float y_pos = biomeData.waterLevel;
+        float y_pos = ecosystemData.waterLevel;
         
         water_plane.transform.position = new Vector3(
             water_plane.transform.localScale.x * 10 / 2,
@@ -133,23 +131,17 @@ public class SimulationManager : MonoBehaviour
             water_plane.transform.localScale.z * 10 / 2);
     }
 
-    void AddLivingEntity(GameObject spawning_tile, int spawnEmptyIndex, System.Enum type) // Change to give a placement position and not a tile
+    void AddLivingEntity(GameObject placement, System.Enum type, bool randomInitializing=true) // Change to give a placement position and not a tile
     {
         GameObject prefab = GetGameObjectFromType(type);
-        GameObject spawning_tile_empty;
 
-        if (spawnEmptyIndex == -1)
+        if (prefab != null && placement != null)
         {
-            spawning_tile_empty = spawning_tile.GetComponent<TileManager>().centerPlacement;
-        }
-        else
-        {
-            spawning_tile_empty = spawning_tile.GetComponent<TileManager>().placementPositions[spawnEmptyIndex];
-        }
-
-        if (prefab != null)
-        {
-            GameObject go = GameObject.Instantiate(prefab);
+            GameObject go = GameObject.Instantiate(
+                prefab,
+                placement.transform.position,
+                Quaternion.identity
+            );
             go.transform.parent = entitiesParent.transform;
             go.transform.localScale = new Vector3(
                 go.transform.localScale.x,
@@ -157,28 +149,41 @@ public class SimulationManager : MonoBehaviour
                 go.transform.localScale.z
             );
 
-            Vector3 position = spawning_tile_empty.transform.position;
+            Vector3 position = placement.transform.position;
 
             go.transform.position = position;
+            GameObject spawning_tile = null;
+            int spawnEmptyIndex = -1;
             
-            if (spawning_tile_empty == spawning_tile.GetComponent<TileManager>().centerPlacement)
-                spawning_tile.GetComponent<TileManager>().centerPopulation = go;
-            else
+            if (placement.GetComponent<PlacementManager>() != null)
             {
-                int empty_index = System.Array.IndexOf(spawning_tile.GetComponent<TileManager>().placementPositions, spawning_tile_empty);
-                spawning_tile.GetComponent<TileManager>().tilePopulation[empty_index] = go;
+                spawning_tile = placement.GetComponent<PlacementManager>().tileParent;
+                spawnEmptyIndex = System.Array.IndexOf(
+                    spawning_tile.GetComponent<TileManager>().placementPositions,
+                    placement
+                );
+
+                if (placement == spawning_tile.GetComponent<TileManager>().centerPlacement)
+                    spawning_tile.GetComponent<TileManager>().centerPopulation = go;
+                else
+                {
+                    spawning_tile.GetComponent<TileManager>().tilePopulation[spawnEmptyIndex] = go;
+                }
             }
 
             go.GetComponent<Entity>().type = type;
             go.GetComponent<Entity>().livingEntity = GetLivingEntityFromEntity(type, go);
 
-            if (type is PlantType) 
+            if (type is PlantType && spawning_tile != null && spawnEmptyIndex != null)
             {
                 go.transform.parent = spawning_tile.transform;
-                spawning_tile.GetComponent<TileManager>().Populate(spawnEmptyIndex, go); 
+                spawning_tile.GetComponent<TileManager>().Populate(spawnEmptyIndex, go);
             }
 
             go.GetComponent<Entity>().livingEntity.Start();
+            if (type is AnimalType && randomInitializing)
+                ((Animal)go.GetComponent<Entity>().livingEntity).RandomInitializing();
+
             AddEntitiesToPopulations(type);
             entities.Add(go);
         }
@@ -277,22 +282,22 @@ public class SimulationManager : MonoBehaviour
                 float noise_value_2 = Mathf.PerlinNoise(x / 10 + seed * 14, y / 10 + seed * 14);
 
                 float noise_value = 0.5f + (noise_value_1 * 0.75f + noise_value_2 * 0.25f) / 2f / 2f;
-                int probability = (int)Mathf.Max(Mathf.Round(noise_value * 15f * (1 / biomeData.plantDensity)), 1);
+                int probability = (int)Mathf.Max(Mathf.Round(noise_value * 15f * (1 / ecosystemData.plantDensity)), 1);
                 
                 for (int i = 0; i < 6; i++)
                 {
                     if (tiles[x][y].GetComponent<TileManager>().type == TileType.Grass && populations_random.Next(0, probability + 1) <= 1)
                     {
-                        PlantType plant_type = biomeData.populations.GetRandomPlant(populations_random);
+                        PlantType plant_type = ecosystemData.populations.GetRandomPlant(populations_random);
                         
-                        AddLivingEntity(tiles[x][y], i, (System.Enum)plant_type);
+                        AddLivingEntity(tiles[x][y].GetComponent<TileManager>().placementPositions[i], (System.Enum)plant_type);
                     }
                 }
             }
         }
 
         // Add animals
-        for (int x = 0; x < Mathf.Round(tiles.Count * tiles[0].Count / 25 * animalsDensity); x++)
+        for (int x = 0; x < Mathf.Round(tiles.Count * tiles[0].Count / 25 * ecosystemData.animalDensity); x++)
         {
             int random_x = populations_random.Next(3, tiles.Count - 4);
             int random_y = populations_random.Next(3, tiles[random_x].Count - 4);
@@ -302,8 +307,8 @@ public class SimulationManager : MonoBehaviour
 
             if (type == TileType.Grass && tile.GetComponent<TileManager>().under_water == false)
             {
-                AnimalType animalType = biomeData.populations.GetRandomAnimal(populations_random);
-                AddLivingEntity(tile, -1, (System.Enum)animalType);
+                AnimalType animalType = ecosystemData.populations.GetRandomAnimal(populations_random);
+                AddLivingEntity(tile.GetComponent<TileManager>().centerPlacement, (System.Enum)animalType);
             }
         }
 
@@ -330,7 +335,9 @@ public class SimulationManager : MonoBehaviour
     public void SimulationUpdate()
     {
         List<GameObject> deadEntities = new List<GameObject>();
-        foreach (GameObject living_entity in entities)
+        // To prevent the childs of getting modified while iterating
+        List<GameObject> all_entities = new List<GameObject>(entities);
+        foreach (GameObject living_entity in all_entities)
         {
             if (living_entity.GetComponent<Entity>().livingEntity != null)
             {
@@ -349,8 +356,19 @@ public class SimulationManager : MonoBehaviour
         List<GameObject> alreadyMated = new List<GameObject>();
         foreach (KeyValuePair<GameObject, GameObject> animal in allMatingAnimals)
         {
-            
+            if (!alreadyMated.Contains(animal.Key) && !alreadyMated.Contains(animal.Value))
+            {
+                Animal animal1 = (Animal)animal.Key.GetComponent<Entity>().livingEntity;
+                Animal animal2 = (Animal)animal.Value.GetComponent<Entity>().livingEntity;
+
+                animal1.isPregnant = true;
+                animal1.partner = animal.Value;
+
+                alreadyMated.Add(animal.Key);
+                alreadyMated.Add(animal.Value);
+            }
         }
+        allMatingAnimals.Clear();
 
         foreach (GameObject deadEntity in deadEntities)
         {
@@ -362,18 +380,37 @@ public class SimulationManager : MonoBehaviour
     public void Reproduce(GameObject animal1, GameObject animal2)
     {
         Animal animal1Entity = animal1.GetComponent<Animal>();
-        Animal animal2Entity = animal2.GetComponent<Animal>();
+        Animal animal2Entity = null;
+        if (animal2 != null)
+            animal2Entity = animal2.GetComponent<Animal>();
+        // TODO: store the infos of the father somewere in case of his dying
 
+        List<GameObject> children = new List<GameObject>();
+
+        GameObject empty = new GameObject();
+        // randomize the position (-0.005 to 0.005 for each axis)
+        empty.transform.position = new Vector3(
+            animal1.transform.position.x + Random.Range(-0.005f, 0.005f),
+            animal1.transform.position.y + Random.Range(-0.005f, 0.005f),
+            animal1.transform.position.z + Random.Range(-0.005f, 0.005f)
+        );
+        empty.transform.rotation = animal1.transform.rotation;
+        
         for (int i = 0; i < animal1Entity.number_of_children; i++)
         {
-            // Instantiate new child
-            GameObject child = Instantiate(animal1Entity.data.prefab);
-            child.transform.parent = entitiesParent.transform;
-            
-            
+            AddLivingEntity(
+                empty,
+                animal1.GetComponent<Entity>().type,
+                randomInitializing: false
+            );
 
-            
+            GameObject child = entities[entities.Count - 1];
+            children.Add(child);
         }
+        DestroyImmediate(empty);
+
+        animal1Entity.SetChildren(children);
+        Debug.Log("Children set", animal1);
     }
     
     public IEnumerator SimulationLoop()
@@ -553,15 +590,15 @@ public class SimulationManager : MonoBehaviour
         
         // two random noises combined together
         float first_noise_value = Mathf.PerlinNoise(
-            position.x / (15f * biomeData.smoothness) + diff_seed,
-            position.y / (15f * biomeData.smoothness) + diff_seed
+            position.x / (15f * ecosystemData.smoothness) + diff_seed,
+            position.y / (15f * ecosystemData.smoothness) + diff_seed
         );
         float second_noise_value = Mathf.PerlinNoise(
-            position.x / (8f * biomeData.smoothness) + diff_seed,
-            position.y / (8f * biomeData.smoothness) + diff_seed
+            position.x / (8f * ecosystemData.smoothness) + diff_seed,
+            position.y / (8f * ecosystemData.smoothness) + diff_seed
         );
 
-        return (first_noise_value + second_noise_value) / 2f * 12f * biomeData.intensity;
+        return (first_noise_value + second_noise_value) / 2f * 12f * ecosystemData.intensity;
     }
 
     private float get_real_height(Vector2 position)

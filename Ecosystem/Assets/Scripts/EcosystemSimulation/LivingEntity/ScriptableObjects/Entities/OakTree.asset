@@ -16,6 +16,7 @@ MonoBehaviour:
     mean: 125
     standard_deviation: 15
   objectName: "ch\xEAne"
+  prefab: {fileID: 7321852126976835807, guid: 2a67720ec9467f04988251a2282471f9, type: 3}
   meshes:
   - scale: 13
     isCenterAnchored: 0
@@ -35,3 +36,5 @@ MonoBehaviour:
     - {fileID: 2208238522589761848, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
   stageIncrement: 0
   minMaxSizeRange: {x: 0.8, y: 1.2}
+  nutritionPerStage: 0
+  minStageToBeEaten: 0

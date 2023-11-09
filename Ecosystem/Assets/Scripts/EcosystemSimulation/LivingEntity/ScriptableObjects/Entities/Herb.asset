@@ -16,6 +16,7 @@ MonoBehaviour:
     mean: 3
     standard_deviation: 0.2
   objectName: herbe
+  prefab: {fileID: 2743919181196733262, guid: faf9aed03efafe84bace02776769fd47, type: 3}
   meshes:
   - scale: 15
     isCenterAnchored: 1
@@ -41,4 +42,3 @@ MonoBehaviour:
   minMaxSizeRange: {x: 0.7, y: 1.3}
   nutritionPerStage: 1.5
   minStageToBeEaten: 2
-  nbrOfUpdatesToEat: 2

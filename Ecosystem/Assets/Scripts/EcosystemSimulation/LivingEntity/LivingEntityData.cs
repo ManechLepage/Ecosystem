@@ -6,4 +6,5 @@ public class LivingEntityData : ScriptableObject
 {
     public BellCurve lifespan;
     public string objectName;
+    public GameObject prefab;
 }

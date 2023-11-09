@@ -22,7 +22,8 @@ public class LivingEntity : MonoBehaviour
 
     public virtual void SimulationUpdate()
     {
-        age += 0.1f;
+        // 2 days per second
+        age += 1 / 365.25f * 2f;
     }
 
     public virtual void Start()

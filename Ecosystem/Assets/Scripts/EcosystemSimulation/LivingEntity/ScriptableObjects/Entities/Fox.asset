@@ -16,6 +16,7 @@ MonoBehaviour:
     mean: 4
     standard_deviation: 1
   objectName: renard
+  prefab: {fileID: 6217518695278154469, guid: e70e9691c24664e4aa808af4492d0993, type: 3}
   number_of_children:
     mean: 4
     standard_deviation: 0.8
@@ -25,9 +26,6 @@ MonoBehaviour:
   sensory_distance:
     mean: 100
     standard_deviation: 6
-  desirability:
-    mean: 0
-    standard_deviation: 0
   speed:
     mean: 6
     standard_deviation: 0.35
@@ -37,3 +35,5 @@ MonoBehaviour:
   minMaxSize: {x: 0, y: 0}
   maxHunger: 50
   maxThirst: 35
+  reproductiveCoolDown: 265
+  reproductiveMaturity: 100
