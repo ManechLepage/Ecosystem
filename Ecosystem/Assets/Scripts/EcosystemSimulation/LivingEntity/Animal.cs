@@ -245,20 +245,26 @@ public class Animal : LivingEntity
         float closestDistance = 0f;
         foreach (GameObject entity in entities)
         {
+            bool canEatEntity = true;
             if (entity.GetComponent<Entity>().livingEntity is Plant plant)
             {
-                if (plant.CanBeEaten())
+                if (!plant.CanBeEaten())
                 {
-                    float distance = Vector3.Distance(transform.position, entity.transform.position);
+                    canEatEntity = false;
+                }
+            }
 
-                    if (closestFood == null || distance < closestDistance)
+            if (canEatEntity)
+            {
+                float distance = Vector3.Distance(transform.position, entity.transform.position);
+
+                if (closestFood == null || distance < closestDistance)
+                {
+                    if (data.can_eat.plants.Contains((PlantType)entity.GetComponent<Entity>().type)
+                        || data.can_eat.animals.Contains((AnimalType)entity.GetComponent<Entity>().type))
                     {
-                        if (data.can_eat.plants.Contains((PlantType)entity.GetComponent<Entity>().type)
-                            || data.can_eat.animals.Contains((AnimalType)entity.GetComponent<Entity>().type))
-                        {
-                            closestFood = entity;
-                            closestDistance = Vector3.Distance(transform.position, entity.transform.position);
-                        }
+                        closestFood = entity;
+                        closestDistance = Vector3.Distance(transform.position, entity.transform.position);
                     }
                 }
             }
@@ -432,28 +438,35 @@ public class Animal : LivingEntity
         if (target != null)
             agent.destination = target.transform.position;
 
+        Debug.Log(HasReachedGoal(), gameObject);
         if (HasReachedGoal())
         {
             isInAction = true;
 
             if (currentObjective == ObjectiveType.Food)
             {
-                EatPlant(target);
-                Debug.Log("Eating...", gameObject);
+                if (target != null)
+                {
+                    if (target.GetComponent<Entity>().livingEntity is Plant)
+                        EatPlant(target);
+                    else
+                        EatAnimal(target);
+                    // Debug.Log("Eating...", gameObject);
+                }
             }
             else if (currentObjective == ObjectiveType.Water)
             {
                 Drink();
-                Debug.Log("Drinking...", gameObject);
+                // Debug.Log("Drinking...", gameObject);
             }
             else if (currentObjective == ObjectiveType.Mate)
             {
                 Mate(target); // place this in OnTriggerEnter
-                Debug.Log("Mating...", gameObject);
+                // Debug.Log("Mating...", gameObject);
             }
             else if (currentObjective == ObjectiveType.Random)
             {
-                Debug.Log("Wandering...", gameObject);
+                // Debug.Log("Wandering...", gameObject);
             }
         }
         
@@ -485,6 +498,25 @@ public class Animal : LivingEntity
         {
             hunger += nutrition;
         }
+    }
+
+    public void EatAnimal(GameObject food)
+    {
+        float nutrition = food.GetComponent<Animal>().Eat();
+        if (hunger + nutrition > data.maxHunger)
+        {
+            hunger = data.maxHunger;
+        }
+        else
+        {
+            hunger += nutrition;
+        }
+    }
+
+    public float Eat()
+    {
+        Die();
+        return data.nutrition; 
     }
 
     public void Drink()
@@ -528,8 +560,12 @@ public class Animal : LivingEntity
 
     private bool HasReachedGoal()
     {
-        Debug.Log(!agent.pathPending || agent.remainingDistance < 0.1f);
-        return !agent.pathPending || agent.remainingDistance < 0.1f;
+        return false; // !agent.pathPending || agent.remainingDistance < 0.1f;
+    }
+
+    public void Die()
+    {
+        age = lifespan;
     }
 }
 

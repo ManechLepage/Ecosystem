@@ -24,8 +24,8 @@ MonoBehaviour:
     mean: 50
     standard_deviation: 2.5
   sensory_distance:
-    mean: 100
-    standard_deviation: 6
+    mean: 60
+    standard_deviation: 7
   speed:
     mean: 6
     standard_deviation: 0.35
@@ -37,3 +37,4 @@ MonoBehaviour:
   maxThirst: 35
   reproductiveCoolDown: 265
   reproductiveMaturity: 100
+  nutrition: 0

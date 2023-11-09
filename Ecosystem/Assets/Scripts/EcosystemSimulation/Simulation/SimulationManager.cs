@@ -436,6 +436,7 @@ public class SimulationManager : MonoBehaviour
         foreach (GameObject entity in entities)
         {
             LivingEntity livingEntity = entity.GetComponent<LivingEntity>();
+            int counter = 0;
 
             if (livingEntity is Animal animalEntity && livingEntity.GetType().Name == animalName)
             {
@@ -447,10 +448,11 @@ public class SimulationManager : MonoBehaviour
                 // hunger.Add(animalEntity.hunger / animalEntity.data.maxHunger);
                 thirst.Add(animalEntity.thirst);
                 hunger.Add(animalEntity.hunger);
+                counter ++;
             }
         }
 
-        gameObject.GetComponent<SendInfoToSheets>().SendAnimalData(simulationAge, animalName, GetAverageFromList(age), GetAverageFromList(speed), GetAverageFromList(thirst), GetAverageFromList(hunger));
+        gameObject.GetComponent<SendInfoToSheets>().SendAnimalData(simulationAge, animalName, GetAverageFromList(age), GetAverageFromList(speed), GetAverageFromList(thirst), GetAverageFromList(hunger), counter);
     }
 
     float GetAverageFromList(List<float> list)

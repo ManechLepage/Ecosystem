@@ -15,5 +15,6 @@ public class AnimalData : LivingEntityData
     public float maxThirst;
     public int reproductiveCoolDown;
     public float reproductiveMaturity;
+    public float nutrition;
 }
 

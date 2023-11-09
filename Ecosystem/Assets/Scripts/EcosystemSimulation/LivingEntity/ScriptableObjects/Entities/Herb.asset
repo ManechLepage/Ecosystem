@@ -38,7 +38,7 @@ MonoBehaviour:
     materials:
     - {fileID: 2100000, guid: 1407d18a695b5ff4092a296da7ff5fcf, type: 2}
     - {fileID: 2100000, guid: a325c42b21bc687499803c7543eec170, type: 2}
-  stageIncrement: 1.5
+  stageIncrement: 15
   minMaxSizeRange: {x: 0.7, y: 1.3}
   nutritionPerStage: 1.5
   minStageToBeEaten: 2
