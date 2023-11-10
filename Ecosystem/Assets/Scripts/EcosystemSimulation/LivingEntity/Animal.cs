@@ -31,6 +31,7 @@ public class Animal : LivingEntity
     public List<GameObject> children = new List<GameObject>();
     public Dictionary<System.Enum, float> urge_to_run;
     public ObjectiveType currentObjective;
+    public GameObject currentPrey;
 
     [Header("Navigation")]
     public NavMeshAgent agent;
@@ -88,29 +89,9 @@ public class Animal : LivingEntity
             gameObject.GetComponent<MeshRenderer>().bounds.size.y / 2,
             0f
         );
+
+        currentPrey = null;
     }
-
-    // public Animal reproduce(Animal partner) // pas encore testé
-    // {
-    //     // create an instance of the same animal as the parents
-    //     System.Type parent_type = this.GetType();
-    //     System.Reflection.ConstructorInfo constructor = parent_type.GetConstructor(new System.Type[] { typeof(SimulationManager) });
-
-    //     Animal child = (Animal)constructor.Invoke(new object[] { this.simulation });
-    //     child.position = this.position;
-
-    //     // inherit the characteristics of the parents
-    //     BellCurve speed_curve = new BellCurve((this.speed + partner.speed) / 2, 0.25f);
-    //     child.speed = speed_curve.get_random_value();
-
-    //     foreach (KeyValuePair<System.Type, float> entry in this.urge_to_run)
-    //     {
-    //         BellCurve urge_curve = new BellCurve((this.urge_to_run[entry.Key] + partner.urge_to_run[entry.Key]) / 2, 0.25f);
-    //         child.urge_to_run[entry.Key] = urge_curve.get_random_value();
-    //     }
-
-    //     return child;
-    // }
 
     public GameObject GetMostDangerousPredator(List<GameObject> entities)
     {
@@ -260,8 +241,14 @@ public class Animal : LivingEntity
 
                 if (closestFood == null || distance < closestDistance)
                 {
-                    if (data.can_eat.plants.Contains((PlantType)entity.GetComponent<Entity>().type)
-                        || data.can_eat.animals.Contains((AnimalType)entity.GetComponent<Entity>().type))
+                    if (data.can_eat.plants.Contains((PlantType)entity.GetComponent<Entity>().type) &&
+                        entity.GetComponent<Entity>().livingEntity is Plant)
+                    {
+                        closestFood = entity;
+                        closestDistance = Vector3.Distance(transform.position, entity.transform.position);
+                    }
+                    else if (data.can_eat.animals.Contains((AnimalType)entity.GetComponent<Entity>().type) &&
+                        entity.GetComponent<Entity>().livingEntity is Animal)
                     {
                         closestFood = entity;
                         closestDistance = Vector3.Distance(transform.position, entity.transform.position);
@@ -310,14 +297,13 @@ public class Animal : LivingEntity
         List<GameObject> nearbyTiles = GetNearbyTiles(sensoryDistance);
         List<GameObject> nearbyEntities = GetNearbyEntities(sensoryDistance);
         List<GameObject> nearbyWater = GetNearbyEntities(sensoryDistance);
+        nearbyEntities.Remove(gameObject);
         
         GameObject fleeingPredatorObjective = GetFleeingObjective(nearbyEntities, nearbyTiles);
         GameObject waterObjective = GetWaterObjective(nearbyTiles);
         GameObject foodObjective = GetFoodObjective(nearbyEntities);
         GameObject mateObjective = GetMateObjective(nearbyEntities);
         GameObject randomObjective = GetRandomObjective(nearbyTiles);
-
-        nearbyEntities.Remove(gameObject);
 
         // PRIORITY
         // 1: Fleeing
@@ -379,12 +365,12 @@ public class Animal : LivingEntity
         }
 
         // 3: Water or Food (smallest value) | If both value greater then 75% of max value, check mating
-        else if (needsFood)
+        else if (needsFood && isFood)
         {
             currentObjective = ObjectiveType.Food;
             return foodObjective;
         }
-        else if (needsWater)
+        else if (needsWater && isWater)
         {
             currentObjective = ObjectiveType.Water;
             return waterObjective;
@@ -394,6 +380,7 @@ public class Animal : LivingEntity
         else if (canMate && isMate)
         {
             currentObjective = ObjectiveType.Mate;
+            Debug.Log("Found mate", gameObject);
             return mateObjective;
         }
 
@@ -411,6 +398,8 @@ public class Animal : LivingEntity
                 return waterObjective;
             }
         }
+        /*
+        The animal should roam around if it has enough food and water
         else if (isWater)
         {
             currentObjective = ObjectiveType.Water;
@@ -421,6 +410,7 @@ public class Animal : LivingEntity
             currentObjective = ObjectiveType.Food;
             return foodObjective;
         }
+        */
 
         // 6: Wander around
         else
@@ -437,36 +427,36 @@ public class Animal : LivingEntity
         GameObject target = ChooseObjective();
         if (target != null)
             agent.destination = target.transform.position;
+            if (currentObjective == ObjectiveType.Food)
+            {
+                currentPrey = target;
+            }
+            else
+            {
+                currentPrey = null;
+            }
 
-        Debug.Log(HasReachedGoal(), gameObject);
+        //Debug.Log(HasReachedGoal(), gameObject);
         if (HasReachedGoal())
         {
             isInAction = true;
 
-            if (currentObjective == ObjectiveType.Food)
+            if (currentObjective == ObjectiveType.Food && currentPrey != null &&
+                currentPrey.GetComponent<Entity>().livingEntity is Plant)
             {
-                if (target != null)
-                {
-                    if (target.GetComponent<Entity>().livingEntity is Plant)
-                        EatPlant(target);
-                    else
-                        EatAnimal(target);
-                    // Debug.Log("Eating...", gameObject);
-                }
+                EatPlant(currentPrey);
             }
             else if (currentObjective == ObjectiveType.Water)
             {
                 Drink();
-                // Debug.Log("Drinking...", gameObject);
             }
             else if (currentObjective == ObjectiveType.Mate)
             {
-                Mate(target); // place this in OnTriggerEnter
-                // Debug.Log("Mating...", gameObject);
+
             }
             else if (currentObjective == ObjectiveType.Random)
             {
-                // Debug.Log("Wandering...", gameObject);
+
             }
         }
         
@@ -487,6 +477,42 @@ public class Animal : LivingEntity
         }
     }
 
+    public void Update()
+    {
+        if (currentObjective == ObjectiveType.Food && currentPrey != null)
+        {
+            agent.destination = currentPrey.transform.position;
+        }
+
+        if (currentObjective == ObjectiveType.Mate && partner != null)
+        {
+            agent.destination = partner.transform.position;
+        }
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject == currentPrey && currentObjective == ObjectiveType.Food)
+        {
+            isInAction = false;
+            currentPrey = null;
+            if (other.gameObject.GetComponent<Entity>().livingEntity is Plant plant)
+                EatPlant(other.gameObject);
+            else
+            {
+                EatAnimal(other.gameObject);
+                Debug.Log(gameObject.name + " ate " + other.gameObject.name, gameObject);
+            }
+        }
+
+        if (other.gameObject == partner && currentObjective == ObjectiveType.Mate)
+        {
+            isInAction = false;
+            partner = null;
+            Mate(other.gameObject);
+        }
+    }
+
     public void EatPlant(GameObject food)
     {
         float nutrition = food.GetComponent<Plant>().Eat();
@@ -498,6 +524,7 @@ public class Animal : LivingEntity
         {
             hunger += nutrition;
         }
+        currentPrey = null;
     }
 
     public void EatAnimal(GameObject food)
@@ -511,12 +538,13 @@ public class Animal : LivingEntity
         {
             hunger += nutrition;
         }
+        currentPrey = null;
     }
 
     public float Eat()
     {
         Die();
-        return data.nutrition; 
+        return data.nutrition;
     }
 
     public void Drink()
@@ -560,7 +588,7 @@ public class Animal : LivingEntity
 
     private bool HasReachedGoal()
     {
-        return false; // !agent.pathPending || agent.remainingDistance < 0.1f;
+        return !agent.pathPending || agent.remainingDistance < 0.1f;
     }
 
     public void Die()

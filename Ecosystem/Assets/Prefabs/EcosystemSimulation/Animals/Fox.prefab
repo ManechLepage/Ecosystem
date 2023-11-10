@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -8149341777088380405}
   - component: {fileID: -8402916976295212273}
   - component: {fileID: -2479520838252120081}
+  - component: {fileID: 2883679098471122637}
   m_Layer: 0
   m_Name: Fox
   m_TagString: Untagged
@@ -103,8 +104,8 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
@@ -129,14 +130,17 @@ MonoBehaviour:
   size: 0
   sensoryDistance: 0
   gestation_duration: 0
+  currentGestation: 0
   hunger: 0
   thirst: 0
   number_of_children: 0
   reproductive_urge: 0
-  gender: 0
+  isPregnant: 0
+  partner: {fileID: 0}
+  children: []
   currentObjective: 0
+  currentPrey: {fileID: 0}
   agent: {fileID: -8402916976295212273}
-  isWandering: 0
   objective: {x: 0, y: 0}
   path: []
 --- !u!114 &-8149341777088380405
@@ -193,3 +197,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   livingEntity: {fileID: 0}
+--- !u!54 &2883679098471122637
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6217518695278154469}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

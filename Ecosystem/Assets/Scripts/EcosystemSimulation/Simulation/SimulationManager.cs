@@ -452,7 +452,14 @@ public class SimulationManager : MonoBehaviour
             }
         }
 
-        gameObject.GetComponent<SendInfoToSheets>().SendAnimalData(simulationAge, animalName, GetAverageFromList(age), GetAverageFromList(speed), GetAverageFromList(thirst), GetAverageFromList(hunger), counter);
+        gameObject.GetComponent<SendInfoToSheets>().SendAnimalData(
+            simulationAge, animalName,
+            GetAverageFromList(age),
+            GetAverageFromList(speed),
+            GetAverageFromList(thirst),
+            GetAverageFromList(hunger)//,
+            //counter
+        );
     }
 
     float GetAverageFromList(List<float> list)

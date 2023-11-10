@@ -37,4 +37,4 @@ MonoBehaviour:
   maxThirst: 35
   reproductiveCoolDown: 265
   reproductiveMaturity: 100
-  nutrition: 0
+  nutrition: 30

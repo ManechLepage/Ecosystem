@@ -15,12 +15,12 @@ public class Plant : LivingEntity
         // meshTypeIndex = 0;
         meshTypeIndex = (int)Random.Range(0, data.meshes.Count);
         gameObject.GetComponent<Renderer>().materials = data.meshes[meshTypeIndex].materials;
-        stageIndex = 1;
 
         gameObject.transform.rotation = Quaternion.Euler(-90f, Random.Range(0f, 360f), 0f);
 
         lifespan = data.lifespan.get_random_value();
         age = Random.Range(0f, lifespan);
+        stageIndex = (int)Random.Range(1, data.meshes[meshTypeIndex].meshes.Count);
         SetMesh();
 
         float scale_variation = 1f;
@@ -49,7 +49,7 @@ public class Plant : LivingEntity
 
         if (age > stageIndex * data.stageIncrement)
         {
-            stageIndex++;            
+            stageIndex++;
             
             // Maybe better idea to keep the last stage instead of resetting to stage 1
             if (stageIndex >= data.meshes[meshTypeIndex].meshes.Count)
@@ -59,21 +59,17 @@ public class Plant : LivingEntity
             }
             SetMesh();
         }
-
-        
     }
 
     public void SetMesh()
     {
         gameObject.GetComponent<MeshFilter>().mesh = data.meshes[meshTypeIndex].meshes[stageIndex - 1];
-        
     }
 
     public float Eat()
     {
         stageIndex--;
         SetMesh();
-        Debug.Log("Plant eaten...", gameObject);
         return data.nutritionPerStage;
     }
 
