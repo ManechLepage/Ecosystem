@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   smoothness: 0.5
-  intensity: 2
+  intensity: 1.6
   waterLevel: 0.6
   populations:
     animalPopulations:
@@ -27,5 +27,6 @@ MonoBehaviour:
       population: 5
     - type: 1
       population: 1
-  animalDensity: 0.1
+  animalDensity: 0.3
   plantDensity: 1
+  events: []

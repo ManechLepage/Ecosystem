@@ -41,6 +41,7 @@ public class SimulationManager : MonoBehaviour
     public int seed = -1; // If -1, the seed is random
     public Vector2 size = new Vector2(64, 64);
     public EcosystemData ecosystemData;
+    public GameObject camera;
 
     [Header("Terrain Settings")]
     public float tile_size = 1f;
@@ -319,6 +320,18 @@ public class SimulationManager : MonoBehaviour
         }
 
         Debug.Log(pop_text);
+
+        foreach (GameObject entity in entities)
+        {
+            if (entity.GetComponent<Entity>().type is AnimalType)
+            {
+                camera.transform.position = new Vector3(0f, 0f, 0f);
+                camera.transform.SetParent(entity.transform);
+                Debug.Log("Camera parent set", entity);
+                break;
+            }
+        }
+        
     }
 
     public void Awake()

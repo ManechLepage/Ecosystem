@@ -89,7 +89,7 @@ public class Animal : LivingEntity
             gameObject.GetComponent<MeshRenderer>().bounds.size.y / 2,
             0f
         );
-
+    
         currentPrey = null;
     }
 
@@ -286,9 +286,10 @@ public class Animal : LivingEntity
         }
         return null;
     }
-    public GameObject GetRandomObjective(List<GameObject> tiles)
+    public GameObject GetRandomObjective()
     {
-        GameObject tile = tiles[(int)Random.Range(0, GetNearbyTiles(sensoryDistance).Count)];
+        List<GameObject> tiles = GetNearbyTiles(sensoryDistance * 5);
+        GameObject tile = tiles[(int)Random.Range(0, tiles.Count)];
         return tile.GetComponent<TileManager>().centerPlacement;
     }
 
@@ -303,7 +304,7 @@ public class Animal : LivingEntity
         GameObject waterObjective = GetWaterObjective(nearbyTiles);
         GameObject foodObjective = GetFoodObjective(nearbyEntities);
         GameObject mateObjective = GetMateObjective(nearbyEntities);
-        GameObject randomObjective = GetRandomObjective(nearbyTiles);
+        GameObject randomObjective = GetRandomObjective();
 
         // PRIORITY
         // 1: Fleeing
@@ -398,7 +399,7 @@ public class Animal : LivingEntity
                 return waterObjective;
             }
         }
-        /*
+/*
         The animal should roam around if it has enough food and water
         else if (isWater)
         {
@@ -410,7 +411,7 @@ public class Animal : LivingEntity
             currentObjective = ObjectiveType.Food;
             return foodObjective;
         }
-        */
+*/
 
         // 6: Wander around
         else
@@ -444,19 +445,19 @@ public class Animal : LivingEntity
             if (currentObjective == ObjectiveType.Food && currentPrey != null &&
                 currentPrey.GetComponent<Entity>().livingEntity is Plant)
             {
-                EatPlant(currentPrey);
-            }
+                        EatPlant(currentPrey);
+                            }
             else if (currentObjective == ObjectiveType.Water)
             {
                 Drink();
-            }
+                            }
             else if (currentObjective == ObjectiveType.Mate)
             {
-
+                
             }
             else if (currentObjective == ObjectiveType.Random)
             {
-
+                
             }
         }
         
@@ -524,7 +525,6 @@ public class Animal : LivingEntity
         {
             hunger += nutrition;
         }
-        currentPrey = null;
     }
 
     public void EatAnimal(GameObject food)
@@ -538,13 +538,13 @@ public class Animal : LivingEntity
         {
             hunger += nutrition;
         }
-        currentPrey = null;
+currentPrey = null;
     }
 
     public float Eat()
     {
         Die();
-        return data.nutrition;
+        return data.nutrition; 
     }
 
     public void Drink()
