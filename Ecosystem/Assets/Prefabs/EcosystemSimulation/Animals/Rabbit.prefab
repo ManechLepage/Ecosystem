@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: -2196522914261810519}
   m_Layer: 0
   m_Name: Rabbit
-  m_TagString: Untagged
+  m_TagString: Animal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -140,6 +140,7 @@ MonoBehaviour:
   children: []
   currentObjective: 0
   currentPrey: {fileID: 0}
+  foundRandomObjective: 0
   agent: {fileID: 7189754981515248757}
   objective: {x: 0, y: 0}
   path: []
