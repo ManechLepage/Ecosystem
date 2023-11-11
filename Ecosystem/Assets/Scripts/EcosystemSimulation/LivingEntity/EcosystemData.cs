@@ -21,7 +21,7 @@ public class EcosystemData : ScriptableObject
 [System.Serializable]
 public class Event
 {
-    public int time = 0;
+    public int day = 0;
     public AnimalType animalType;
     public int count = 1;
 }

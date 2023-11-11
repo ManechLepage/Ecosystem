@@ -43,9 +43,9 @@ public class Plant : LivingEntity
         }
     }
 
-    public override void SimulationUpdate()
+    public override void SimulationUpdate(int days)
     {
-        base.SimulationUpdate();
+        base.SimulationUpdate(days);
 
         if (age > stageIndex * data.stageIncrement)
         {

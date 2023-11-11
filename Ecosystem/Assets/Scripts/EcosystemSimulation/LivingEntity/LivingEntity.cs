@@ -20,10 +20,10 @@ public class LivingEntity : MonoBehaviour
     public float age;
     public float lifespan;
 
-    public virtual void SimulationUpdate()
+    public virtual void SimulationUpdate(int days)
     {
         // 2 days per second
-        age += 1 / 365.25f * 2f;
+        age += 1 / 365.25f * (float)days;
     }
 
     public virtual void Start()

@@ -384,12 +384,15 @@ public class Animal : LivingEntity
         }
 
         // 3: Water or Food (smallest value) | If both value greater then 75% of max value, check mating
-        else if (needsFood && isFood)
+        else if (
+            (needsUrgentFood || needsFood)
+            && isFood && hunger < thirst
+            )
         {
             currentObjective = ObjectiveType.Food;
             return foodObjective;
         }
-        else if (needsWater && isWater)
+        else if ((needsUrgentWater || needsWater) && isWater)
         {
             currentObjective = ObjectiveType.Water;
             return waterObjective;
@@ -402,8 +405,8 @@ public class Animal : LivingEntity
             return mateObjective;
         }
 
-        // 5: Water or Food (smallest value)
-        else if (isWater && isFood)
+        // 5: Water or Food (smallest value) -> wander around if food and water > 75% ?
+        /*else if (isWater && isFood)
         {
             if (hunger < thirst)
             {
@@ -415,7 +418,7 @@ public class Animal : LivingEntity
                 currentObjective = ObjectiveType.Water;
                 return waterObjective;
             }
-        }
+        }*/
 
         // 6: Wander around
         else
@@ -425,9 +428,9 @@ public class Animal : LivingEntity
         }
     }
 
-    public override void SimulationUpdate()
+    public override void SimulationUpdate(int days)
     {
-        base.SimulationUpdate();
+        base.SimulationUpdate(days);
 
         GameObject target = ChooseObjective();
         if (target != null)
@@ -451,15 +454,11 @@ public class Animal : LivingEntity
             if (currentObjective == ObjectiveType.Food && currentPrey != null &&
                 currentPrey.GetComponent<Entity>().livingEntity is Plant)
             {
-                        EatPlant(currentPrey);
-                            }
+                EatPlant(currentPrey);
+            }
             else if (currentObjective == ObjectiveType.Water)
             {
                 Drink();
-                            }
-            else if (currentObjective == ObjectiveType.Mate)
-            {
-                
             }
             else if (currentObjective == ObjectiveType.Random)
             {
@@ -469,11 +468,11 @@ public class Animal : LivingEntity
         
         hunger -= 0.2f;
         thirst -= 0.2f;
-        reproductive_urge += 1;
+        reproductive_urge += days;
 
         if (isPregnant)
         {
-            currentGestation += 1;
+            currentGestation += days;
         }
 
         if (currentGestation >= gestation_duration)

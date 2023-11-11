@@ -41,6 +41,7 @@ public class SimulationManager : MonoBehaviour
     public int seed = -1; // If -1, the seed is random
     public Vector2 size = new Vector2(64, 64);
     public EcosystemData ecosystemData;
+    [HideInInspector] public List<Event> executedEvents = new List<Event>();
     public GameObject camera;
 
     [Header("Terrain Settings")]
@@ -69,11 +70,12 @@ public class SimulationManager : MonoBehaviour
     
     private Dictionary<TileType, List<Material>> tileMaterials;
 
-    [Header("Biome Settings")]
-    public float time;
+    [Header("Other Settings")]
+    public float time = 0f;
+    public int simulationDays = 0;
+    public int daysPerUpdate = 4;
     public List<List<GameObject>> tiles;
 
-    // public BiomeType biome;
     public Dictionary<System.Enum, int> populations = new Dictionary<System.Enum, int>() {};
     public bool add_walls = true;
 
@@ -84,9 +86,11 @@ public class SimulationManager : MonoBehaviour
     public NavMeshSurface[] surface;
 
     private int simulationAge = 0;
+    [HideInInspector] public System.Random randomWithSeed;
     
     public void Initialize()
     {
+        randomWithSeed = new System.Random(seed);
         tiles = new List<List<GameObject>>();
         entities = new List<GameObject>();
         populations = new Dictionary<System.Enum, int>() {};
@@ -264,8 +268,6 @@ public class SimulationManager : MonoBehaviour
 
     public void PopulateTerrain()
     {
-        var populations_random = new System.Random(seed);
-        
         // Add plants
         for (int x = 2; x < tiles.Count - 3; x++)
         {
@@ -287,9 +289,9 @@ public class SimulationManager : MonoBehaviour
                 
                 for (int i = 0; i < 6; i++)
                 {
-                    if (tiles[x][y].GetComponent<TileManager>().type == TileType.Grass && populations_random.Next(0, probability + 1) <= 1)
+                    if (tiles[x][y].GetComponent<TileManager>().type == TileType.Grass && randomWithSeed.Next(0, probability + 1) <= 1)
                     {
-                        PlantType plant_type = ecosystemData.populations.GetRandomPlant(populations_random);
+                        PlantType plant_type = ecosystemData.populations.GetRandomPlant(randomWithSeed);
                         
                         AddLivingEntity(tiles[x][y].GetComponent<TileManager>().placementPositions[i], (System.Enum)plant_type);
                     }
@@ -300,17 +302,8 @@ public class SimulationManager : MonoBehaviour
         // Add animals
         for (int x = 0; x < Mathf.Round(tiles.Count * tiles[0].Count / 25 * ecosystemData.animalDensity); x++)
         {
-            int random_x = populations_random.Next(3, tiles.Count - 4);
-            int random_y = populations_random.Next(3, tiles[random_x].Count - 4);
-
-            GameObject tile = tiles[random_x][random_y];
-            TileType type = tile.GetComponent<TileManager>().type;
-
-            if (type == TileType.Grass && tile.GetComponent<TileManager>().under_water == false)
-            {
-                AnimalType animalType = ecosystemData.populations.GetRandomAnimal(populations_random);
-                AddLivingEntity(tile.GetComponent<TileManager>().centerPlacement, (System.Enum)animalType);
-            }
+            System.Enum animal_type = ecosystemData.populations.GetRandomAnimal(randomWithSeed);
+            AddAnimalToRandomPosition(animal_type);
         }
 
         string pop_text = "Populations :\n";
@@ -334,6 +327,34 @@ public class SimulationManager : MonoBehaviour
         
     }
 
+    public void AddAnimalToRandomPosition(System.Enum type)
+    {
+        GameObject tile = null;
+        TileType tile_type = TileType.Rock;  // IMPORTANT : set to any type that is not grass
+        int count = 0;
+        
+        while (tile == null || tile_type == null || tile_type != TileType.Grass || tile.GetComponent<TileManager>().under_water == true)
+        {
+            int random_x = randomWithSeed.Next(3, tiles.Count - 4);
+            int random_y = randomWithSeed.Next(3, tiles[random_x].Count - 4);
+
+            tile = tiles[random_x][random_y];
+            tile_type = tile.GetComponent<TileManager>().type;
+            count++;
+
+            if (count > 100)
+            {
+                break;
+            }
+        }
+
+        // in case of no tile found
+        if (tile_type == TileType.Grass && tile.GetComponent<TileManager>().under_water == false)
+        {
+            AddLivingEntity(tile.GetComponent<TileManager>().centerPlacement, type);
+        }
+    }
+    
     public void Awake()
     {
         // surface.BuildNavMesh();
@@ -347,6 +368,20 @@ public class SimulationManager : MonoBehaviour
 
     public void SimulationUpdate()
     {
+        simulationDays += daysPerUpdate;
+
+        foreach (Event e in ecosystemData.events)
+        {
+            if (e.day <= simulationDays && !executedEvents.Contains(e))
+            {
+                for (int i = 0; i < e.count; i++)
+                {
+                    AddAnimalToRandomPosition((System.Enum)e.animalType);
+                }
+                executedEvents.Add(e);
+            }
+        }
+        
         List<GameObject> deadEntities = new List<GameObject>();
         // To prevent the childs of getting modified while iterating
         List<GameObject> all_entities = new List<GameObject>(entities);
@@ -354,7 +389,7 @@ public class SimulationManager : MonoBehaviour
         {
             if (living_entity.GetComponent<Entity>().livingEntity != null)
             {
-                living_entity.GetComponent<Entity>().livingEntity.SimulationUpdate();
+                living_entity.GetComponent<Entity>().livingEntity.SimulationUpdate(daysPerUpdate);
 
                 if (living_entity.GetComponent<Entity>().livingEntity is Animal animalEntity)
                 {
