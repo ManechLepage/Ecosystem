@@ -32,6 +32,9 @@ public class Animal : LivingEntity
     public Dictionary<System.Enum, float> urge_to_run;
     public ObjectiveType currentObjective;
     public GameObject currentPrey;
+    public bool canReproduce = false;
+
+    [HideInInspector] public bool randomlyInitialized = false;
 
     [Header("Navigation")]
     public NavMeshAgent agent;
@@ -43,7 +46,9 @@ public class Animal : LivingEntity
 
     public bool CanReproduce()
     {
-        return reproductive_urge >= data.reproductiveCoolDown && age >= (data.reproductiveMaturity / 365.25f) && !isPregnant;
+        bool c = reproductive_urge >= data.reproductiveCoolDown && age >= (data.reproductiveMaturity / 365.25f) && !isPregnant;
+        canReproduce = c;
+        return c;
     }
 
     public void SetChildren(List<GameObject> _children)
@@ -53,9 +58,9 @@ public class Animal : LivingEntity
 
     public void RandomInitializing()
     {
-        age = Random.Range(0, lifespan / 2);
-        thirst = Random.Range(data.maxThirst / 2, data.maxThirst);
-        hunger = Random.Range(data.maxHunger / 2, data.maxHunger);
+        age = Random.Range(0f, lifespan * 2f/3f);
+        thirst = Random.Range(data.maxThirst / 2f, data.maxThirst);
+        hunger = Random.Range(data.maxHunger / 2f, data.maxHunger);
         reproductive_urge = Random.Range(0, (int)((float)data.reproductiveCoolDown * 1.5f));
     }
     public override void Start()
@@ -91,6 +96,11 @@ public class Animal : LivingEntity
         );
     
         currentPrey = null;
+
+        if (randomlyInitialized)
+        {
+            RandomInitializing();
+        }
     }
 
     public GameObject GetMostDangerousPredator(List<GameObject> entities)
@@ -271,20 +281,21 @@ public class Animal : LivingEntity
         {
             foreach (GameObject entity in entities)
             {
-                if (entity.GetComponent<Entity>().type == gameObject.GetComponent<Entity>().type
-                    && ((Animal)entity.GetComponent<Entity>().livingEntity).CanReproduce())
+                // IMPORTANT : mettre le (AnimalType) dans les deux conditions (sinon ça ne marche pas)
+                if ((AnimalType)entity.GetComponent<Entity>().type == (AnimalType)gameObject.GetComponent<Entity>().type
+                    && entity.GetComponent<Entity>().livingEntity is Animal animalEntity)
                 {
-                    animal = entity;
-                    break;
+                    if (animalEntity.CanReproduce())
+                    {
+                        Debug.Log($"The entity {gameObject.name} has found a mate.", gameObject);
+                        animal = entity;
+                        break;
+                    }
                 }
             }
         }
 
-        if (animal != null)
-        {
-            return animal;
-        }
-        return null;
+        return animal;
     }
     public GameObject GetRandomObjective()
     {
@@ -381,7 +392,6 @@ public class Animal : LivingEntity
         else if (canMate && isMate)
         {
             currentObjective = ObjectiveType.Mate;
-            Debug.Log("Found mate", gameObject);
             return mateObjective;
         }
 
@@ -399,19 +409,6 @@ public class Animal : LivingEntity
                 return waterObjective;
             }
         }
-/*
-        The animal should roam around if it has enough food and water
-        else if (isWater)
-        {
-            currentObjective = ObjectiveType.Water;
-            return waterObjective;
-        }
-        else if (isFood)
-        {
-            currentObjective = ObjectiveType.Food;
-            return foodObjective;
-        }
-*/
 
         // 6: Wander around
         else
@@ -428,16 +425,18 @@ public class Animal : LivingEntity
         GameObject target = ChooseObjective();
         if (target != null)
             agent.destination = target.transform.position;
-            if (currentObjective == ObjectiveType.Food)
-            {
-                currentPrey = target;
-            }
-            else
-            {
-                currentPrey = null;
-            }
 
-        //Debug.Log(HasReachedGoal(), gameObject);
+            if (currentObjective == ObjectiveType.Food)
+                currentPrey = target;
+            else
+                currentPrey = null;
+            
+            if (currentObjective == ObjectiveType.Mate)
+                partner = target;
+            else
+                partner = null;
+
+
         if (HasReachedGoal())
         {
             isInAction = true;

@@ -63,6 +63,7 @@ public class Plant : LivingEntity
 
     public void SetMesh()
     {
+        stageIndex = Mathf.Clamp(stageIndex, 1, data.meshes[meshTypeIndex].meshes.Count);
         gameObject.GetComponent<MeshFilter>().mesh = data.meshes[meshTypeIndex].meshes[stageIndex - 1];
     }
 

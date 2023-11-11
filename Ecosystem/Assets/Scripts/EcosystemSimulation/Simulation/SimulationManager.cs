@@ -182,8 +182,8 @@ public class SimulationManager : MonoBehaviour
             }
 
             go.GetComponent<Entity>().livingEntity.Start();
-            if (type is AnimalType && randomInitializing)
-                ((Animal)go.GetComponent<Entity>().livingEntity).RandomInitializing();
+            if (go.GetComponent<Entity>().livingEntity is Animal && randomInitializing)
+                ((Animal)go.GetComponent<Entity>().livingEntity).randomlyInitialized = true;
 
             AddEntitiesToPopulations(type);
             entities.Add(go);
