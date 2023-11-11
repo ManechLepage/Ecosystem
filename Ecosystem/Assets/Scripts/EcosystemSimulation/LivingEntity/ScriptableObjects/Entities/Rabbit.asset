@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Rabbit
   m_EditorClassIdentifier: 
   lifespan:
-    mean: 15
-    standard_deviation: 3
+    mean: 8.5
+    standard_deviation: 1
   objectName: lapin
   prefab: {fileID: 418303132130933100, guid: 4d87a0bb43c29a24482f5c4bcc233660, type: 3}
   number_of_children:

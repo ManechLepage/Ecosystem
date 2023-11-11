@@ -63,7 +63,7 @@ public class Plant : LivingEntity
 
     public void SetMesh()
     {
-        if (stageIndex > 1)
+        if (stageIndex >= 1)
         {
             gameObject.GetComponent<MeshFilter>().mesh = data.meshes[meshTypeIndex].meshes[stageIndex - 1];
         }
