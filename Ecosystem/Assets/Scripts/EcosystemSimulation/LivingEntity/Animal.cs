@@ -32,6 +32,8 @@ public class Animal : LivingEntity
     public Dictionary<System.Enum, float> urge_to_run;
     public ObjectiveType currentObjective;
     public GameObject currentPrey;
+    public bool foundRandomObjective = false;
+    public GameObject randomObjective;
 
     [Header("Navigation")]
     public NavMeshAgent agent;
@@ -288,9 +290,14 @@ public class Animal : LivingEntity
     }
     public GameObject GetRandomObjective()
     {
-        List<GameObject> tiles = GetNearbyTiles(sensoryDistance * 5);
-        GameObject tile = tiles[(int)Random.Range(0, tiles.Count)];
-        return tile.GetComponent<TileManager>().centerPlacement;
+        if (randomObjective == null)
+        {
+            List<GameObject> tiles = GetNearbyTiles(sensoryDistance * 5);
+            GameObject tile = tiles[(int)Random.Range(0, tiles.Count)];
+            randomObjective = tile.GetComponent<TileManager>().centerPlacement;
+            return randomObjective;
+        }
+        return randomObjective;
     }
 
     public GameObject ChooseObjective()
@@ -457,7 +464,7 @@ public class Animal : LivingEntity
             }
             else if (currentObjective == ObjectiveType.Random)
             {
-                
+                randomObjective = null;
             }
         }
         
@@ -586,9 +593,14 @@ currentPrey = null;
         Gizmos.DrawWireSphere(transform.position, sensoryDistance);
     }
 
+    public void FoundObjective()
+    {
+        foundRandomObjective = true;
+    }
+
     private bool HasReachedGoal()
     {
-        return !agent.pathPending || agent.remainingDistance < 0.1f;
+        return agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending;
     }
 
     public void Die()

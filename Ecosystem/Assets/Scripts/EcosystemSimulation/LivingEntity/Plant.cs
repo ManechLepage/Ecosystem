@@ -63,7 +63,10 @@ public class Plant : LivingEntity
 
     public void SetMesh()
     {
-        gameObject.GetComponent<MeshFilter>().mesh = data.meshes[meshTypeIndex].meshes[stageIndex - 1];
+        if (stageIndex > 1)
+        {
+            gameObject.GetComponent<MeshFilter>().mesh = data.meshes[meshTypeIndex].meshes[stageIndex - 1];
+        }
     }
 
     public float Eat()
