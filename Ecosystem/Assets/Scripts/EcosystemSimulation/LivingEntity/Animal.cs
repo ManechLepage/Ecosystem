@@ -30,6 +30,7 @@ public class Animal : LivingEntity
     public GameObject partner;
     public List<GameObject> children = new List<GameObject>();
     public Dictionary<System.Enum, float> urge_to_run;
+    public Dictionary<System.Enum, float> urge_to_eat;
     public ObjectiveType currentObjective;
     public GameObject currentPrey;
     public bool canReproduce = false;
@@ -86,7 +87,14 @@ public class Animal : LivingEntity
         urge_to_run = new Dictionary<System.Enum, float>
         {
             { AnimalType.rabbit, 0f },
-            { AnimalType.fox, 0.75f },
+            { AnimalType.fox, 0f },
+            { PlantType.herb, 0f },
+            { PlantType.oakTree, 0f}
+        };
+        urge_to_eat = new Dictionary<System.Enum, float>
+        {
+            { AnimalType.rabbit, 0f },
+            { AnimalType.fox, 0f },
             { PlantType.herb, 0f },
             { PlantType.oakTree, 0f}
         };
@@ -129,11 +137,6 @@ public class Animal : LivingEntity
         return predator;
     }
 
-    public List<GameObject> GetNearbyFood(List<GameObject> entities)
-    {
-        return null;
-    }
-    
     public List<GameObject> GetNearbyTiles(float radius)
     {
         List<GameObject> nearbyTiles = new List<GameObject>();
@@ -236,6 +239,7 @@ public class Animal : LivingEntity
     {
         GameObject closestFood = null;
         float closestDistance = 0f;
+        float highestUrgeToEat = -1f;
         foreach (GameObject entity in entities)
         {
             bool canEatEntity = true;
@@ -250,20 +254,26 @@ public class Animal : LivingEntity
             if (canEatEntity)
             {
                 float distance = Vector3.Distance(transform.position, entity.transform.position);
+                float urge = urge_to_eat[(System.Enum)entity.GetComponent<Entity>().type];
 
-                if (closestFood == null || distance < closestDistance)
+                if ( closestFood == null || ((
+                        highestUrgeToEat == -1f || urge > highestUrgeToEat || (urge == highestUrgeToEat && distance < closestDistance)
+                        ))
+                    )
                 {
                     if (data.can_eat.plants.Contains((PlantType)entity.GetComponent<Entity>().type) &&
                         entity.GetComponent<Entity>().livingEntity is Plant)
                     {
                         closestFood = entity;
                         closestDistance = Vector3.Distance(transform.position, entity.transform.position);
+                        highestUrgeToEat = urge;
                     }
                     else if (data.can_eat.animals.Contains((AnimalType)entity.GetComponent<Entity>().type) &&
                         entity.GetComponent<Entity>().livingEntity is Animal)
                     {
                         closestFood = entity;
                         closestDistance = Vector3.Distance(transform.position, entity.transform.position);
+                        highestUrgeToEat = urge;
                     }
                 }
             }
@@ -332,6 +342,7 @@ public class Animal : LivingEntity
         // 5: Water or Food (smallest value)
         // 6: Wander around
 
+        float eatingAndDrinkingThreshold = 0.85f;
         float matingThreshold = 0.75f;
         float searchingThreshold = 0.50f;
         
@@ -343,6 +354,9 @@ public class Animal : LivingEntity
 
         bool needsFood = false;
         bool needsWater = false;
+
+        bool needsSomeFood = false;
+        bool needsSomeWater = false;
 
         bool canMate = false;
         bool isMate = false;
@@ -360,6 +374,10 @@ public class Animal : LivingEntity
             needsFood = true;
         if (thirst < matingThreshold * data.maxThirst)
             needsWater = true;
+        if (hunger < eatingAndDrinkingThreshold * data.maxHunger)
+            needsSomeFood = true;
+        if (thirst < eatingAndDrinkingThreshold * data.maxThirst)
+            needsSomeWater = true;
         
         if (CanReproduce())
             canMate = true;
@@ -384,10 +402,9 @@ public class Animal : LivingEntity
         }
 
         // 3: Water or Food (smallest value) | If both value greater then 75% of max value, check mating
-        else if (
-            (needsUrgentFood || needsFood)
-            && isFood && hunger < thirst
-            )
+        else if ((needsUrgentFood || needsFood)
+            && isFood && (hunger < thirst || !isWater ||
+            (!needsWater && !needsUrgentWater)))
         {
             currentObjective = ObjectiveType.Food;
             return foodObjective;
@@ -405,20 +422,18 @@ public class Animal : LivingEntity
             return mateObjective;
         }
 
-        // 5: Water or Food (smallest value) -> wander around if food and water > 75% ?
-        /*else if (isWater && isFood)
+        // 5: Water or Food (smallest value) if below 85% of max value
+        else if (isFood && needsSomeFood && (
+            hunger < thirst || !isWater || !needsSomeWater))
         {
-            if (hunger < thirst)
-            {
-                currentObjective = ObjectiveType.Food;
-                return foodObjective;
-            }
-            else
-            {
-                currentObjective = ObjectiveType.Water;
-                return waterObjective;
-            }
-        }*/
+            currentObjective = ObjectiveType.Food;
+            return foodObjective;
+        }
+        else if (isWater && needsSomeWater)
+        {
+            currentObjective = ObjectiveType.Water;
+            return waterObjective;
+        }
 
         // 6: Wander around
         else

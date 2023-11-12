@@ -43,6 +43,7 @@ public class SimulationManager : MonoBehaviour
     public EcosystemData ecosystemData;
     [HideInInspector] public List<Event> executedEvents = new List<Event>();
     public GameObject camera;
+    public bool pauseWhenNoAnimals = true;
 
     [Header("Terrain Settings")]
     public float tile_size = 1f;
@@ -87,6 +88,7 @@ public class SimulationManager : MonoBehaviour
 
     private int simulationAge = 0;
     [HideInInspector] public System.Random randomWithSeed;
+    public bool pause = false;
     
     public void Initialize()
     {
@@ -423,6 +425,20 @@ public class SimulationManager : MonoBehaviour
             entities.Remove(deadEntity);
             Destroy(deadEntity);
         }
+
+        // pause if no animals left -> look in the entitiesParent children (if none, pause)
+        bool noAnimalsLeft = true;
+        foreach (Transform child in entitiesParent.transform)
+        {
+            noAnimalsLeft = false;
+            break;
+        }
+
+        if (noAnimalsLeft)
+        {
+            Debug.Log("No animals left, pausing simulation");
+            pause = true;
+        }
     }
 
     public void Reproduce(GameObject animal1, GameObject animal2)
@@ -466,6 +482,8 @@ public class SimulationManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1);
+            if (pause)
+                continue;
             SimulationUpdate();
             Debug.Log("Simulation updated");
             simulationAge++;

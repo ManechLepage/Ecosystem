@@ -14,5 +14,12 @@ public class Fox : Animal
             { PlantType.herb, 0f },
             { PlantType.oakTree, 0f}
         };
+        this.urge_to_eat = new Dictionary<System.Enum, float>
+        {
+            { AnimalType.rabbit, 0f },
+            { AnimalType.fox, 0f },
+            { PlantType.herb, 0f },
+            { PlantType.oakTree, 0f}
+        };
     }
 }

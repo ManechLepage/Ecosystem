@@ -140,7 +140,10 @@ MonoBehaviour:
   children: []
   currentObjective: 0
   currentPrey: {fileID: 0}
+  canReproduce: 0
+  randomlyInitialized: 0
   foundRandomObjective: 0
+  randomObjective: {fileID: 0}
   agent: {fileID: 7189754981515248757}
   objective: {x: 0, y: 0}
   path: []
@@ -177,7 +180,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
