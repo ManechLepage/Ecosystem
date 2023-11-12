@@ -299,7 +299,7 @@ public class Animal : LivingEntity
                 {
                     if (animalEntity.CanReproduce())
                     {
-                        Debug.Log($"The entity {gameObject.name} has found a mate.", gameObject);
+                        // Debug.Log($"The entity {gameObject.name} has found a mate.", gameObject);
                         animal = entity;
                         break;
                     }

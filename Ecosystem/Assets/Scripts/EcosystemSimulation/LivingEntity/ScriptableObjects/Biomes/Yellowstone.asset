@@ -27,6 +27,6 @@ MonoBehaviour:
       population: 5
     - type: 1
       population: 1
-  animalDensity: 0.1
+  animalDensity: 1
   plantDensity: 2
   events: []

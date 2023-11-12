@@ -443,11 +443,8 @@ public class SimulationManager : MonoBehaviour
 
     public void Reproduce(GameObject animal1, GameObject animal2)
     {
-        Animal animal1Entity = animal1.GetComponent<Animal>();
-        Animal animal2Entity = null;
-        if (animal2 != null)
-            animal2Entity = animal2.GetComponent<Animal>();
-        // TODO: store the infos of the father somewere in case of his dying
+        Animal animal1Entity = (Animal)animal1.GetComponent<Entity>().livingEntity;
+        // TODO: store the infos of the father somewere in case of him dying
 
         List<GameObject> children = new List<GameObject>();
 
@@ -467,8 +464,11 @@ public class SimulationManager : MonoBehaviour
                 animal1.GetComponent<Entity>().type,
                 randomInitializing: false
             );
-
+            // fix the hunger and thirst of the child -> do not set...
             GameObject child = entities[entities.Count - 1];
+            ((Animal)child.GetComponent<Entity>().livingEntity).hunger = animal1Entity.hunger;
+            ((Animal)child.GetComponent<Entity>().livingEntity).thirst = animal1Entity.thirst;
+            Debug.Log("Child hunger: " + ((Animal)child.GetComponent<Entity>().livingEntity).hunger + " Animal1 hunger: " + animal1Entity.hunger, child);
             children.Add(child);
         }
         DestroyImmediate(empty);
