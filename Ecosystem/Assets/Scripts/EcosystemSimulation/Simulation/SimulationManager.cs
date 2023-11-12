@@ -138,7 +138,7 @@ public class SimulationManager : MonoBehaviour
             water_plane.transform.localScale.z * 10 / 2);
     }
 
-    void AddLivingEntity(GameObject placement, System.Enum type, bool randomInitializing=true) // Change to give a placement position and not a tile
+    GameObject AddLivingEntity(GameObject placement, System.Enum type, bool randomInitializing=true) // Change to give a placement position and not a tile
     {
         GameObject prefab = GetGameObjectFromType(type);
 
@@ -193,7 +193,11 @@ public class SimulationManager : MonoBehaviour
 
             AddEntitiesToPopulations(type);
             entities.Add(go);
+
+            return go;
         }
+
+        return null;
     }
 
     public LivingEntity GetLivingEntityFromEntity(System.Enum type, GameObject entity)
@@ -459,17 +463,19 @@ public class SimulationManager : MonoBehaviour
         
         for (int i = 0; i < animal1Entity.number_of_children; i++)
         {
-            AddLivingEntity(
+            GameObject child = AddLivingEntity(
                 empty,
                 animal1.GetComponent<Entity>().type,
                 randomInitializing: false
             );
             // fix the hunger and thirst of the child -> do not set...
-            GameObject child = entities[entities.Count - 1];
-            ((Animal)child.GetComponent<Entity>().livingEntity).hunger = animal1Entity.hunger;
-            ((Animal)child.GetComponent<Entity>().livingEntity).thirst = animal1Entity.thirst;
-            Debug.Log("Child hunger: " + ((Animal)child.GetComponent<Entity>().livingEntity).hunger + " Animal1 hunger: " + animal1Entity.hunger, child);
-            children.Add(child);
+            if (child != null)
+            {
+                Animal childAnimal = (Animal)child.GetComponent<Entity>().livingEntity;
+                childAnimal.initialHunger = animal1Entity.hunger;
+                childAnimal.initialThirst = animal1Entity.thirst;
+                children.Add(child);
+            }
         }
         DestroyImmediate(empty);
 

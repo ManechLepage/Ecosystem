@@ -35,6 +35,6 @@ MonoBehaviour:
   minMaxSize: {x: 0.8, y: 1.2}
   maxHunger: 25
   maxThirst: 25
-  reproductiveCoolDown: 235
-  reproductiveMaturity: 130
-  nutrition: 15
+  reproductiveCoolDown: 95
+  reproductiveMaturity: 185
+  nutrition: 20

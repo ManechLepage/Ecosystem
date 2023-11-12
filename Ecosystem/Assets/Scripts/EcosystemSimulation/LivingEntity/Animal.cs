@@ -35,6 +35,8 @@ public class Animal : LivingEntity
     public GameObject currentPrey;
     public bool canReproduce = false;
 
+    [HideInInspector] public float initialHunger = -1f;
+    [HideInInspector] public float initialThirst = -1f;
     [HideInInspector] public bool randomlyInitialized = false;
     public bool foundRandomObjective = false;
     public GameObject randomObjective;
@@ -81,8 +83,15 @@ public class Animal : LivingEntity
 
         agent.speed = speed * 2;
 
-        hunger = data.maxHunger;
-        thirst = data.maxThirst;
+        if (initialHunger != -1f)
+            hunger = initialHunger;
+        else
+            hunger = data.maxHunger;
+
+        if (initialThirst != -1f)
+            thirst = initialThirst;
+        else
+            thirst = data.maxThirst;
 
         urge_to_run = new Dictionary<System.Enum, float>
         {
@@ -199,8 +208,9 @@ public class Animal : LivingEntity
                     }
                 }
             }
-
-            return furthestTile.GetComponent<TileManager>().centerPlacement;
+            if (furthestTile != null)
+                return furthestTile.GetComponent<TileManager>().centerPlacement;
+            return null;
         }
         else
         {
