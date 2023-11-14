@@ -10,31 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 523df3d1c5ee87643a2e350be4849ad5, type: 3}
-  m_Name: Rabbit
+  m_Name: Elk
   m_EditorClassIdentifier: 
   lifespan:
-    mean: 8.5
+    mean: 12.5
     standard_deviation: 1
-  objectName: lapin
-  prefab: {fileID: 418303132130933100, guid: 4d87a0bb43c29a24482f5c4bcc233660, type: 3}
+  objectName: wapiti
+  prefab: {fileID: 0}
   number_of_children:
-    mean: 6
-    standard_deviation: 1
+    mean: 1
+    standard_deviation: 0
   gestation_duration:
-    mean: 31.5
-    standard_deviation: 5
+    mean: 250
+    standard_deviation: 12
   sensory_distance:
-    mean: 30
-    standard_deviation: 5
+    mean: 65
+    standard_deviation: 10
   speed:
     mean: 4
-    standard_deviation: 0.25
+    standard_deviation: 0.3
   can_eat:
-    plants: 00000000
+    plants: 0000000002000000
     animals: 
   minMaxSize: {x: 0.8, y: 1.2}
-  maxHunger: 25
-  maxThirst: 25
-  reproductiveCoolDown: 95
-  reproductiveMaturity: 185
-  nutrition: 20
+  maxHunger: 40
+  maxThirst: 40
+  reproductiveCoolDown: 250
+  reproductiveMaturity: 487
+  nutrition: 50

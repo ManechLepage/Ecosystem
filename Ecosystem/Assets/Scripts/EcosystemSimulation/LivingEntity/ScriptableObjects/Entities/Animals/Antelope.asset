@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 523df3d1c5ee87643a2e350be4849ad5, type: 3}
+  m_Name: Antelope
+  m_EditorClassIdentifier: 
+  lifespan:
+    mean: 12
+    standard_deviation: 3
+  objectName: antilope
+  prefab: {fileID: 0}
+  number_of_children:
+    mean: 1
+    standard_deviation: 0
+  gestation_duration:
+    mean: 190
+    standard_deviation: 10
+  sensory_distance:
+    mean: 65
+    standard_deviation: 10
+  speed:
+    mean: 4.5
+    standard_deviation: 0.2
+  can_eat:
+    plants: 0000000002000000
+    animals: 
+  minMaxSize: {x: 0.8, y: 1.2}
+  maxHunger: 40
+  maxThirst: 40
+  reproductiveCoolDown: 350
+  reproductiveMaturity: 365
+  nutrition: 50

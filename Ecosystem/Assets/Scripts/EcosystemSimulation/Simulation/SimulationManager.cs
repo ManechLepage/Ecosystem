@@ -480,6 +480,7 @@ public class SimulationManager : MonoBehaviour
         DestroyImmediate(empty);
 
         animal1Entity.SetChildren(children);
+        animal1Entity.number_of_children = (int)Mathf.Round(animal1Entity.data.number_of_children.get_random_value());
         Debug.Log("Children set", animal1);
     }
     

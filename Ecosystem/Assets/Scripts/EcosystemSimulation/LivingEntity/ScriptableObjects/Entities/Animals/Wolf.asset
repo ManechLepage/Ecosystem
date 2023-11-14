@@ -10,31 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 523df3d1c5ee87643a2e350be4849ad5, type: 3}
-  m_Name: Fox
+  m_Name: Wolf
   m_EditorClassIdentifier: 
   lifespan:
-    mean: 4
+    mean: 11
     standard_deviation: 1
-  objectName: renard
-  prefab: {fileID: 6217518695278154469, guid: e70e9691c24664e4aa808af4492d0993, type: 3}
+  objectName: loup
+  prefab: {fileID: 0}
   number_of_children:
     mean: 4
-    standard_deviation: 0.8
+    standard_deviation: 0.5
   gestation_duration:
-    mean: 50
-    standard_deviation: 2.5
+    mean: 63
+    standard_deviation: 7.5
   sensory_distance:
     mean: 60
     standard_deviation: 7
   speed:
-    mean: 6
+    mean: 4.8
     standard_deviation: 0.35
   can_eat:
     plants: 
-    animals: 00000000
-  minMaxSize: {x: 0, y: 0}
-  maxHunger: 40
-  maxThirst: 30
-  reproductiveCoolDown: 265
-  reproductiveMaturity: 100
-  nutrition: 35
+    animals: 000000000400000005000000
+  minMaxSize: {x: 0.8, y: 1.2}
+  maxHunger: 45
+  maxThirst: 45
+  reproductiveCoolDown: 95
+  reproductiveMaturity: 365
+  nutrition: 40

@@ -5,12 +5,17 @@ using UnityEngine;
 public enum AnimalType
 {
     rabbit,
-    fox
+    fox,
+    coyote,
+    wolf,
+    antelope,
+    elk
 }
 public enum PlantType
 {
     herb,
-    oakTree
+    oakTree,
+    berries
 }
 
 public class LivingEntity : MonoBehaviour
