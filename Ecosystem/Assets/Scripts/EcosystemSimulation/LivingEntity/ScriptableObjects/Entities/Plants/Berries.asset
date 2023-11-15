@@ -15,9 +15,17 @@ MonoBehaviour:
   lifespan:
     mean: 3
     standard_deviation: 0.2
+  immortal: 0
   objectName: baies
-  prefab: {fileID: 0}
-  meshes: []
+  prefab: {fileID: 3060907416373277625, guid: 2f938546b74129d42ab331dfe6afa1db, type: 3}
+  meshes:
+  - scale: 3
+    isCenterAnchored: 1
+    initialRotation: {x: 0, y: 0, z: 0, w: 0}
+    meshes:
+    - {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+    materials:
+    - {fileID: 2100000, guid: 456b7d866dc30754abda0829a8ab986f, type: 2}
   stageIncrement: 20
   minMaxSizeRange: {x: 0.7, y: 1.3}
   nutritionPerStage: 2

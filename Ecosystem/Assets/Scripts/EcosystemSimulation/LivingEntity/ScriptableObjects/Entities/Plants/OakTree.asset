@@ -15,11 +15,13 @@ MonoBehaviour:
   lifespan:
     mean: 125
     standard_deviation: 15
+  immortal: 1
   objectName: "ch\xEAne"
   prefab: {fileID: 7321852126976835807, guid: 2a67720ec9467f04988251a2282471f9, type: 3}
   meshes:
   - scale: 13
     isCenterAnchored: 0
+    initialRotation: {x: -0.70710677, y: 0, z: 0, w: 0.70710677}
     meshes:
     - {fileID: 289301614986012343, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
     materials:
@@ -28,6 +30,7 @@ MonoBehaviour:
     - {fileID: 6849546283596164469, guid: 630159791c130664bb8a5f9271cf7a63, type: 3}
   - scale: 20
     isCenterAnchored: 1
+    initialRotation: {x: -0.70710677, y: 0, z: 0, w: 0.70710677}
     meshes:
     - {fileID: 2494185979427425891, guid: d8151cff290b5784383dbe93f727d222, type: 3}
     materials:

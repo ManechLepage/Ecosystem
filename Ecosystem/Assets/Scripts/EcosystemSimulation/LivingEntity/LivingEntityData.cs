@@ -5,6 +5,7 @@ using UnityEngine;
 public class LivingEntityData : ScriptableObject
 {
     public BellCurve lifespan;
+    public bool immortal;
     public string objectName;
     public GameObject prefab;
 }

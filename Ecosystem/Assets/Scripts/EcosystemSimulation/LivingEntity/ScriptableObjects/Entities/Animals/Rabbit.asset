@@ -38,3 +38,9 @@ MonoBehaviour:
   reproductiveCoolDown: 95
   reproductiveMaturity: 185
   nutrition: 20
+  urge_to_run:
+    plants: []
+    animals: []
+  urge_to_eat:
+    plants: []
+    animals: []

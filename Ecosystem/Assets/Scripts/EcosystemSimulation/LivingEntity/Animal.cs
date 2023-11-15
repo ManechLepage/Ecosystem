@@ -29,8 +29,8 @@ public class Animal : LivingEntity
     public bool isPregnant;
     public GameObject partner;
     public List<GameObject> children = new List<GameObject>();
-    public Dictionary<System.Enum, float> urge_to_run;
-    public Dictionary<System.Enum, float> urge_to_eat;
+    public Urge urge_to_run;
+    public Urge urge_to_eat;
     public ObjectiveType currentObjective;
     public GameObject currentPrey;
     public bool canReproduce = false;
@@ -73,6 +73,7 @@ public class Animal : LivingEntity
         base.Start();
 
         lifespan = data.lifespan.get_random_value();
+        immortal = data.immortal;
         
         sensoryDistance = data.sensory_distance.get_random_value();
         speed = data.speed.get_random_value();
@@ -93,20 +94,8 @@ public class Animal : LivingEntity
         else
             thirst = data.maxThirst;
 
-        urge_to_run = new Dictionary<System.Enum, float>
-        {
-            { AnimalType.rabbit, 0f },
-            { AnimalType.fox, 0f },
-            { PlantType.herb, 0f },
-            { PlantType.oakTree, 0f}
-        };
-        urge_to_eat = new Dictionary<System.Enum, float>
-        {
-            { AnimalType.rabbit, 0f },
-            { AnimalType.fox, 0f },
-            { PlantType.herb, 0f },
-            { PlantType.oakTree, 0f}
-        };
+        urge_to_run = data.urge_to_run.Clone();
+        urge_to_eat = data.urge_to_eat.Clone();
 
         gameObject.transform.position += new Vector3(
             0f,
@@ -125,7 +114,7 @@ public class Animal : LivingEntity
     public GameObject GetMostDangerousPredator(List<GameObject> entities)
     {
         GameObject predator = null;
-        float highestFear = 0f;
+        float highestFear = -1f;
 
         foreach (GameObject entity in entities)
         {
@@ -134,10 +123,12 @@ public class Animal : LivingEntity
                 if (((Animal)entity.GetComponent<Entity>().livingEntity).data.can_eat.animals.Contains((AnimalType)gameObject.GetComponent<Entity>().type))
                 {
                     System.Enum entityType = (System.Enum)entity.GetComponent<Entity>().type;
-                    if (urge_to_run.ContainsKey(entityType) && urge_to_run[entityType] > highestFear)
+                    float urge = urge_to_run.GetValue((AnimalType)entityType);
+                    
+                    if (urge > highestFear)
                     {
                             predator = entity;
-                            highestFear = urge_to_run[entityType];
+                            highestFear = urge;
                     }
                 }
             }
@@ -264,7 +255,11 @@ public class Animal : LivingEntity
             if (canEatEntity)
             {
                 float distance = Vector3.Distance(transform.position, entity.transform.position);
-                float urge = urge_to_eat[(System.Enum)entity.GetComponent<Entity>().type];
+                float urge = -1f;
+                if (entity.GetComponent<Entity>().type is PlantType)
+                    urge = urge_to_eat.GetValue((PlantType)entity.GetComponent<Entity>().type);
+                if (entity.GetComponent<Entity>().type is AnimalType)
+                    urge = urge_to_eat.GetValue((AnimalType)entity.GetComponent<Entity>().type);
 
                 if ( closestFood == null || ((
                         highestUrgeToEat == -1f || urge > highestUrgeToEat || (urge == highestUrgeToEat && distance < closestDistance)

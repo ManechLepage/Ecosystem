@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3092226014791451621}
   - component: {fileID: 6066365335919397462}
   - component: {fileID: 2984761201169804380}
-  - component: {fileID: 2779057924476268314}
   - component: {fileID: -8299479110913397222}
   - component: {fileID: 5008986093561645630}
+  - component: {fileID: 5923266067363452646}
   m_Layer: 0
   m_Name: Herb
   m_TagString: Plant
@@ -111,24 +111,6 @@ CapsuleCollider:
   m_Height: 0.2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2779057924476268314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2743919181196733262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa6a148020c4e834f8f06dbd54dda243, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridPosition: {x: 0, y: 0}
-  age: 0
-  lifespan: 0
-  data: {fileID: 11400000, guid: 64360b234485c4941911dd5fd739a796, type: 2}
-  stageIndex: 1
-  meshTypeIndex: 0
 --- !u!114 &-8299479110913397222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,3 +143,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   livingEntity: {fileID: 0}
+--- !u!114 &5923266067363452646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2743919181196733262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d785b5781a2c4246bd4b3ff41ab9278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridPosition: {x: 0, y: 0}
+  age: 0
+  lifespan: 0
+  immortal: 0
+  data: {fileID: 11400000, guid: 64360b234485c4941911dd5fd739a796, type: 2}
+  stageIndex: 0
+  meshTypeIndex: 0

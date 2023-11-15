@@ -117,8 +117,8 @@ GameObject:
   - component: {fileID: 9172157917719824457}
   - component: {fileID: 5317620378222405438}
   - component: {fileID: 8205061295064178164}
-  - component: {fileID: 2300751743642966436}
   - component: {fileID: -3297126293292821540}
+  - component: {fileID: -5420881911383084880}
   m_Layer: 0
   m_Name: Oak Tree
   m_TagString: Untagged
@@ -216,24 +216,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &2300751743642966436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7321852126976835807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bcb4532330565c4abb4c6c99d8fcbc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridPosition: {x: 0, y: 0}
-  age: 0
-  lifespan: 0
-  data: {fileID: 11400000, guid: 19e1eb3f78c2d514b8e41d6e08fc7d20, type: 2}
-  stageIndex: 1
-  meshTypeIndex: 0
 --- !u!114 &-3297126293292821540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,3 +229,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   livingEntity: {fileID: 0}
+--- !u!114 &-5420881911383084880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7321852126976835807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d785b5781a2c4246bd4b3ff41ab9278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridPosition: {x: 0, y: 0}
+  age: 0
+  lifespan: 0
+  immortal: 0
+  data: {fileID: 11400000, guid: 19e1eb3f78c2d514b8e41d6e08fc7d20, type: 2}
+  stageIndex: 0
+  meshTypeIndex: 0

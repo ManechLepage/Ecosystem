@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 5961101907103667771}
   - component: {fileID: 5045705198099102997}
   - component: {fileID: 8396173787099681718}
-  - component: {fileID: 6009850568803113541}
   - component: {fileID: 2288888702637116303}
   - component: {fileID: 7189754981515248757}
   - component: {fileID: -3660825504582630301}
   - component: {fileID: -2196522914261810519}
+  - component: {fileID: -2420608382321622732}
   m_Layer: 0
   m_Name: Rabbit
   m_TagString: Animal
@@ -110,43 +110,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6009850568803113541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 418303132130933100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cd52dd248827904abcb080a363b35a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridPosition: {x: 0, y: 0}
-  age: 0
-  lifespan: 5
-  data: {fileID: 11400000, guid: 08c574fb66d296242ad6bc6d36874304, type: 2}
-  speed: 5
-  size: 5
-  sensoryDistance: 0
-  gestation_duration: 2
-  currentGestation: 0
-  hunger: 0
-  thirst: 0
-  number_of_children: 0
-  reproductive_urge: 0
-  isPregnant: 0
-  partner: {fileID: 0}
-  children: []
-  currentObjective: 0
-  currentPrey: {fileID: 0}
-  canReproduce: 0
-  randomlyInitialized: 0
-  foundRandomObjective: 0
-  randomObjective: {fileID: 0}
-  agent: {fileID: 7189754981515248757}
-  objective: {x: 0, y: 0}
-  path: []
 --- !u!114 &2288888702637116303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,3 +191,48 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-2420608382321622732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418303132130933100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5cb6444082ce5d48a07a2d4670a8e92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridPosition: {x: 0, y: 0}
+  age: 0
+  lifespan: 0
+  data: {fileID: 11400000, guid: 08c574fb66d296242ad6bc6d36874304, type: 2}
+  speed: 0
+  size: 0
+  sensoryDistance: 0
+  gestation_duration: 0
+  currentGestation: 0
+  hunger: 0
+  thirst: 0
+  number_of_children: 0
+  reproductive_urge: 0
+  isPregnant: 0
+  partner: {fileID: 0}
+  children: []
+  urge_to_run:
+    plants: []
+    animals: []
+  urge_to_eat:
+    plants: []
+    animals: []
+  currentObjective: 0
+  currentPrey: {fileID: 0}
+  canReproduce: 0
+  initialHunger: -1
+  initialThirst: -1
+  randomlyInitialized: 0
+  foundRandomObjective: 0
+  randomObjective: {fileID: 0}
+  agent: {fileID: 7189754981515248757}
+  objective: {x: 0, y: 0}
+  path: []

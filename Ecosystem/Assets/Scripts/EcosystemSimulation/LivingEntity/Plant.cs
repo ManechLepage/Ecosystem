@@ -16,9 +16,16 @@ public class Plant : LivingEntity
         meshTypeIndex = (int)Random.Range(0, data.meshes.Count);
         gameObject.GetComponent<Renderer>().materials = data.meshes[meshTypeIndex].materials;
 
-        gameObject.transform.rotation = Quaternion.Euler(-90f, Random.Range(0f, 360f), 0f);
+        Quaternion initalRotation = data.meshes[meshTypeIndex].initialRotation;
+        gameObject.transform.rotation = Quaternion.Euler(
+            0f + initalRotation.eulerAngles.x,
+            Random.Range(0f, 360f) + initalRotation.eulerAngles.y,
+            0f + initalRotation.eulerAngles.z
+        );
 
         lifespan = data.lifespan.get_random_value();
+        immortal = data.immortal;
+
         age = Random.Range(0f, lifespan);
         stageIndex = (int)Random.Range(1, data.meshes[meshTypeIndex].meshes.Count);
         SetMesh();

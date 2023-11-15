@@ -193,7 +193,6 @@ public class SimulationManager : MonoBehaviour
 
             AddEntitiesToPopulations(type);
             entities.Add(go);
-
             return go;
         }
 
@@ -203,22 +202,10 @@ public class SimulationManager : MonoBehaviour
     public LivingEntity GetLivingEntityFromEntity(System.Enum type, GameObject entity)
     {
         LivingEntity livingEntity = null;
-        switch (type)
-        {
-            case AnimalType.rabbit:
-                livingEntity = entity.GetComponent<Rabbit>();
-                break;
-            case AnimalType.fox:
-                livingEntity = entity.GetComponent<Fox>();
-                break;
-            case PlantType.herb:
-                livingEntity = entity.GetComponent<Herb>();
-                break;
-            case PlantType.oakTree:
-                livingEntity = entity.GetComponent<OakTree>();
-                break;
-        }
-
+        if (type is AnimalType)
+            livingEntity = entity.GetComponent<Animal>();
+        else if (type is PlantType)
+            livingEntity = entity.GetComponent<Plant>();
         return livingEntity;
     }
 
@@ -299,7 +286,10 @@ public class SimulationManager : MonoBehaviour
                     {
                         PlantType plant_type = ecosystemData.populations.GetRandomPlant(randomWithSeed);
                         
-                        AddLivingEntity(tiles[x][y].GetComponent<TileManager>().placementPositions[i], (System.Enum)plant_type);
+                        AddLivingEntity(
+                            tiles[x][y].GetComponent<TileManager>().placementPositions[i],
+                            (System.Enum)plant_type
+                        );
                     }
                 }
             }

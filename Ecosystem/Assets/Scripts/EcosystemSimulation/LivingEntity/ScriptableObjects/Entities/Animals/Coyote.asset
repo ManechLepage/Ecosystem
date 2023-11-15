@@ -15,8 +15,9 @@ MonoBehaviour:
   lifespan:
     mean: 10
     standard_deviation: 1
+  immortal: 0
   objectName: coyote
-  prefab: {fileID: 0}
+  prefab: {fileID: 4954166188541939153, guid: 1d9c88345bb154049916110c0559619c, type: 3}
   number_of_children:
     mean: 6
     standard_deviation: 1
@@ -38,3 +39,11 @@ MonoBehaviour:
   reproductiveCoolDown: 95
   reproductiveMaturity: 185
   nutrition: 40
+  urge_to_run:
+    plants: []
+    animals: []
+  urge_to_eat:
+    plants: []
+    animals:
+    - type: 4
+      value: 1

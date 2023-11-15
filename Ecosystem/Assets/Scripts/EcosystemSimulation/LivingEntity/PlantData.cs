@@ -17,6 +17,7 @@ public class PlantMesh
 {
     public float scale = 1f;
     public bool isCenterAnchored = false;
+    public Quaternion initialRotation = Quaternion.Euler(-90f, 0f, 0f);
     public List<Mesh> meshes;
     public Material[] materials;
 }
