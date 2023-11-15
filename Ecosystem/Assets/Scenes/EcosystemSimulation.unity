@@ -325,13 +325,21 @@ MonoBehaviour:
     prefab: {fileID: 6217518695278154469, guid: e70e9691c24664e4aa808af4492d0993, type: 3}
   - type: 2
     prefab: {fileID: 4954166188541939153, guid: 1d9c88345bb154049916110c0559619c, type: 3}
+  - type: 4
+    prefab: {fileID: 4954166188541939153, guid: 9eeec0e3cdb8cba4fb7892ee07078527, type: 3}
+  - type: 5
+    prefab: {fileID: 4954166188541939153, guid: 5091abe55816f254190147e4326bc07f, type: 3}
+  - type: 3
+    prefab: {fileID: 4954166188541939153, guid: 648737a2e270a464d8d289aba48d90ff, type: 3}
   plantPrefabs:
   - type: 0
     prefab: {fileID: 2743919181196733262, guid: faf9aed03efafe84bace02776769fd47, type: 3}
   - type: 1
-    prefab: {fileID: 2743919181196733262, guid: 47b0c76ed3c51d342bf412fac4a668a5, type: 3}
-  - type: 2
     prefab: {fileID: 3060907416373277625, guid: 2f938546b74129d42ab331dfe6afa1db, type: 3}
+  - type: 2
+    prefab: {fileID: 2743919181196733262, guid: 47b0c76ed3c51d342bf412fac4a668a5, type: 3}
+  - type: 3
+    prefab: {fileID: 2693382619445045460, guid: d872e4ad86f33594a88be189b120997e, type: 3}
   time: 0
   simulationDays: 0
   daysPerUpdate: 4

@@ -15,8 +15,9 @@ MonoBehaviour:
   lifespan:
     mean: 12
     standard_deviation: 3
+  immortal: 0
   objectName: antilope
-  prefab: {fileID: 0}
+  prefab: {fileID: 4954166188541939153, guid: 9eeec0e3cdb8cba4fb7892ee07078527, type: 3}
   number_of_children:
     mean: 1
     standard_deviation: 0
@@ -30,7 +31,7 @@ MonoBehaviour:
     mean: 4.5
     standard_deviation: 0.2
   can_eat:
-    plants: 0000000002000000
+    plants: 0000000001000000
     animals: 
   minMaxSize: {x: 0.8, y: 1.2}
   maxHunger: 40

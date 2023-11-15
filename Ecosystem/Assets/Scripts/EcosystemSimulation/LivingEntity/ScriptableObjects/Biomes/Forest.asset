@@ -15,7 +15,7 @@ MonoBehaviour:
   type: 1
   smoothness: 0.5
   intensity: 1.6
-  waterLevel: 0.6
+  waterLevel: 0.5
   populations:
     animalPopulations:
     - type: 0
@@ -24,9 +24,11 @@ MonoBehaviour:
       population: 1
     plantPopulations:
     - type: 0
-      population: 5
+      population: 10
+    - type: 2
+      population: 2
     - type: 1
-      population: 0
-  animalDensity: 0.3
-  plantDensity: 1
+      population: 1
+  animalDensity: 1
+  plantDensity: 3
   events: []

@@ -12,20 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71bf8aad9d48fb49a39f13e1a99f0ac, type: 3}
   m_Name: Plains
   m_EditorClassIdentifier: 
-  type: 1
-  smoothness: 1
+  type: 0
+  smoothness: 0.75
   intensity: 1
-  waterLevel: 0.3
+  waterLevel: 0.325
   populations:
     animalPopulations:
-    - type: 0
-      population: 3
-    - type: 1
+    - type: 4
+      population: 5
+    - type: 5
+      population: 2
+    - type: 3
       population: 1
     plantPopulations:
     - type: 0
       population: 5
-    - type: 1
+    - type: 2
       population: 1
-  animalDensity: 0.75
+  animalDensity: 0.3
   plantDensity: 0.25
+  events: []

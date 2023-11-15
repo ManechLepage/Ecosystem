@@ -14,8 +14,9 @@ public enum AnimalType
 public enum PlantType
 {
     herb,
+    berries,
     oakTree,
-    berries
+    pineTree
 }
 
 public class LivingEntity : MonoBehaviour
