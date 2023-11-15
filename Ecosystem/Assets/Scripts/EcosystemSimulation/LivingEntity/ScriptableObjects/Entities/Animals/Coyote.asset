@@ -31,7 +31,7 @@ MonoBehaviour:
     mean: 3.2
     standard_deviation: 0.25
   can_eat:
-    plants: 00000000
+    plants: 
     animals: 000000000400000005000000
   minMaxSize: {x: 0.8, y: 1.2}
   maxHunger: 40

@@ -84,7 +84,7 @@ public class SimulationManager : MonoBehaviour
     public List<GameObject> entities = new List<GameObject>();
     public GameObject water_plane;
     [Space]
-    public NavMeshSurface[] surface;
+    public NavMeshSurface surface;
 
     private int simulationAge = 0;
     [HideInInspector] public System.Random randomWithSeed;
@@ -235,7 +235,7 @@ public class SimulationManager : MonoBehaviour
                 if (animal_prefab.type == (AnimalType)type)
                 {
                     return animal_prefab.prefab;
-}
+                }
             }
         }
         else if (type.GetType() == typeof(PlantType))
@@ -245,7 +245,7 @@ public class SimulationManager : MonoBehaviour
                 if (plant_prefab.type == (PlantType)type)
                 {
                     return plant_prefab.prefab;
-}
+                }
             }
         }
 
@@ -589,12 +589,11 @@ public class SimulationManager : MonoBehaviour
     public void GenerateEcosystem()
     {
         GenerateTerrain();
+        surface.BuildNavMesh();
+        
         PopulateTerrain();
         
-        foreach (NavMeshSurface _surface in surface)
-        {
-            _surface.BuildNavMesh();
-        }
+        surface.BuildNavMesh();
     }
 
     public void DeleteTerrain()
@@ -616,10 +615,7 @@ public class SimulationManager : MonoBehaviour
 
         DestroyImmediate(water_plane);
 
-        foreach (NavMeshSurface _surface in surface)
-        {
-            _surface.RemoveData();
-        }
+        surface.RemoveData();
     }
 
     private float blocks_distance_from_side(Vector2 position)
