@@ -31,9 +31,9 @@ MonoBehaviour:
       population: 1
     - type: 3
       population: 2
-  animalDensity: 0.5
+  animalDensity: 0.75
   plantDensity: 2
   events:
-  - day: 100
+  - day: 3652
     animalType: 3
-    count: 8
+    count: 4
