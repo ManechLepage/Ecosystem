@@ -23,9 +23,13 @@ MonoBehaviour:
     isCenterAnchored: 1
     initialRotation: {x: 0, y: 0, z: 0, w: 1}
     meshes:
-    - {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+    - {fileID: -7300951724675576051, guid: abf7002eb33959e49977715708ef2905, type: 3}
+    - {fileID: -3789181222027255491, guid: 71c162b28e77746498c90c4400c4be93, type: 3}
+    - {fileID: -5273547622657202816, guid: dfe51ab674135be4180b2b18c78fe5f7, type: 3}
+    - {fileID: 1048736545776389966, guid: 85839b8771742834f86d853ecdbaa5e9, type: 3}
     materials:
-    - {fileID: 2100000, guid: cffd0fe063af0c840a267aecb59668d2, type: 2}
+    - {fileID: 2100000, guid: 48a4a4c2e10a59d4a9bc099dddfaef1a, type: 2}
+    - {fileID: 2100000, guid: 63696bcb0769ca247b73294e44b9227e, type: 2}
   stageIncrement: 0
   minMaxSizeRange: {x: 0.8, y: 1.2}
   nutritionPerStage: 0
