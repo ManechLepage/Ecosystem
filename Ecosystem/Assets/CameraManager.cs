@@ -13,7 +13,7 @@ public class CameraManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        initialHeight = transform.position.y;
+        SetHeight(transform.position.y);
     }
 
     void SetHeight(float height)
