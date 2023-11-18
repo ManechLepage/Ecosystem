@@ -15,6 +15,7 @@ MonoBehaviour:
   lifespan:
     mean: 4
     standard_deviation: 1
+  immortal: 0
   objectName: renard
   prefab: {fileID: 6217518695278154469, guid: e70e9691c24664e4aa808af4492d0993, type: 3}
   number_of_children:
@@ -27,7 +28,7 @@ MonoBehaviour:
     mean: 60
     standard_deviation: 7
   speed:
-    mean: 4
+    mean: 8
     standard_deviation: 0.275
   can_eat:
     plants: 

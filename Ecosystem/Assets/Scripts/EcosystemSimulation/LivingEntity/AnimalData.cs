@@ -8,7 +8,7 @@ public class AnimalData : LivingEntityData
     public BellCurve number_of_children;
     public BellCurve gestation_duration;
     public BellCurve sensory_distance;
-    [Header("The speed is 1/10 of speed in km/h")]
+    [Header("The speed is 1/5 of speed in km/h")]
     public BellCurve speed;
     public Food can_eat;
     public Vector2 minMaxSize;

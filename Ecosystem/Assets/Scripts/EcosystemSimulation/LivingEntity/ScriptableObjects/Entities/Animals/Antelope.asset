@@ -28,7 +28,7 @@ MonoBehaviour:
     mean: 65
     standard_deviation: 10
   speed:
-    mean: 4.5
+    mean: 9
     standard_deviation: 0.2
   can_eat:
     plants: 0000000001000000

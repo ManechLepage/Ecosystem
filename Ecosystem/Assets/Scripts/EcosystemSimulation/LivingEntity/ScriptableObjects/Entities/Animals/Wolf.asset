@@ -15,6 +15,7 @@ MonoBehaviour:
   lifespan:
     mean: 11
     standard_deviation: 1
+  immortal: 0
   objectName: loup
   prefab: {fileID: 0}
   number_of_children:
@@ -27,7 +28,7 @@ MonoBehaviour:
     mean: 60
     standard_deviation: 7
   speed:
-    mean: 4.8
+    mean: 9.6
     standard_deviation: 0.35
   can_eat:
     plants: 
