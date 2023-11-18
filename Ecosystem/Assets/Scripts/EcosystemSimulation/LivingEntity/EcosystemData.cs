@@ -29,6 +29,7 @@ public class Event
 [System.Serializable]
 public class Populations
 {
+    public bool animalProportions = false;
     public List<AnimalPopulation> animalPopulations = new List<AnimalPopulation>();
     public List<PlantPopulation> plantPopulations = new List<PlantPopulation>();
 
@@ -109,9 +110,7 @@ public class Populations
         List<int> weights = GetAnimalsWeights();
 
         foreach (int weight in weights)
-        {
             total += weight;
-        }
 
         int random = definedRandom.Next(0, total);
         int current = 0;
@@ -121,9 +120,7 @@ public class Populations
             current += weights[i];
 
             if (current > random)
-            {
                 return animalTypes[i];
-            }
         }
 
         return animalTypes[animalTypes.Count - 1];

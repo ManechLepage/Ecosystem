@@ -44,6 +44,7 @@ public class SimulationManager : MonoBehaviour
     [HideInInspector] public List<Event> executedEvents = new List<Event>();
     public GameObject camera;
     public bool pauseWhenNoAnimals = true;
+    public bool pauseWhenUnbalanced = true;
 
     [Header("Terrain Settings")]
     public float tile_size = 1f;
@@ -75,9 +76,11 @@ public class SimulationManager : MonoBehaviour
     public float time = 0f;
     public int simulationDays = 0;
     public int daysPerUpdate = 4;
+    public bool isBalanced = true;
     public List<List<GameObject>> tiles;
 
     public Dictionary<System.Enum, int> populations = new Dictionary<System.Enum, int>() {};
+    private Dictionary<System.Enum, int> initialPopulations = new Dictionary<System.Enum, int>() {};
     public bool add_walls = true;
 
     [Space]
@@ -212,18 +215,23 @@ public class SimulationManager : MonoBehaviour
     void AddEntitiesToPopulations(System.Enum type, int count=1)
     {
         if (populations.ContainsKey(type))
-        {
             populations[type] += count;
-        }
         else
-        {
             populations[type] = count;
-        }
 
         if (populations[type] < 0)
-        {
             populations.Remove(type);
-        }
+    }
+
+    void RemoveEntitiesFromPopulations(System.Enum type, int count=1)
+    {
+        if (populations.ContainsKey(type))
+            populations[type] -= count;
+        else
+            populations[type] = -count;
+
+        if (populations[type] <= 0)
+            populations.Remove(type);
     }
 
     GameObject GetGameObjectFromType(System.Enum type)
@@ -296,10 +304,23 @@ public class SimulationManager : MonoBehaviour
         }
 
         // Add animals
-        for (int x = 0; x < Mathf.Round(tiles.Count * tiles[0].Count / 25 * ecosystemData.animalDensity); x++)
+        if (ecosystemData.populations.animalProportions)
         {
-            System.Enum animal_type = ecosystemData.populations.GetRandomAnimal(randomWithSeed);
-            AddAnimalToRandomPosition(animal_type);
+            for (int x = 0; x < Mathf.Round(tiles.Count * tiles[0].Count / 25 * ecosystemData.animalDensity); x++)
+            {
+                System.Enum animal_type = ecosystemData.populations.GetRandomAnimal(randomWithSeed);
+                AddAnimalToRandomPosition(animal_type);
+            }
+        }
+        else
+        {
+            foreach (AnimalPopulation animal_population in ecosystemData.populations.animalPopulations)
+            {
+                for (int i = 0; i < animal_population.population; i++)
+                {
+                    AddAnimalToRandomPosition(animal_population.type);
+                }
+            }
         }
 
         string pop_text = "Populations :\n";
@@ -309,6 +330,7 @@ public class SimulationManager : MonoBehaviour
         }
 
         Debug.Log(pop_text);
+        initialPopulations = new Dictionary<System.Enum, int>(populations);
 
         /*
         foreach (GameObject entity in entities)
@@ -333,8 +355,8 @@ public class SimulationManager : MonoBehaviour
         
         while (tile == null || tile_type == null || tile_type != TileType.Grass || tile.GetComponent<TileManager>().under_water == true)
         {
-            int random_x = randomWithSeed.Next(3, tiles.Count - 4);
-            int random_y = randomWithSeed.Next(3, tiles[random_x].Count - 4);
+            int random_x = randomWithSeed.Next(5, tiles.Count - 6);
+            int random_y = randomWithSeed.Next(5, tiles[random_x].Count - 6);
 
             tile = tiles[random_x][random_y];
             tile_type = tile.GetComponent<TileManager>().type;
@@ -419,6 +441,7 @@ public class SimulationManager : MonoBehaviour
         foreach (GameObject deadEntity in deadEntities)
         {
             entities.Remove(deadEntity);
+            RemoveEntitiesFromPopulations(deadEntity.GetComponent<Entity>().type, 1);
             Destroy(deadEntity);
         }
 
@@ -435,6 +458,28 @@ public class SimulationManager : MonoBehaviour
             Debug.Log("No animals left, pausing simulation");
             pause = true;
         }
+
+        isBalanced = SimulationIsBalanced();
+        if (pauseWhenUnbalanced && !isBalanced)
+        {
+            Debug.Log("Unbalanced simulation, pausing simulation");
+            pause = true;
+        }
+    }
+
+    public bool SimulationIsBalanced()
+    {
+        bool balanced = true;
+        foreach (KeyValuePair<System.Enum, int> initPop in initialPopulations)
+        {
+            if (!populations.ContainsKey(initPop.Key) || populations[initPop.Key] < 2)
+            {
+                balanced = false;
+                break;
+            }
+        }
+
+        return balanced;
     }
 
     public void Reproduce(GameObject animal1, GameObject animal2)
@@ -447,9 +492,9 @@ public class SimulationManager : MonoBehaviour
         GameObject empty = new GameObject();
         // randomize the position (-0.005 to 0.005 for each axis)
         empty.transform.position = new Vector3(
-            animal1.transform.position.x + Random.Range(-0.005f, 0.005f),
-            animal1.transform.position.y + Random.Range(-0.005f, 0.005f),
-            animal1.transform.position.z + Random.Range(-0.005f, 0.005f)
+            animal1.transform.position.x + Random.Range(-0.05f, 0.05f),
+            animal1.transform.position.y,
+            animal1.transform.position.z + Random.Range(-0.05f, 0.05f)
         );
         empty.transform.rotation = animal1.transform.rotation;
         
@@ -485,6 +530,12 @@ public class SimulationManager : MonoBehaviour
                 continue;
             SimulationUpdate();
             Debug.Log("Simulation updated");
+
+            string pop_text = "Populations :\n";
+            foreach (KeyValuePair<System.Enum, int> population in populations)
+                pop_text += "   " + population.Key.ToString() + " : " + population.Value.ToString() + "\n";
+            Debug.Log(pop_text);
+
             simulationAge++;
             CreateAnimalData("Rabbit");
             CreateAnimalData("Fox");

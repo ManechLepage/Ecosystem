@@ -21,10 +21,7 @@ public class GenerateInInspector : Editor
 
             string pop_text = "Populations :\n";
             foreach (KeyValuePair<System.Enum, int> population in generator.populations)
-            {
                 pop_text += "   " + population.Key.ToString() + " : " + population.Value.ToString() + "\n";
-            }
-
             Debug.Log(pop_text);
         }
 

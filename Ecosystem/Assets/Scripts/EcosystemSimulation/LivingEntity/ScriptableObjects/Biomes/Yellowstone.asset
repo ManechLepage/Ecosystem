@@ -17,13 +17,14 @@ MonoBehaviour:
   intensity: 2
   waterLevel: 0.6
   populations:
+    animalProportions: 0
     animalPopulations:
-    - type: 2
-      population: 1
     - type: 4
-      population: 2
+      population: 12
     - type: 5
-      population: 3
+      population: 12
+    - type: 2
+      population: 5
     plantPopulations:
     - type: 0
       population: 10
