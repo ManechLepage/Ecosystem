@@ -310,6 +310,7 @@ public class SimulationManager : MonoBehaviour
 
         Debug.Log(pop_text);
 
+        /*
         foreach (GameObject entity in entities)
         {
             if (entity.GetComponent<Entity>().type is AnimalType)
@@ -320,6 +321,7 @@ public class SimulationManager : MonoBehaviour
                 break;
             }
         }
+        */
         
     }
 
