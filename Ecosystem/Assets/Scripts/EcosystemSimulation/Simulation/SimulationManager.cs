@@ -529,7 +529,7 @@ public class SimulationManager : MonoBehaviour
             if (pause)
                 continue;
             SimulationUpdate();
-            Debug.Log("Simulation updated");
+            Debug.Log($"Simulation updated (day {simulationDays})");
 
             string pop_text = "Populations :\n";
             foreach (KeyValuePair<System.Enum, int> population in populations)

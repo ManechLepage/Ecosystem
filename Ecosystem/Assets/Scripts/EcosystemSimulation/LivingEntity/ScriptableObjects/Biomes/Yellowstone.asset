@@ -20,11 +20,11 @@ MonoBehaviour:
     animalProportions: 0
     animalPopulations:
     - type: 4
-      population: 12
+      population: 48
     - type: 5
-      population: 12
+      population: 48
     - type: 2
-      population: 5
+      population: 12
     plantPopulations:
     - type: 0
       population: 10

@@ -25,7 +25,7 @@ MonoBehaviour:
     mean: 250
     standard_deviation: 12
   sensory_distance:
-    mean: 65
+    mean: 100
     standard_deviation: 10
   speed:
     mean: 8

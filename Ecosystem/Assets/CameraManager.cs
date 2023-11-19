@@ -36,7 +36,7 @@ public class CameraManager : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
             force += new Vector3(1, 0, 0);
         
-        rb.AddRelativeForce(force * moveSpeed);
+        rb.AddRelativeForce(force * moveSpeed * Time.deltaTime * 60f);
 
         force = new Vector3(0, 0, 0);
         bool didMoveVertical = false;
@@ -53,7 +53,7 @@ public class CameraManager : MonoBehaviour
 
         if (didMoveVertical)
         {
-            rb.AddForce(force * moveSpeed);
+            rb.AddForce(force * moveSpeed * Time.deltaTime * 60f);
             SetHeight(transform.position.y);
         }
 
