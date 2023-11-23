@@ -172,3 +172,10 @@ public class PlantPopulation
     public PlantType type;
     public int population = 1;
 }
+
+[System.Serializable]
+public class EcosystemSavedData
+{
+    public int days = 0;
+    public Populations populations = new Populations();
+}

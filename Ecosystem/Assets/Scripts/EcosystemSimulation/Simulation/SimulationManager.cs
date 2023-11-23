@@ -73,15 +73,18 @@ public class SimulationManager : MonoBehaviour
     private Dictionary<TileType, List<Material>> tileMaterials;
 
     [Header("Other Settings")]
+    public int numberOfSimulations = 1;
     public float time = 0f;
     public int simulationDays = 0;
     public int daysPerUpdate = 4;
     public bool isBalanced = true;
     public List<List<GameObject>> tiles;
-
     public Dictionary<System.Enum, int> populations = new Dictionary<System.Enum, int>() {};
     private Dictionary<System.Enum, int> initialPopulations = new Dictionary<System.Enum, int>() {};
     public bool add_walls = true;
+
+    [Header("Data")]
+    public List<EcosystemSavedData> savedData = new List<EcosystemSavedData>();
 
     [Space]
     public List<GameObject> entities = new List<GameObject>();
@@ -91,6 +94,7 @@ public class SimulationManager : MonoBehaviour
 
     private int simulationAge = 0;
     [HideInInspector] public System.Random randomWithSeed;
+    [HideInInspector] public int simulationCount = 0;
     public bool pause = false;
     
     public void Initialize()
@@ -116,6 +120,56 @@ public class SimulationManager : MonoBehaviour
     {
         Initialize();
         GenerateEcosystem();
+    }
+
+    public bool Reset()
+    {
+        simulationCount++;
+        if (simulationCount > numberOfSimulations)
+        {
+            simulationCount = numberOfSimulations;
+            return false;
+        }
+        AddCurrentDataToSaved();
+        DeleteTerrain();
+        DeleteEntities();
+        randomWithSeed = new System.Random(seed);
+        simulationDays = 0;
+        simulationAge = 0;
+        isBalanced = true;
+        time = 0f;
+        GenerateEcosystem();
+        return true;
+    }
+
+    public void AddCurrentDataToSaved()
+    {
+        EcosystemSavedData data = new EcosystemSavedData();
+        
+        Populations populations = new Populations();
+        populations.animalPopulations = new List<AnimalPopulation>();
+        populations.plantPopulations = new List<PlantPopulation>();
+
+        foreach (KeyValuePair<System.Enum, int> population in this.populations)
+        {
+            if (population.Key is AnimalType)
+            {
+                AnimalPopulation pop = new AnimalPopulation();
+                pop.type = (AnimalType)population.Key;
+                pop.population = population.Value;
+                populations.animalPopulations.Add(pop);
+            }
+            else if (population.Key is PlantType)
+            {
+                PlantPopulation pop = new PlantPopulation();
+                pop.type = (PlantType)population.Key;
+                pop.population = population.Value;
+                populations.plantPopulations.Add(pop);
+            }
+        }
+        data.populations = populations;
+        data.days = simulationDays;
+        savedData.Add(data);
     }
 
     public void AddWater()
@@ -377,13 +431,17 @@ public class SimulationManager : MonoBehaviour
     
     public void Awake()
     {
-        // surface.BuildNavMesh();
         StartCoroutine(SimulationLoop());
     }
 
     public void AddAnimalToMating(GameObject animal, GameObject animalToMate)
     {
         allMatingAnimals.Add(animal, animalToMate);
+    }
+
+    public void Update()
+    {
+
     }
 
     public void SimulationUpdate()
@@ -464,6 +522,12 @@ public class SimulationManager : MonoBehaviour
         {
             Debug.Log("Unbalanced simulation, pausing simulation");
             pause = true;
+        }
+
+        if (pause)
+        {
+            if (Reset())
+                pause = false;
         }
     }
 
@@ -645,7 +709,6 @@ public class SimulationManager : MonoBehaviour
         surface.BuildNavMesh();
         
         PopulateTerrain();
-        
         surface.BuildNavMesh();
     }
 
@@ -669,6 +732,17 @@ public class SimulationManager : MonoBehaviour
         DestroyImmediate(water_plane);
 
         surface.RemoveData();
+    }
+
+    public void DeleteEntities()
+    {
+        foreach (GameObject living_entity in entities)
+        {
+            DestroyImmediate(living_entity);
+        }
+
+        entities.Clear();
+        populations = new Dictionary<System.Enum, int>();
     }
 
     private float blocks_distance_from_side(Vector2 position)
