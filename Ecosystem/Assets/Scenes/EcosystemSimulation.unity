@@ -303,7 +303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: 43097
-  size: {x: 32, y: 32}
+  size: {x: 96, y: 96}
   ecosystemData: {fileID: 11400000, guid: e818f2b96e5eb9442aba64ac3795daa2, type: 2}
   executedEvents: []
   camera: {fileID: 970072631}
@@ -341,7 +341,7 @@ MonoBehaviour:
     prefab: {fileID: 2743919181196733262, guid: 47b0c76ed3c51d342bf412fac4a668a5, type: 3}
   - type: 3
     prefab: {fileID: 2693382619445045460, guid: d872e4ad86f33594a88be189b120997e, type: 3}
-  numberOfSimulations: 5
+  numberOfSimulations: 10
   time: 0
   simulationDays: 0
   daysPerUpdate: 4
