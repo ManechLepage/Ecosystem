@@ -526,6 +526,14 @@ public class SimulationManager : MonoBehaviour
 
         if (pause)
         {
+            Debug.Log("SIMULATION FINISHED");
+            gameObject.GetComponent<SendInfoToSheets>().SendSimulationData(
+                size.x + "x" + size.y,
+                simulationDays,
+                initialPopulations[AnimalType.elk],
+                initialPopulations[AnimalType.antelope],
+                initialPopulations[AnimalType.coyote]
+            );
             if (Reset())
                 pause = false;
         }
@@ -632,14 +640,14 @@ public class SimulationManager : MonoBehaviour
             }
         }
 
-        gameObject.GetComponent<SendInfoToSheets>().SendAnimalData(
-            simulationAge, animalName,
-            GetAverageFromList(age),
-            GetAverageFromList(speed),
-            GetAverageFromList(thirst),
-            GetAverageFromList(hunger)//,
-            //counter
-        );
+        // gameObject.GetComponent<SendInfoToSheets>().SendAnimalData(
+        //     simulationAge, animalName,
+        //     GetAverageFromList(age),
+        //     GetAverageFromList(speed),
+        //     GetAverageFromList(thirst),
+        //     GetAverageFromList(hunger)//,
+        //     //counter
+        // );
     }
 
     float GetAverageFromList(List<float> list)
