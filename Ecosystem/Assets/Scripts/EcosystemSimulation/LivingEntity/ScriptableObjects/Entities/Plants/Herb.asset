@@ -15,11 +15,13 @@ MonoBehaviour:
   lifespan:
     mean: 3
     standard_deviation: 0.2
+  immortal: 0
   objectName: herbe
   prefab: {fileID: 2743919181196733262, guid: faf9aed03efafe84bace02776769fd47, type: 3}
   meshes:
   - scale: 15
     isCenterAnchored: 1
+    initialRotation: {x: -0.70710677, y: 0, z: 0, w: 0.70710677}
     meshes:
     - {fileID: -6184586740775097203, guid: 004f8fb95cafa214caa3dde5706d9f2a, type: 3}
     - {fileID: -2662107281484226228, guid: 62ecad479ca5e26449e06892484c60c2, type: 3}
@@ -30,6 +32,7 @@ MonoBehaviour:
     - {fileID: 2100000, guid: a325c42b21bc687499803c7543eec170, type: 2}
   - scale: 15
     isCenterAnchored: 1
+    initialRotation: {x: -0.70710677, y: 0, z: 0, w: 0.70710677}
     meshes:
     - {fileID: -3721117525623378262, guid: c946bbf133d081e4f94d8f8f383d2aef, type: 3}
     - {fileID: 3228344771992171360, guid: c15a506200f714a438955114e0dca7c6, type: 3}
@@ -40,5 +43,5 @@ MonoBehaviour:
     - {fileID: 2100000, guid: a325c42b21bc687499803c7543eec170, type: 2}
   stageIncrement: 15
   minMaxSizeRange: {x: 0.7, y: 1.3}
-  nutritionPerStage: 1.5
+  nutritionPerStage: 10
   minStageToBeEaten: 2

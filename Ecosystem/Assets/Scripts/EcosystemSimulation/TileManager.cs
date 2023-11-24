@@ -14,6 +14,7 @@ public class TileManager : MonoBehaviour
     public TileType type = TileType.Grass;
     public bool under_water = false;
     public bool isNearWater = false;
+    public bool isBorder = false;
 
     void Start()
     {

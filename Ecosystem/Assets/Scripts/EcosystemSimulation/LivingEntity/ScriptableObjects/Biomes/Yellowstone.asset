@@ -24,7 +24,7 @@ MonoBehaviour:
     - type: 5
       population: 18
     - type: 2
-      population: 10
+      population: 0
     plantPopulations:
     - type: 0
       population: 10
@@ -34,7 +34,4 @@ MonoBehaviour:
       population: 2
   animalDensity: 0.75
   plantDensity: 2
-  events:
-  - day: 3652
-    animalType: 3
-    count: 4
+  events: []

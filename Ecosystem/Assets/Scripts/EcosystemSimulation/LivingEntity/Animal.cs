@@ -66,13 +66,15 @@ public class Animal : LivingEntity
         age = Random.Range(0f, lifespan * 2f/3f);
         thirst = Random.Range(data.maxThirst / 2f, data.maxThirst);
         hunger = Random.Range(data.maxHunger / 2f, data.maxHunger);
-        reproductive_urge = Random.Range(0, (int)((float)data.reproductiveCoolDown * 1.5f));
+        if (age > data.reproductiveMaturity / 365.25f)
+            reproductive_urge = Random.Range(0, (int)((float)data.reproductiveCoolDown * 1.5f));
     }
     public override void Start()
     {
         base.Start();
 
         lifespan = data.lifespan.get_random_value();
+        reproductive_urge = data.reproductiveCoolDown;
         immortal = data.immortal;
         
         sensoryDistance = data.sensory_distance.get_random_value();
@@ -318,8 +320,22 @@ public class Animal : LivingEntity
     {
         if (randomObjective == null)
         {
+            int i = 0;
+            /*List<GameObject> tiles = GetNearbyTiles(sensoryDistance * 5);
+            GameObject tile = tiles[(int)Random.Range(0, tiles.Count)];
+            randomObjective = tile.GetComponent<TileManager>().centerPlacement;*/
+            // choose a random tile that is not on the border
             List<GameObject> tiles = GetNearbyTiles(sensoryDistance * 5);
             GameObject tile = tiles[(int)Random.Range(0, tiles.Count)];
+            while (tile.GetComponent<TileManager>().isBorder)
+            {
+                tile = tiles[(int)Random.Range(0, tiles.Count)];
+                i++;
+                if (i > 100)
+                {
+                    break;
+                }
+            }
             randomObjective = tile.GetComponent<TileManager>().centerPlacement;
             return randomObjective;
         }

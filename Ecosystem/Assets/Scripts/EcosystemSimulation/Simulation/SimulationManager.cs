@@ -125,12 +125,10 @@ public class SimulationManager : MonoBehaviour
     public bool Reset()
     {
         simulationCount++;
-        if (simulationCount > numberOfSimulations)
-        {
-            simulationCount = numberOfSimulations;
-            return false;
-        }
         AddCurrentDataToSaved();
+        if (simulationCount >= numberOfSimulations)
+            return false;
+
         DeleteTerrain();
         DeleteEntities();
         randomWithSeed = new System.Random(seed);
@@ -526,14 +524,24 @@ public class SimulationManager : MonoBehaviour
 
         if (pause)
         {
-            Debug.Log("SIMULATION FINISHED");
+            int elk_population = 0;
+            if (populations.ContainsKey(AnimalType.elk))
+                elk_population = populations[AnimalType.elk];
+            int antelope_population = 0;
+            if (populations.ContainsKey(AnimalType.antelope))
+                antelope_population = populations[AnimalType.antelope];
+            int coyote_population = 0;
+            if (populations.ContainsKey(AnimalType.coyote))
+                coyote_population = populations[AnimalType.coyote];
+
             gameObject.GetComponent<SendInfoToSheets>().SendSimulationData(
                 size.x + "x" + size.y,
                 simulationDays,
-                initialPopulations[AnimalType.elk],
-                initialPopulations[AnimalType.antelope],
-                initialPopulations[AnimalType.coyote]
+                elk_population,
+                antelope_population,
+                coyote_population
             );
+
             if (Reset())
                 pause = false;
         }
@@ -684,6 +692,8 @@ public class SimulationManager : MonoBehaviour
                 tile.GetComponent<MeshRenderer>().sharedMaterials = tileMats.ToArray();
 
                 TileManager tileInfo = tile.GetComponent<TileManager>();
+                if (type == TileType.Rock)
+                    tileInfo.isBorder = true;
                 tileInfo.position = new Vector2(x_pos + offset, y_pos);
                 tileInfo.height = Mathf.Round(get_real_height(new Vector2(x, y)));
 
@@ -762,7 +772,6 @@ public class SimulationManager : MonoBehaviour
     }
     
     // The two next functions are used to create walls around the map
-    
     private float distance_from_side(Vector2 position)
     {
         float diff_seed = seed * 5f;
@@ -777,19 +786,6 @@ public class SimulationManager : MonoBehaviour
     public float get_height(Vector2 position)
     {
         float diff_seed = seed * 10f;
-        /*float smoothness = 1f;
-        float intensity = 1f;
-
-        if (biome == BiomeType.Plains)
-        {
-            smoothness = 1f;
-            intensity = 1f;
-        }
-        else if (biome == BiomeType.Forest)
-        {
-            smoothness = 1.5f;
-            intensity = 3f;
-        }*/
         
         // two random noises combined together
         float first_noise_value = Mathf.PerlinNoise(
