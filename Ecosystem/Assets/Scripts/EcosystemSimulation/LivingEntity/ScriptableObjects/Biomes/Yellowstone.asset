@@ -20,11 +20,11 @@ MonoBehaviour:
     animalProportions: 0
     animalPopulations:
     - type: 4
-      population: 60
+      population: 20
     - type: 5
-      population: 60
+      population: 20
     - type: 2
-      population: 0
+      population: 10
     plantPopulations:
     - type: 0
       population: 10
@@ -35,6 +35,6 @@ MonoBehaviour:
   animalDensity: 0.75
   plantDensity: 2
   events:
-  - day: 5000
+  - day: 1824
     animalType: 3
-    count: 4
+    count: 8

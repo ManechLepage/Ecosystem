@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.AI;
 using Unity.AI.Navigation;
+using TMPro;
 
 public enum TileType
 {
@@ -71,6 +72,9 @@ public class SimulationManager : MonoBehaviour
     public PlantPrefab[] plantPrefabs;
     
     private Dictionary<TileType, List<Material>> tileMaterials;
+
+    [Header("UI Settings")]
+    public TextMeshProUGUI daysText;
 
     [Header("Other Settings")]
     public int numberOfSimulations = 1;
@@ -455,8 +459,14 @@ public class SimulationManager : MonoBehaviour
                     AddAnimalToRandomPosition((System.Enum)e.animalType);
                 }
                 executedEvents.Add(e);
+                if (initialPopulations.ContainsKey(e.animalType))
+                    initialPopulations[e.animalType] += e.count;
+                else
+                    initialPopulations.Add(e.animalType, e.count);
             }
         }
+
+        daysText.text = "Jour " + simulationDays.ToString();
         
         List<GameObject> deadEntities = new List<GameObject>();
         // To prevent the childs of getting modified while iterating
