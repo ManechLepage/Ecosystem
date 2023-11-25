@@ -7,6 +7,7 @@ public class CameraManager : MonoBehaviour
     public float moveSpeed = 10f;
     public float turnSpeed = 5f;
     public Rigidbody rb;
+    public bool isFirstPerson = false;
 
     private float initialHeight;
     
@@ -25,6 +26,9 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isFirstPerson)
+            return;
+        
         // if WASD, addforce to camera in that direction (addrelativeforce)
         Vector3 force = new Vector3(0, 0, 0);
         if (Input.GetKey(KeyCode.W))

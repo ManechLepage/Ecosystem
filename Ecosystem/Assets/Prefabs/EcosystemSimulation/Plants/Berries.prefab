@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7469329704668580968}
   - component: {fileID: 3690428062211879265}
   - component: {fileID: 3591398810425250926}
-  - component: {fileID: 3265691709012734780}
   - component: {fileID: -1375659697820745014}
   - component: {fileID: -7700209547452305588}
+  - component: {fileID: -8374415118057433217}
   m_Layer: 0
   m_Name: Berries
   m_TagString: Untagged
@@ -86,27 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &3265691709012734780
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3060907416373277625}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &-1375659697820745014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,3 +118,25 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 6461c4ff8ffb08c4d8cde6ad04dfd90b, type: 2}
   stageIndex: 0
   meshTypeIndex: 0
+--- !u!64 &-8374415118057433217
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3060907416373277625}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}

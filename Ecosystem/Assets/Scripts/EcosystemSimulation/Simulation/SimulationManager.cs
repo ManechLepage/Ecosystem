@@ -100,6 +100,8 @@ public class SimulationManager : MonoBehaviour
     [HideInInspector] public System.Random randomWithSeed;
     [HideInInspector] public int simulationCount = 0;
     public bool pause = false;
+
+    private GameObject fistPersonAnimal = null;
     
     public void Initialize()
     {
@@ -443,7 +445,7 @@ public class SimulationManager : MonoBehaviour
 
     public void Update()
     {
-
+        
     }
 
     public void SimulationUpdate()
