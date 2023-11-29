@@ -264,7 +264,9 @@ public class Animal : LivingEntity
                     urge = urge_to_eat.GetValue((AnimalType)entity.GetComponent<Entity>().type);
 
                 float random = Random.Range(0f, 1f);
-                if (random > urge)
+                // multiplier to represent the overall hunger of the animal, so it is more likely to eat anything when it is very hungry
+                float multiplier = 1f + (1f - hunger / data.maxHunger) * 2f;
+                if (random > urge * multiplier)
                     continue;
                 
                 if ( closestFood == null || ((

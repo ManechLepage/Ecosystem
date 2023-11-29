@@ -34,9 +34,9 @@ MonoBehaviour:
     plants: 
     animals: 000000000400000005000000
   minMaxSize: {x: 0.8, y: 1.2}
-  maxHunger: 40
-  maxThirst: 40
-  reproductiveCoolDown: 95
+  maxHunger: 45
+  maxThirst: 45
+  reproductiveCoolDown: 125
   reproductiveMaturity: 185
   nutrition: 40
   urge_to_run:
@@ -48,4 +48,4 @@ MonoBehaviour:
     - type: 4
       value: 1
     - type: 5
-      value: 0.25
+      value: 0.4

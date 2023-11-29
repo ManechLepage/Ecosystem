@@ -481,7 +481,7 @@ MonoBehaviour:
   numberOfSimulations: 1
   time: 0
   simulationDays: 0
-  daysPerUpdate: 4
+  daysPerUpdate: 8
   isBalanced: 1
   add_walls: 1
   savedData: []
@@ -1750,6 +1750,7 @@ MonoBehaviour:
   moveSpeed: 200
   turnSpeed: 3
   rb: {fileID: 970072637}
+  isFirstPerson: 0
 --- !u!54 &970072637
 Rigidbody:
   m_ObjectHideFlags: 0
