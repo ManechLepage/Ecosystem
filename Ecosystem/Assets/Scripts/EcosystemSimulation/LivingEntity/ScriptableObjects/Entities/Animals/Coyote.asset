@@ -47,3 +47,5 @@ MonoBehaviour:
     animals:
     - type: 4
       value: 1
+    - type: 5
+      value: 0.25

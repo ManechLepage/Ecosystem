@@ -257,12 +257,16 @@ public class Animal : LivingEntity
             if (canEatEntity)
             {
                 float distance = Vector3.Distance(transform.position, entity.transform.position);
-                float urge = -1f;
+                float urge = 1f;
                 if (entity.GetComponent<Entity>().type is PlantType)
                     urge = urge_to_eat.GetValue((PlantType)entity.GetComponent<Entity>().type);
                 if (entity.GetComponent<Entity>().type is AnimalType)
                     urge = urge_to_eat.GetValue((AnimalType)entity.GetComponent<Entity>().type);
 
+                float random = Random.Range(0f, 1f);
+                if (random > urge)
+                    continue;
+                
                 if ( closestFood == null || ((
                         highestUrgeToEat == -1f || urge > highestUrgeToEat || (urge == highestUrgeToEat && distance < closestDistance)
                         ))
@@ -306,7 +310,6 @@ public class Animal : LivingEntity
                 {
                     if (animalEntity.CanReproduce())
                     {
-                        // Debug.Log($"The entity {gameObject.name} has found a mate.", gameObject);
                         animal = entity;
                         break;
                     }
@@ -321,10 +324,6 @@ public class Animal : LivingEntity
         if (randomObjective == null)
         {
             int i = 0;
-            /*List<GameObject> tiles = GetNearbyTiles(sensoryDistance * 5);
-            GameObject tile = tiles[(int)Random.Range(0, tiles.Count)];
-            randomObjective = tile.GetComponent<TileManager>().centerPlacement;*/
-            // choose a random tile that is not on the border
             List<GameObject> tiles = GetNearbyTiles(sensoryDistance * 5);
             GameObject tile = tiles[(int)Random.Range(0, tiles.Count)];
             while (tile.GetComponent<TileManager>().isBorder)

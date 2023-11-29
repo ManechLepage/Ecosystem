@@ -18,6 +18,7 @@ public class AnimalData : LivingEntityData
     public float reproductiveMaturity;
     public float nutrition;
     [Space]
+    [Header("Urges are numbers between 0 and 1 - auto : 1")]
     public Urge urge_to_run;
     public Urge urge_to_eat;
 }
