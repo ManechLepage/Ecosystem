@@ -19,12 +19,12 @@ MonoBehaviour:
   populations:
     animalProportions: 0
     animalPopulations:
-    - type: 4
-      population: 24
-    - type: 5
-      population: 24
     - type: 2
       population: 13
+    - type: 5
+      population: 24
+    - type: 4
+      population: 24
     plantPopulations:
     - type: 0
       population: 10

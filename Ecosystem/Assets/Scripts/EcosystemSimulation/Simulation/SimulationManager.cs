@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -104,6 +105,9 @@ public class SimulationManager : MonoBehaviour
     public bool pause = false;
 
     private GameObject fistPersonAnimal = null;
+
+    [TextArea(5000, 1000)]
+    public string data = "";
     
     public void Initialize()
     {
@@ -145,7 +149,23 @@ public class SimulationManager : MonoBehaviour
         isBalanced = true;
         time = 0f;
         GenerateEcosystem();
+        data += "-- -- -- --";
+        data += "\n";
         return true;
+    }
+
+    public void AddToData()
+    {
+        foreach (KeyValuePair<System.Enum, int> population in populations)
+        {
+            if (population.Key is AnimalType)
+                data += population.Value.ToString() + " ";
+        }
+
+        if (!populations.ContainsKey(AnimalType.wolf))
+            data += "0 ";
+
+        data += "\n";
     }
 
     public void AddCurrentDataToSaved()
@@ -565,6 +585,7 @@ public class SimulationManager : MonoBehaviour
         {
             currentDataSaveDay = 0;
             SaveData();
+            AddToData();
         }
     }
 

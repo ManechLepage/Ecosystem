@@ -478,12 +478,13 @@ MonoBehaviour:
   - type: 3
     prefab: {fileID: 2693382619445045460, guid: d872e4ad86f33594a88be189b120997e, type: 3}
   daysText: {fileID: 456461666}
-  numberOfSimulations: 1
+  numberOfSimulations: 4
   time: 0
   simulationDays: 0
   daysPerUpdate: 8
   isBalanced: 1
   add_walls: 1
+  dataSaveInterval: 16
   savedData: []
   entities:
   - {fileID: 0}
@@ -1567,6 +1568,7 @@ MonoBehaviour:
   surface: {fileID: 4145350683449265498}
   simulationCount: 0
   pause: 0
+  data: 
 --- !u!4 &927366664
 Transform:
   m_ObjectHideFlags: 0
