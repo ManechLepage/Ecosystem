@@ -127,10 +127,11 @@ public class SimulationManager : MonoBehaviour
             seed = Random.Range(1, 100_000); // DO NOT make this number bigger, it will cause terrain generation bugs
         }
     }
-    
+
     public void Start()
     {
         Initialize();
+        data += "--\t--\t--\t--\n";
         GenerateEcosystem();
     }
 
@@ -148,9 +149,9 @@ public class SimulationManager : MonoBehaviour
         simulationAge = 0;
         isBalanced = true;
         time = 0f;
+        data = "";
+        data += "--\t--\t--\t--\n";
         GenerateEcosystem();
-        data += "-- -- -- --";
-        data += "\n";
         return true;
     }
 
@@ -159,13 +160,22 @@ public class SimulationManager : MonoBehaviour
         foreach (KeyValuePair<System.Enum, int> population in populations)
         {
             if (population.Key is AnimalType)
-                data += population.Value.ToString() + " ";
+                data += population.Value.ToString() + "\t";
         }
 
         if (!populations.ContainsKey(AnimalType.wolf))
-            data += "0 ";
+            data += "0\t";
 
         data += "\n";
+    }
+
+    public void SaveDataToFile()
+    {
+        string path = "Assets/Scripts/EcosystemSimulation/Simulation/DataSave.txt";
+
+        System.IO.StreamWriter writer = new System.IO.StreamWriter(path, true);
+        writer.WriteLine(data);
+        writer.Close();
     }
 
     public void AddCurrentDataToSaved()
@@ -584,7 +594,6 @@ public class SimulationManager : MonoBehaviour
         if (currentDataSaveDay >= dataSaveInterval)
         {
             currentDataSaveDay = 0;
-            SaveData();
             AddToData();
         }
     }
@@ -602,11 +611,6 @@ public class SimulationManager : MonoBehaviour
         }
 
         return balanced;
-    }
-
-    public void SaveData()
-    {
-        Debug.Log("Saving data... " + simulationDays + " days");
     }
 
     public void Reproduce(GameObject animal1, GameObject animal2)
@@ -864,5 +868,6 @@ public class SimulationManager : MonoBehaviour
     public void OnApplicationQuit()
     {
         DeleteTerrain();
+        SaveDataToFile();
     }
 }
