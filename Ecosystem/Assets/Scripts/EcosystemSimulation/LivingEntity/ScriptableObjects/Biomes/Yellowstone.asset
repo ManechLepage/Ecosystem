@@ -35,6 +35,6 @@ MonoBehaviour:
   animalDensity: 0.75
   plantDensity: 2
   events:
-  - day: 1824
+  - day: 1096
     animalType: 3
     count: 8
