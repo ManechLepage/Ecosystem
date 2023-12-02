@@ -88,7 +88,9 @@ public class SimulationManager : MonoBehaviour
     public bool add_walls = true;
 
     [Header("Data")]
+    public int dataSaveInterval = 16;
     public List<EcosystemSavedData> savedData = new List<EcosystemSavedData>();
+    private int currentDataSaveDay = 0;
 
     [Space]
     public List<GameObject> entities = new List<GameObject>();
@@ -557,6 +559,13 @@ public class SimulationManager : MonoBehaviour
             if (Reset())
                 pause = false;
         }
+
+        currentDataSaveDay += daysPerUpdate;
+        if (currentDataSaveDay >= dataSaveInterval)
+        {
+            currentDataSaveDay = 0;
+            SaveData();
+        }
     }
 
     public bool SimulationIsBalanced()
@@ -572,6 +581,11 @@ public class SimulationManager : MonoBehaviour
         }
 
         return balanced;
+    }
+
+    public void SaveData()
+    {
+        Debug.Log("Saving data... " + simulationDays + " days");
     }
 
     public void Reproduce(GameObject animal1, GameObject animal2)
