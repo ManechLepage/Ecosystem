@@ -19,9 +19,9 @@ MonoBehaviour:
   objectName: baies
   prefab: {fileID: 3060907416373277625, guid: 2f938546b74129d42ab331dfe6afa1db, type: 3}
   meshes:
-  - scale: 3
-    isCenterAnchored: 1
-    initialRotation: {x: 0, y: 0, z: 0, w: 0}
+  - scale: 13
+    isCenterAnchored: 0
+    initialRotation: {x: 0.70710677, y: 0, z: 0, w: -0.70710677}
     meshes:
     - {fileID: -6205998045438774744, guid: aa43299694c814f47aa1029a65c6c7b1, type: 3}
     - {fileID: 7216805808225229799, guid: a71395ae264f0c7419bd33ff1bfd9843, type: 3}

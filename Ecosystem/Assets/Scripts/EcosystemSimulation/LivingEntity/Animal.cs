@@ -327,6 +327,10 @@ public class Animal : LivingEntity
         {
             int i = 0;
             List<GameObject> tiles = GetNearbyTiles(sensoryDistance * 5);
+            if (tiles.Count == 0)
+            {
+                return null;
+            }
             GameObject tile = tiles[(int)Random.Range(0, tiles.Count)];
             while (tile.GetComponent<TileManager>().isBorder)
             {

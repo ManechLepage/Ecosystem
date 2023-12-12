@@ -439,7 +439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: 43097
-  size: {x: 16, y: 16}
+  size: {x: 64, y: 64}
   ecosystemData: {fileID: 11400000, guid: e818f2b96e5eb9442aba64ac3795daa2, type: 2}
   executedEvents: []
   camera: {fileID: 970072631}
@@ -1992,6 +1992,10 @@ PrefabInstance:
     - target: {fileID: 981184870336121733, guid: 55a244acf4ec5de45a458676fc939c9a, type: 3}
       propertyPath: m_NavMeshData
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 981184870336121733, guid: 55a244acf4ec5de45a458676fc939c9a, type: 3}
+      propertyPath: m_UseGeometry
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3548811074417961957, guid: 55a244acf4ec5de45a458676fc939c9a, type: 3}
       propertyPath: m_LocalPosition.x
