@@ -9,13 +9,15 @@ public class EcosystemData : ScriptableObject
     [Header("Terrain")]
     public float smoothness = 1f;
     public float intensity = 1f;
-    public float waterLevel = 1f;
+    public float waterLevel = 0.5f;
     [Header("Populations Proportions")]
     public Populations populations = new Populations();
     public float animalDensity = 1f;
     public float plantDensity = 1f;
     [Header("Events")]
     public List<Event> events = new List<Event>();
+    public Texture2D heightMap = null;
+    public bool useHeightMap = false;
 }
 
 [System.Serializable]

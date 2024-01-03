@@ -720,10 +720,39 @@ public class SimulationManager : MonoBehaviour
         return sum / list.Count;
     }
 
+    Texture2D CenterScaleTexture(Texture2D heightMap, int finalWidth, int finalHeight)
+    {
+        int cropSize = Mathf.Min(heightMap.width, heightMap.height);
+        int xMin = (heightMap.width - cropSize) / 2;
+        int yMin = (heightMap.height - cropSize) / 2;
+
+        Color[] pixels = heightMap.GetPixels(xMin, yMin, cropSize, cropSize);
+        Texture2D croppedTexture = new Texture2D(cropSize, cropSize);
+        croppedTexture.SetPixels(pixels);
+        croppedTexture.Apply();
+
+        Texture2D scaledTexture = new Texture2D(finalWidth, finalHeight);
+        Color[] scaledPixels = new Color[finalWidth * finalHeight];
+        for (int i = 0; i < scaledPixels.Length; i++) {
+            scaledPixels[i] = croppedTexture.GetPixelBilinear((float)(i % finalWidth) / finalWidth, (float)(i / finalWidth) / finalHeight);
+        }
+        scaledTexture.SetPixels(scaledPixels);
+        scaledTexture.Apply();
+
+        return scaledTexture;
+    }
+
     public void GenerateTerrain()
     {
         AddWater();
-        
+
+        Texture2D resizedHeightMap = ecosystemData.heightMap;
+
+        if (ecosystemData.useHeightMap)
+        {
+            resizedHeightMap = CenterScaleTexture(ecosystemData.heightMap, (int)size.x, (int)size.y);
+        }
+
         float x_pos = 0;
         float y_pos = 0;
 
@@ -746,7 +775,10 @@ public class SimulationManager : MonoBehaviour
                 if (type == TileType.Rock)
                     tileInfo.isBorder = true;
                 tileInfo.position = new Vector2(x_pos + offset, y_pos);
-                tileInfo.height = Mathf.Round(get_real_height(new Vector2(x, y)));
+                if (!ecosystemData.useHeightMap)
+                    tileInfo.height = Mathf.Round(get_real_height(new Vector2(x, y)));
+                else
+                    tileInfo.height = Mathf.Round(resizedHeightMap.GetPixel(x, y).grayscale * 15f * ecosystemData.intensity);
 
                 tile.transform.position = new Vector3(
                         tileInfo.position.x * definition_quality * tile_size,
