@@ -10,33 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d71bf8aad9d48fb49a39f13e1a99f0ac, type: 3}
-  m_Name: Yellowstone
+  m_Name: Real Yellowstone
   m_EditorClassIdentifier: 
-  type: 1
-  smoothness: 0.5
-  intensity: 2
-  waterLevel: 0.6
+  type: 0
+  smoothness: 1
+  intensity: 3
+  waterLevel: 0.45
   populations:
     animalProportions: 0
-    animalPopulations:
-    - type: 2
-      population: 13
-    - type: 5
-      population: 24
-    - type: 4
-      population: 24
+    animalPopulations: []
     plantPopulations:
     - type: 0
-      population: 10
+      population: 1
     - type: 1
       population: 1
     - type: 3
-      population: 2
-  animalDensity: 0.75
-  plantDensity: 2
-  events:
-  - day: 1096
-    animalType: 3
-    count: 8
-  heightMap: {fileID: 0}
-  useHeightMap: 0
+      population: 1
+  animalDensity: 0
+  plantDensity: 1
+  events: []
+  heightMap: {fileID: 2800000, guid: 2dcbea0303ba62c45b5d431d2f712328, type: 3}
+  useHeightMap: 1
