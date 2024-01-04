@@ -38,5 +38,5 @@ MonoBehaviour:
   - day: 1096
     animalType: 3
     count: 8
-  heightMap: {fileID: 0}
+  heightMap: {fileID: 2800000, guid: cd0927eb172212a4fb573ff813b2ba77, type: 3}
   useHeightMap: 0

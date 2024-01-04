@@ -777,8 +777,12 @@ public class SimulationManager : MonoBehaviour
                 tileInfo.position = new Vector2(x_pos + offset, y_pos);
                 if (!ecosystemData.useHeightMap)
                     tileInfo.height = Mathf.Round(get_real_height(new Vector2(x, y)));
-                else
-                    tileInfo.height = Mathf.Round(resizedHeightMap.GetPixel(x, y).grayscale * 15f * ecosystemData.intensity);
+                else {
+                    float hgt = Mathf.Round(resizedHeightMap.GetPixel(x, y).grayscale * 15f * ecosystemData.intensity);
+                    if (add_walls)
+                        hgt = modify_with_walls(new Vector2(x, y), hgt);
+                    tileInfo.height = hgt;
+                }
 
                 tile.transform.position = new Vector3(
                         tileInfo.position.x * definition_quality * tile_size,
@@ -883,18 +887,23 @@ public class SimulationManager : MonoBehaviour
         return (first_noise_value + second_noise_value) / 2f * 12f * ecosystemData.intensity;
     }
 
+    private float modify_with_walls(Vector2 position, float height)
+    {
+        return height + distance_from_side(position) * 35f;
+    }
+    
     private float get_real_height(Vector2 position)
     {
         // Here we want to use distance_from_side to modify the height of the tile, to create walls around the map
         // To do this, the distance from side value will be modified so the walls get a high angle (using a power function)
 
-        float distance_from_side_value = 0f;
+        float real_height = get_height(position);
         if (add_walls)
         {
-            distance_from_side_value = distance_from_side(position);
+            real_height = modify_with_walls(position, real_height);
         } 
 
-        return get_height(position) + distance_from_side_value * 35f;
+        return real_height;
     } 
 
     public void OnApplicationQuit()
