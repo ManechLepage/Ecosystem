@@ -86,6 +86,10 @@ public class Animal : LivingEntity
 
         agent.speed = speed * 2;
 
+        transform.Rotate(new Vector3(0f, 90f, 0f));
+        agent.transform.forward = transform.forward;
+
+
         if (initialHunger != -1f)
             hunger = initialHunger;
         else
@@ -536,7 +540,6 @@ public class Animal : LivingEntity
             agent.destination = partner.transform.position;
         }
     }
-
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == currentPrey && currentObjective == ObjectiveType.Food)
