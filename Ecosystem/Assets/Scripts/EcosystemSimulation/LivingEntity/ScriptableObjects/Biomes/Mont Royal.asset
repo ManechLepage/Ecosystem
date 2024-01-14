@@ -15,7 +15,7 @@ MonoBehaviour:
   type: 0
   smoothness: 1
   intensity: 3
-  waterLevel: 0
+  waterLevel: 0.3
   populations:
     animalProportions: 0
     animalPopulations: []
@@ -23,5 +23,5 @@ MonoBehaviour:
   animalDensity: 0
   plantDensity: 1
   events: []
-  heightMap: {fileID: 2800000, guid: 51a8bd92a5f6fa94aa230afbd3e14d0b, type: 3}
+  heightMap: {fileID: 2800000, guid: 1329ccf1461f54448bb178c58616e442, type: 3}
   useHeightMap: 1

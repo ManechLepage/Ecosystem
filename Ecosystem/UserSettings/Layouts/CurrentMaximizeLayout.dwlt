@@ -236,9 +236,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 28600000
+      m_SelectedIDs: 7e5d0000
       m_LastClickedID: 0
-      m_ExpandedIDs: acf7ffffdc5f0000
+      m_ExpandedIDs: 24fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -632,9 +632,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 142.72502, y: 72.86345, z: 145.35034}
+    m_Target: {x: 66.264626, y: 623.6571, z: 1660.7567}
     speed: 2
-    m_Value: {x: 142.72502, y: 72.86345, z: 145.35034}
+    m_Value: {x: 66.264626, y: 623.6571, z: 1660.7567}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -680,9 +680,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.08178032, y: -0.53916323, z: 0.05229598, w: -0.83680224}
+    m_Target: {x: -0.148843, y: -0.8146413, z: 0.23825498, w: -0.5077397}
     speed: 2
-    m_Value: {x: -0.08176569, y: -0.5390668, z: 0.052286625, w: -0.8366525}
+    m_Value: {x: -0.14881623, y: -0.8144948, z: 0.23821212, w: -0.5076484}
   m_Size:
     m_Target: 7.660277
     speed: 2
@@ -783,7 +783,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs/EcosystemSimulation/Animals
+    - Assets/Scripts/EcosystemSimulation/LivingEntity/ScriptableObjects/Biomes
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -791,16 +791,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Prefabs/EcosystemSimulation/Animals
+  - Assets/Scripts/EcosystemSimulation/LivingEntity/ScriptableObjects/Biomes
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Manec\Documents\GitHub\Ecosystem\Ecosystem\Ecosystem
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 110.20001}
-    m_SelectedIDs: 20630000
-    m_LastClickedID: 25376
-    m_ExpandedIDs: 00000000e6620000e8620000ea620000ec620000ee620000fa620000fe6200000263000000ca9a3b
+    m_SelectedIDs: 5c610000
+    m_LastClickedID: 24924
+    m_ExpandedIDs: 000000002c6100002e61000030610000326100003461000036610000386100003a61000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -828,7 +828,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000e6620000e8620000ea620000ec620000ee620000fa620000fe6200000263000000ca9a3b
+    m_ExpandedIDs: 000000002c6100002e61000030610000326100003461000036610000386100003a610000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -853,8 +853,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 28600000
-    m_LastClickedInstanceID: 24616
+    m_SelectedInstanceIDs: 7e5d0000
+    m_LastClickedInstanceID: 23934
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
