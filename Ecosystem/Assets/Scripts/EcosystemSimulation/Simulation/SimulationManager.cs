@@ -640,8 +640,8 @@ public class SimulationManager : MonoBehaviour
             if (child != null)
             {
                 Animal childAnimal = (Animal)child.GetComponent<Entity>().livingEntity;
-                childAnimal.initialHunger = animal1Entity.hunger;
-                childAnimal.initialThirst = animal1Entity.thirst;
+                childAnimal.initialHunger = animal1Entity.hunger * Random.Range(0.75f, 1.25f);
+                childAnimal.initialThirst = animal1Entity.thirst * Random.Range(0.75f, 1.25f);
                 children.Add(child);
             }
         }

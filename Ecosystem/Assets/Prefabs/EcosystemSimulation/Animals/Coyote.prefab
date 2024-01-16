@@ -148,7 +148,7 @@ MonoBehaviour:
   age: 0
   lifespan: 0
   immortal: 0
-  data: {fileID: 11400000, guid: cac7e3863e3a3b740a5e82e09296c940, type: 2}
+  data: {fileID: 11400000, guid: 19dc6fd98e9db5b478b9f9a31233e254, type: 2}
   speed: 0
   size: 0
   sensoryDistance: 0

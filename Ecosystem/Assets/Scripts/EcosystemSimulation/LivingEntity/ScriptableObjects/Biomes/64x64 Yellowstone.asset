@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d71bf8aad9d48fb49a39f13e1a99f0ac, type: 3}
-  m_Name: Yellowstone
+  m_Name: 64x64 Yellowstone
   m_EditorClassIdentifier: 
   type: 1
   smoothness: 0.5
@@ -20,11 +20,11 @@ MonoBehaviour:
     animalProportions: 0
     animalPopulations:
     - type: 2
-      population: 7
+      population: 13
     - type: 5
-      population: 12
+      population: 24
     - type: 4
-      population: 12
+      population: 24
     plantPopulations:
     - type: 0
       population: 10
@@ -38,5 +38,5 @@ MonoBehaviour:
   - day: 1096
     animalType: 3
     count: 8
-  heightMap: {fileID: 2800000, guid: cd0927eb172212a4fb573ff813b2ba77, type: 3}
+  heightMap: {fileID: 2800000, guid: 303777fc623e0124290213ebef2222e1, type: 3}
   useHeightMap: 0

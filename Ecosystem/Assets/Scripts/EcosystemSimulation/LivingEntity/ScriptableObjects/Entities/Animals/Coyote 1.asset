@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 523df3d1c5ee87643a2e350be4849ad5, type: 3}
+  m_Name: Coyote 1
+  m_EditorClassIdentifier: 
+  lifespan:
+    mean: 10
+    standard_deviation: 1
+  immortal: 0
+  objectName: coyote
+  prefab: {fileID: 4954166188541939153, guid: 1d9c88345bb154049916110c0559619c, type: 3}
+  number_of_children:
+    mean: 4
+    standard_deviation: 1
+  gestation_duration:
+    mean: 61.5
+    standard_deviation: 2
+  sensory_distance:
+    mean: 50
+    standard_deviation: 7
+  speed:
+    mean: 6.4
+    standard_deviation: 0.25
+  can_eat:
+    plants: 
+    animals: 000000000400000005000000
+  minMaxSize: {x: 0.8, y: 1.2}
+  maxHunger: 17
+  maxThirst: 17
+  reproductiveCoolDown: 365
+  reproductiveMaturity: 185
+  nutrition: 40
+  urge_to_run:
+    plants: []
+    animals: []
+  urge_to_eat:
+    plants: []
+    animals:
+    - type: 4
+      value: 1
+    - type: 5
+      value: 0.4
