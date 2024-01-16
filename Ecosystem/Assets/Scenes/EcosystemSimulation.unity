@@ -439,8 +439,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: 43097
-  size: {x: 128, y: 128}
-  ecosystemData: {fileID: 11400000, guid: 29e4cbf641d432b4fb4ea64c707113bf, type: 2}
+  size: {x: 64, y: 64}
+  ecosystemData: {fileID: 11400000, guid: e818f2b96e5eb9442aba64ac3795daa2, type: 2}
   executedEvents: []
   camera: {fileID: 970072631}
   pauseWhenNoAnimals: 1
