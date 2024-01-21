@@ -84,7 +84,7 @@ public class GameController : MonoBehaviour
         dir1 = false;
         dir2 = false;
         // Move camera forward and back
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) || Input.GetMouseButtonDown(3))
         {
             LastMovement.z = Mathf.Min(LastMovement.z + movement * StartTheshold, movement);
             tempTransform.Translate(Vector3.forward * LastMovement.z);
