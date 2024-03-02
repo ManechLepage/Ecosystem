@@ -111,7 +111,12 @@ public class SimulationManager : MonoBehaviour
     
     public void Initialize()
     {
-        randomWithSeed = new System.Random(seed);
+        seed = GameManager.instance.seed;
+        size = GameManager.instance.size;
+        ecosystemData = GameManager.instance.ecosystemData;
+        numberOfSimulations = GameManager.instance.numberOfSimulations;
+        add_walls = GameManager.instance.addWalls;
+        
         tiles = new List<List<GameObject>>();
         entities = new List<GameObject>();
         populations = new Dictionary<System.Enum, int>() {};
@@ -126,6 +131,8 @@ public class SimulationManager : MonoBehaviour
         {
             seed = Random.Range(1, 100_000); // DO NOT make this number bigger, it will cause terrain generation bugs
         }
+
+        randomWithSeed = new System.Random(seed);
     }
 
     public void Start()
