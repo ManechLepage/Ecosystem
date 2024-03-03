@@ -129,7 +129,7 @@ public class SimulationManager : MonoBehaviour
         
         if (seed == -1)
         {
-            seed = Random.Range(1, 100_000); // DO NOT make this number bigger, it will cause terrain generation bugs
+            seed = Random.Range(1, GameManager.instance.maxSeed); // DO NOT make this number bigger, it will cause terrain generation bugs
         }
 
         randomWithSeed = new System.Random(seed);

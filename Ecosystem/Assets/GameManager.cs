@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     [Header("Other Settings")]
     public int numberOfSimulations = 1;
     public bool addWalls = true;
+    public int maxSeed = 100_000;
 
 
     void Awake()

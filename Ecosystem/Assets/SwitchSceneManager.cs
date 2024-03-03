@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class SwitchSceneManager : MonoBehaviour
 {
-    public void SwitchScene(string sceneName)
+    public string sceneName;
+    public bool triggersWhenEnter = false;
+    
+    public void SwitchScene()
     {
         Debug.Log("Switched scene !");
         GameManager.instance.SwitchScene(sceneName);
+    }
+
+    void Update()
+    {
+        if (triggersWhenEnter && Input.GetKeyDown(KeyCode.Return))
+            SwitchScene();
     }
 }
