@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 7414157652636530820}
   m_Layer: 0
   m_Name: Antelope
-  m_TagString: Untagged
+  m_TagString: Animal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,8 +112,8 @@ BoxCollider:
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.9864542, y: 2.4167128, z: 1}
-  m_Center: {x: -0.13242382, y: -0.70835614, z: 5.3810426e-16}
+  m_Size: {x: 1.2802926, y: 3.0264533, z: 5.137345}
+  m_Center: {x: 0.3222745, y: -0.4034863, z: 0.0041234754}
 --- !u!114 &7958793203312536839
 MonoBehaviour:
   m_ObjectHideFlags: 0

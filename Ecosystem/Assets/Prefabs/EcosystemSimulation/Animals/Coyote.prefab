@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 7414157652636530820}
   m_Layer: 0
   m_Name: Coyote
-  m_TagString: Untagged
+  m_TagString: Animal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,8 +111,8 @@ BoxCollider:
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.9411149, y: 1.6464161, z: 1}
-  m_Center: {x: -0.23143902, y: -0.32320806, z: 2.5649447e-15}
+  m_Size: {x: 1.0372875, y: 2.1801088, z: 3.7734091}
+  m_Center: {x: 0.032363456, y: -0.05636291, z: 0.50217736}
 --- !u!114 &7958793203312536839
 MonoBehaviour:
   m_ObjectHideFlags: 0

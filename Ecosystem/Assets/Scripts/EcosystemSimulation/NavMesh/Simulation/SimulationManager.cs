@@ -426,7 +426,6 @@ public class SimulationManager : MonoBehaviour
             pop_text += "   " + population.Key.ToString() + " : " + population.Value.ToString() + "\n";
         }
 
-        Debug.Log(pop_text);
         initialPopulations = new Dictionary<System.Enum, int>(populations);
 
         /*
@@ -656,7 +655,7 @@ public class SimulationManager : MonoBehaviour
 
         animal1Entity.SetChildren(children);
         animal1Entity.number_of_children = (int)Mathf.Round(animal1Entity.data.number_of_children.get_random_value());
-        Debug.Log("Children set", animal1);
+        // Debug.Log("Children set", animal1);
     }
     
     public IEnumerator SimulationLoop()
@@ -667,12 +666,12 @@ public class SimulationManager : MonoBehaviour
             if (pause)
                 continue;
             SimulationUpdate();
-            Debug.Log($"Simulation updated (day {simulationDays})");
+            // Debug.Log($"Simulation updated (day {simulationDays})");
 
             string pop_text = "Populations :\n";
             foreach (KeyValuePair<System.Enum, int> population in populations)
                 pop_text += "   " + population.Key.ToString() + " : " + population.Value.ToString() + "\n";
-            Debug.Log(pop_text);
+            // Debug.Log(pop_text);
 
             simulationAge++;
             CreateAnimalData("Rabbit");

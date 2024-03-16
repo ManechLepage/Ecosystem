@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 7414157652636530820}
   m_Layer: 0
   m_Name: Elk
-  m_TagString: Untagged
+  m_TagString: Animal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,8 +111,8 @@ BoxCollider:
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.9088917, y: 2.6894727, z: 1}
-  m_Center: {x: -0.10705376, y: -0.59470433, z: 1.3250761e-16}
+  m_Size: {x: 1.152001, y: 3.1184518, z: 3.7272763}
+  m_Center: {x: 0.0071419613, y: -0.38021532, z: -0.0022655062}
 --- !u!114 &7958793203312536839
 MonoBehaviour:
   m_ObjectHideFlags: 0

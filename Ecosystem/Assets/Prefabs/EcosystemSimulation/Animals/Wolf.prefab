@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 7414157652636530820}
   m_Layer: 0
   m_Name: Wolf
-  m_TagString: Untagged
+  m_TagString: Animal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,8 +111,8 @@ BoxCollider:
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.8197024, y: 1.6521763, z: 1}
-  m_Center: {x: -0.40628767, y: -0.32608837, z: -1.3317306e-15}
+  m_Size: {x: 1.6300334, y: 2.2715886, z: 2.7488015}
+  m_Center: {x: -0.15250468, y: -0.016382337, z: 0.8744011}
 --- !u!114 &7958793203312536839
 MonoBehaviour:
   m_ObjectHideFlags: 0
