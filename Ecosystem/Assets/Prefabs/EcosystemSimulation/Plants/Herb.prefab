@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -8299479110913397222}
   - component: {fileID: 5008986093561645630}
   - component: {fileID: 5923266067363452646}
-  - component: {fileID: -6957739888781649757}
+  - component: {fileID: 8953330793227945844}
   m_Layer: 0
   m_Name: Herb
   m_TagString: Plant
@@ -139,8 +139,8 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 64360b234485c4941911dd5fd739a796, type: 2}
   stageIndex: 0
   meshTypeIndex: 0
---- !u!64 &-6957739888781649757
-MeshCollider:
+--- !u!136 &8953330793227945844
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -157,7 +157,8 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 2
+  m_Radius: 0.01
+  m_Height: 0.01
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}

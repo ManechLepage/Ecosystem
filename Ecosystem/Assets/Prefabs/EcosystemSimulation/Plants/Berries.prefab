@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3591398810425250926}
   - component: {fileID: -1375659697820745014}
   - component: {fileID: -7700209547452305588}
-  - component: {fileID: -8374415118057433217}
+  - component: {fileID: 6379418175213972313}
   m_Layer: 0
   m_Name: Berries
   m_TagString: Untagged
@@ -118,8 +118,8 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 6461c4ff8ffb08c4d8cde6ad04dfd90b, type: 2}
   stageIndex: 0
   meshTypeIndex: 0
---- !u!64 &-8374415118057433217
-MeshCollider:
+--- !u!135 &6379418175213972313
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -136,7 +136,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 3
+  m_Radius: 0.02
+  m_Center: {x: 0, y: 0, z: 0}

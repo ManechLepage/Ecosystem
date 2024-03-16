@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1221938724387448187}
   - component: {fileID: 8577669889540155327}
   - component: {fileID: -5976184594494243823}
-  - component: {fileID: 7615973644168713598}
+  - component: {fileID: 8499597551855933433}
   m_Layer: 0
   m_Name: Pine
   m_TagString: Untagged
@@ -118,8 +118,8 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: b837ac2796579c649b29b6026e2c6039, type: 2}
   stageIndex: 0
   meshTypeIndex: 0
---- !u!64 &7615973644168713598
-MeshCollider:
+--- !u!65 &8499597551855933433
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -136,7 +136,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 3
+  m_Size: {x: 0.018880613, y: 0.022929672, z: 0.059507817}
+  m_Center: {x: -0.00044743903, y: 0.0012927055, z: 0.027629998}
