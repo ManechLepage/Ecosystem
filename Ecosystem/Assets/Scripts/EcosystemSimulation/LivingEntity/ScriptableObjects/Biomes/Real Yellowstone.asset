@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71bf8aad9d48fb49a39f13e1a99f0ac, type: 3}
   m_Name: Real Yellowstone
   m_EditorClassIdentifier: 
+  name: Vrai Yellowstone
   type: 0
   smoothness: 1
   intensity: 3

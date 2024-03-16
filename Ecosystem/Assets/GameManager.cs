@@ -7,6 +7,7 @@ public enum GameState
 {
     Menu,
     Create,
+    Create2,
     EcosystemSimulation
 }
 
