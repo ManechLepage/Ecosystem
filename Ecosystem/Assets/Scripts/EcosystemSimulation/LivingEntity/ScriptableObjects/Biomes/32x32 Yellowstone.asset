@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71bf8aad9d48fb49a39f13e1a99f0ac, type: 3}
   m_Name: 32x32 Yellowstone
   m_EditorClassIdentifier: 
+  name: Yellowstone 32x32
   type: 1
   smoothness: 0.5
   intensity: 2

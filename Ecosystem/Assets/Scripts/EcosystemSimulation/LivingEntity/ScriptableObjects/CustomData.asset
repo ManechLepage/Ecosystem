@@ -10,25 +10,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d71bf8aad9d48fb49a39f13e1a99f0ac, type: 3}
-  m_Name: River
+  m_Name: CustomData
   m_EditorClassIdentifier: 
-  name: "Rivi\xE8re"
-  type: 1
-  smoothness: 0.5
-  intensity: 2.5
+  type: 0
+  smoothness: 1
+  intensity: 1
   waterLevel: 0.5
   populations:
     animalProportions: 0
     animalPopulations:
     - type: 0
-      population: 20
+      population: 0
+    - type: 1
+      population: 0
+    - type: 2
+      population: 0
+    - type: 3
+      population: 0
+    - type: 4
+      population: 0
+    - type: 5
+      population: 0
     plantPopulations:
     - type: 0
-      population: 10
+      population: 0
+    - type: 1
+      population: 0
+    - type: 2
+      population: 0
     - type: 3
-      population: 2
-  animalDensity: 0
+      population: 0
+  animalDensity: 1
   plantDensity: 1
   events: []
-  heightMap: {fileID: 2800000, guid: f50082cb0bfeb5f4fbf2b1f0da63897d, type: 3}
-  useHeightMap: 1
+  heightMap: {fileID: 0}
+  useHeightMap: 0

@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EcosystemData", menuName = "Ecosystems/EcosystemData")]
 public class EcosystemData : ScriptableObject
 {
+    public string name;
     public BiomeType type;
     [Header("Terrain")]
     public float smoothness = 1f;

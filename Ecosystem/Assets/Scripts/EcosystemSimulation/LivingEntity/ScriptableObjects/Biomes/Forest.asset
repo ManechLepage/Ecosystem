@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71bf8aad9d48fb49a39f13e1a99f0ac, type: 3}
   m_Name: Forest
   m_EditorClassIdentifier: 
+  name: "For\xEAt"
   type: 1
   smoothness: 0.5
   intensity: 1.6

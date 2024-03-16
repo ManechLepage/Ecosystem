@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 23902742}
   - component: {fileID: 23902745}
   m_Layer: 5
-  m_Name: StartButton
+  m_Name: ContinueButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9545d1209c4c82d4f830d9d6b1974038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: EcosystemSimulation
+  sceneName: Create2
   triggersWhenEnter: 0
 --- !u!1 &198411893
 GameObject:
@@ -658,7 +658,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textField: {fileID: 338515392}
-  maxSeed: 100000
 --- !u!1 &451764016
 GameObject:
   m_ObjectHideFlags: 0
@@ -1433,7 +1432,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Cr\xE9er"
+  m_text: Continuer
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6e6ddf7ce7a7dd84bb28a5a2bbd86da6, type: 2}
   m_sharedMaterial: {fileID: 7557792947836802356, guid: 6e6ddf7ce7a7dd84bb28a5a2bbd86da6, type: 2}
