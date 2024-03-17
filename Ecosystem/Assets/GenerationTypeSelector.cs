@@ -25,6 +25,8 @@ public class GenerationTypeSelector : MonoBehaviour
     void Start()
     {
         currentPreDefinedData = GameManager.instance.ecosystemData;
+        preDefinedObject.SetActive(true);
+        customObject.SetActive(false);
     }
     
     public void ChangedType()

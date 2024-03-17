@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71bf8aad9d48fb49a39f13e1a99f0ac, type: 3}
   m_Name: CustomData
   m_EditorClassIdentifier: 
-  type: 0
+  name: 
+  type: 1
   smoothness: 1
   intensity: 1
-  waterLevel: 0.5
+  waterLevel: 0.4
   populations:
     animalProportions: 0
     animalPopulations:
@@ -24,13 +25,13 @@ MonoBehaviour:
     - type: 1
       population: 0
     - type: 2
-      population: 0
+      population: 21
     - type: 3
-      population: 0
+      population: 7
     - type: 4
-      population: 0
+      population: 28
     - type: 5
-      population: 0
+      population: 24
     plantPopulations:
     - type: 0
       population: 0
