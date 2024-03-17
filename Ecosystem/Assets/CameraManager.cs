@@ -29,6 +29,11 @@ public class CameraManager : MonoBehaviour
         if (isFirstPerson)
             return;
         
+        float overrideMoveSpeed = moveSpeed;
+
+        if (Input.GetKey(KeyCode.LeftControl))
+            overrideMoveSpeed *= 3f;
+
         // if WASD, addforce to camera in that direction (addrelativeforce)
         Vector3 force = new Vector3(0, 0, 0);
         if (Input.GetKey(KeyCode.W))
@@ -40,7 +45,7 @@ public class CameraManager : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
             force += new Vector3(1, 0, 0);
         
-        rb.AddRelativeForce(force * moveSpeed * Time.deltaTime * 60f);
+        rb.AddRelativeForce(force * overrideMoveSpeed * Time.deltaTime * 60f);
 
         force = new Vector3(0, 0, 0);
         bool didMoveVertical = false;
@@ -57,7 +62,7 @@ public class CameraManager : MonoBehaviour
 
         if (didMoveVertical)
         {
-            rb.AddForce(force * moveSpeed * Time.deltaTime * 60f);
+            rb.AddForce(force * overrideMoveSpeed * Time.deltaTime * 60f);
             SetHeight(transform.position.y);
         }
 

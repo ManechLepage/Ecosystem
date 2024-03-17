@@ -64,18 +64,52 @@ public class AnimalSelectionDetection : MonoBehaviour
         }
     }
 
+    string GetAnimalObjective(Animal animal)
+    {
+        string name;
+        switch (animal.currentObjective)
+        {
+            case ObjectiveType.Fleeing:
+            {
+                name = "S'enfuir";
+                break;
+            }
+            case ObjectiveType.Water:
+            {
+                name = "Boire";
+                break;
+            }
+            case ObjectiveType.Food:
+            {
+                name = "Manger";
+                break;
+            }
+            case ObjectiveType.Mate:
+            {
+                name = "Se reproduire";
+                break;
+            }
+            default:
+            {
+                name = "Se déplacer";
+                break;
+            }
+        }
+
+        return name;
+    }
+
     public void UpdateAnimalPanel(GameObject animal)
     {
         Animal animalScript = animal.GetComponent<Animal>();
-        animalNameObject.GetComponent<TextMeshProUGUI>().text = animal.name;
-        animalObjective.GetComponent<TextMeshProUGUI>().text = animalScript.currentObjective.ToString();
+        animalNameObject.GetComponent<TextMeshProUGUI>().text = animalScript.data.objectName[0].ToString().ToUpper() + animalScript.data.objectName.Substring(1);;  // animal.name;
+        animalObjective.GetComponent<TextMeshProUGUI>().text = GetAnimalObjective(animalScript);
         
         animalHungerBar.rectTransform.sizeDelta = new Vector2(animalScript.hunger / animalScript.data.maxHunger * 200f, 22f);
         animalThirstBar.rectTransform.sizeDelta = new Vector2(animalScript.thirst / animalScript.data.maxThirst * 200f, 22f);
 
         animalHungerBar.color = InterpolateColor(animalScript.hunger / animalScript.data.maxHunger);
         animalThirstBar.color = InterpolateColor(animalScript.thirst / animalScript.data.maxThirst);
-        
     }
 
     public Color InterpolateColor(float t)
