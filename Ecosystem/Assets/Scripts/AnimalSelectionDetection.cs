@@ -16,6 +16,7 @@ public class AnimalSelectionDetection : MonoBehaviour
     public GameObject animalObjective;
     public Image animalHungerBar;
     public Image animalThirstBar;
+    public GameObject animalReproduction;
     [Space]
     [Header("Colors")]
     public Color color1;
@@ -99,11 +100,33 @@ public class AnimalSelectionDetection : MonoBehaviour
         return name;
     }
 
+    public string GetAnimalReproductionState(Animal animal)
+    {
+        string label;
+        if (animal.isPregnant)
+        {
+            label = $"Enceinte ({animal.currentGestation.ToString()} sur {animal.gestation_duration.ToString()} jours)";
+        }
+        else
+        {
+            if (animal.canReproduce)
+            {
+                label = "Peut se reproduire";
+            }
+            else
+            {
+                label = "Ne peut pas se reproduire";
+            }
+        }
+        return label;
+    }
+
     public void UpdateAnimalPanel(GameObject animal)
     {
         Animal animalScript = animal.GetComponent<Animal>();
-        animalNameObject.GetComponent<TextMeshProUGUI>().text = animalScript.data.objectName[0].ToString().ToUpper() + animalScript.data.objectName.Substring(1);;  // animal.name;
+        animalNameObject.GetComponent<TextMeshProUGUI>().text = animalScript.data.objectName[0].ToString().ToUpper() + animalScript.data.objectName.Substring(1);
         animalObjective.GetComponent<TextMeshProUGUI>().text = GetAnimalObjective(animalScript);
+        animalReproduction.GetComponent<TextMeshProUGUI>().text = GetAnimalReproductionState(animalScript);
         
         animalHungerBar.rectTransform.sizeDelta = new Vector2(animalScript.hunger / animalScript.data.maxHunger * 200f, 22f);
         animalThirstBar.rectTransform.sizeDelta = new Vector2(animalScript.thirst / animalScript.data.maxThirst * 200f, 22f);
@@ -114,15 +137,12 @@ public class AnimalSelectionDetection : MonoBehaviour
 
     public Color InterpolateColor(float t)
     {
-        // Clamp t between 0 and 1
         t = Mathf.Clamp01(t);
 
-        // Interpolate each component (R, G, B, A) separately
         float r = Mathf.Lerp(color1.r, color2.r, t);
         float g = Mathf.Lerp(color1.g, color2.g, t);
         float b = Mathf.Lerp(color1.b, color2.b, t);
 
-        // Return the interpolated color
         return new Color(r, g, b, 1f);
     }
 }
