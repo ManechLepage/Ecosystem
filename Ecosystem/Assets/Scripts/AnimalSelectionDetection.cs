@@ -1,3 +1,4 @@
+using System;
 using System.Net.Mime;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ public class AnimalSelectionDetection : MonoBehaviour
     [Header("Animal UI Panel")]
     public GameObject animalNameObject;
     public GameObject animalObjective;
+    public GameObject animalAge;
     public Image animalHungerBar;
     public Image animalThirstBar;
     public GameObject animalReproduction;
@@ -126,6 +128,7 @@ public class AnimalSelectionDetection : MonoBehaviour
         Animal animalScript = animal.GetComponent<Animal>();
         animalNameObject.GetComponent<TextMeshProUGUI>().text = animalScript.data.objectName[0].ToString().ToUpper() + animalScript.data.objectName.Substring(1);
         animalObjective.GetComponent<TextMeshProUGUI>().text = GetAnimalObjective(animalScript);
+        animalAge.GetComponent<TextMeshProUGUI>().text = (MathF.Round(animalScript.age * 10.0f) * 0.1f).ToString();
         animalReproduction.GetComponent<TextMeshProUGUI>().text = GetAnimalReproductionState(animalScript);
         
         animalHungerBar.rectTransform.sizeDelta = new Vector2(animalScript.hunger / animalScript.data.maxHunger * 200f, 22f);
