@@ -1074,7 +1074,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -34.186005}
+  m_AnchoredPosition: {x: 0, y: -49.4}
   m_SizeDelta: {x: 225, y: 68.372}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &707157056
@@ -1454,7 +1454,7 @@ MonoBehaviour:
   - type: 3
     prefab: {fileID: 2693382619445045460, guid: d872e4ad86f33594a88be189b120997e, type: 3}
   daysText: {fileID: 456461666}
-  numberOfSimulations: 1
+  numberOfSimulations: 100000
   time: 0
   simulationDays: 0
   daysPerUpdate: 8
@@ -2339,7 +2339,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 139.92175}
-  m_SizeDelta: {x: 220.134, y: 292.1122}
+  m_SizeDelta: {x: 220.134, y: 283.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1497433560
 MonoBehaviour:

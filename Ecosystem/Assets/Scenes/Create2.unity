@@ -8662,10 +8662,8 @@ MonoBehaviour:
   dropdown: {fileID: 364501621}
   datas:
   - {fileID: 11400000, guid: 6ba03c2652d191b4ab3e837748a7c149, type: 2}
-  - {fileID: 11400000, guid: 71f9fe27a86f39f4d8667aef6e95011a, type: 2}
-  - {fileID: 11400000, guid: 29e4cbf641d432b4fb4ea64c707113bf, type: 2}
   - {fileID: 11400000, guid: 4ab6c140c449fd44b8b77dda27cd182d, type: 2}
-  - {fileID: 11400000, guid: 0dec3c9192e22944ba19112e51d8a043, type: 2}
+  - {fileID: 11400000, guid: 29e4cbf641d432b4fb4ea64c707113bf, type: 2}
 --- !u!1 &1779300253
 GameObject:
   m_ObjectHideFlags: 0
