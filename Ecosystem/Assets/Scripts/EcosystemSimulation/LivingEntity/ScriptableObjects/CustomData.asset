@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: 
   type: 1
-  smoothness: 1
-  intensity: 1
-  waterLevel: 0.4
+  smoothness: 0.8
+  intensity: 2
+  waterLevel: 0.5
   populations:
     animalProportions: 0
     animalPopulations:
@@ -34,15 +34,15 @@ MonoBehaviour:
       population: 24
     plantPopulations:
     - type: 0
-      population: 0
+      population: 5
     - type: 1
-      population: 0
+      population: 2
     - type: 2
       population: 0
     - type: 3
-      population: 0
+      population: 5
   animalDensity: 1
-  plantDensity: 1
+  plantDensity: 0.45
   events: []
   heightMap: {fileID: 0}
   useHeightMap: 0
