@@ -133,6 +133,7 @@ public class SimulationManager : MonoBehaviour
         }
 
         randomWithSeed = new System.Random(seed);
+        RenderSettings.fogDensity = ecosystemData.fogDensity;
     }
 
     public void Start()

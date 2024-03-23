@@ -30,3 +30,4 @@ MonoBehaviour:
   events: []
   heightMap: {fileID: 2800000, guid: 0fb05124e83167e4483e9be2c56664f6, type: 3}
   useHeightMap: 1
+  fogDensity: 0

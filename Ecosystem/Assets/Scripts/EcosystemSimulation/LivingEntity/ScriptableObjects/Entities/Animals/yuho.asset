@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 523df3d1c5ee87643a2e350be4849ad5, type: 3}
+  m_Name: yuho
+  m_EditorClassIdentifier: 
+  lifespan:
+    mean: 0
+    standard_deviation: 0
+  immortal: 0
+  objectName: 
+  prefab: {fileID: 0}
+  number_of_children:
+    mean: 0
+    standard_deviation: 0
+  gestation_duration:
+    mean: 0
+    standard_deviation: 0
+  sensory_distance:
+    mean: 0
+    standard_deviation: 0
+  speed:
+    mean: 0
+    standard_deviation: 0
+  can_eat:
+    plants: 
+    animals: 
+  minMaxSize: {x: 0, y: 0}
+  maxHunger: 0
+  maxThirst: 0
+  reproductiveCoolDown: 0
+  reproductiveMaturity: 0
+  nutrition: 0
+  urge_to_run:
+    plants: []
+    animals: []
+  urge_to_eat:
+    plants: []
+    animals: []

@@ -41,3 +41,4 @@ MonoBehaviour:
     count: 5
   heightMap: {fileID: 2800000, guid: 303777fc623e0124290213ebef2222e1, type: 3}
   useHeightMap: 0
+  fogDensity: 0.002

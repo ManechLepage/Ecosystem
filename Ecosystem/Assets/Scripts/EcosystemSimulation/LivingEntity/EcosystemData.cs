@@ -19,6 +19,8 @@ public class EcosystemData : ScriptableObject
     public List<Event> events = new List<Event>();
     public Texture2D heightMap = null;
     public bool useHeightMap = false;
+    [Header("Other")]
+    public float fogDensity = 0.002f;
 }
 
 [System.Serializable]
